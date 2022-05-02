@@ -1,1 +1,1 @@
-Started Landing Page
+Landing, Footer, Navigation

@@ -1,13 +1,22 @@
 import { useEffect } from 'react'
 import '../styles/globals.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
-import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import { dom } from "@fortawesome/fontawesome-svg-core";
 import '../scss/bootstrap.css'
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
-    import("../node_modules/bootstrap/dist/js/bootstrap");
+    async function loadBootstrap() {
+      const { Tooltip } = await import("../node_modules/bootstrap/dist/js/bootstrap");
+
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new Tooltip(tooltipTriggerEl)
+      });
+    }
+
+    loadBootstrap();
   }, []);
   return (
     <>

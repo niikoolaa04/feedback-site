@@ -59,7 +59,6 @@ export default function Navigation({ active = "home" }) {
               <li className="nav-item px-2 rounded-3 bg-primary my-3 my-md-0 me-md-2">
                 <Link href={"/auth/login"}>
                   <a className="nav-link active">
-                    <i className="fa-solid fa-arrow-right-to-bracket fa-md pe-2" />Login
                     <FontAwesomeIcon icon={faArrowRightToBracket} size="1x" className='pe-2 align-base' />Login
                   </a>
                 </Link>

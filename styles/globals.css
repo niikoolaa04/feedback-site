@@ -27,3 +27,7 @@ a {
 .hoverSocial:hover {
   opacity: 0.8;
 }
+
+.cursor {
+  cursor: pointer;
+}

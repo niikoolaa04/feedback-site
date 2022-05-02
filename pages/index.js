@@ -25,7 +25,6 @@ export default function Home() {
               <div className="col-md-6 text-light">
                 <div className='mx-5 my-6'>
                   <p className="title display-6 fw-bolder">Feedback.ROCKS</p>
-                  <i className="fa-solid fa-tent"></i>
                   <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic libero qui placeat saepe? Rerum magni enim blanditiis? Animi, non facere!
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod, nobis. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   </p>
