@@ -17,6 +17,13 @@ const PollSchema = new mongoose.Schema({
   options: {
     type: Array,
     default: []
+  },
+  submitters: {
+    type: Array,
+    default: []
+  },
+  limit: {
+    type: Number
   }
 });
 
