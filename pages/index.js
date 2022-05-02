@@ -192,6 +192,24 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/* READY SECTION */}
+      <div className='bg-maindark'>
+        <div className="py-6">
+          <div className="container">
+            <div className="row">
+              <div className='text-center text-md-start'>
+                <p className='text-light fw-bolder display-5 mb-2 pb-0'>Ready?</p>
+                <div className='d-flex d-md-block justify-content-center justify-content-md-start'>
+                  <div className='bg-light rounded-1' style={{ width: "10rem", height: "2px" }} />
+                </div>
+                  <p className='text-gray600 mt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, amet itaque neque deleniti culpa sapiente,<br/> possimus veniam necessitatibus nam in ipsa dolores ipsum porro libero.</p>
+                <button className='btn btn-primary fw-bold btn-lg me-3 mt-4'>Create First Poll!</button>
+                <button className='btn btn-primary fw-bold btn-lg mt-4'>Create First Survey!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* FOOTER COMPONENT */}
       <Footer />
     </div>

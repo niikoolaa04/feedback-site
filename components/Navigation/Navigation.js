@@ -12,7 +12,7 @@ export default function Navigation({ active = "home" }) {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-maindark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-secdark">
         <div className='container'>
           <Link href="/">
             <a className="navbar-brand">

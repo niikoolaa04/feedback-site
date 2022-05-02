@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 
 export default function Footer() {
   return (
-    <div className='bg-maindark pt-6 border-top border-secdark'>
+    <div className='bg-secdark pt-6 border-top border-maindark'>
       <div className="container">
         <div className="row gx-5">
           {/* Company Info */}
