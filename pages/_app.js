@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import '../styles/globals.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
-import '../scss/bootstrap.css'
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
+import '../scss/bootstrap.css'
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
