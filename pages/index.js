@@ -1,13 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import ScrollOpacity from '../components/Animation/ScrollOpacity';
 import Navigation from '../components/Navigation/Navigation'
 
 export default function Home() {
   const myLoader = ({ src }) => {
     return src;
   }
+
   return (
-    <div>
+    <div className='hideOverflow'>
       <Navigation />
       <Head>
         <title>Feedback App </title>
@@ -22,6 +24,7 @@ export default function Home() {
               <div className="col-md-6 text-light">
                 <div className='mx-5 my-6'>
                   <p className="title display-6 fw-bolder">Feedback.ROCKS</p>
+                  <i className="fa-solid fa-tent"></i>
                   <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic libero qui placeat saepe? Rerum magni enim blanditiis? Animi, non facere!
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod, nobis. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   </p>
@@ -40,49 +43,67 @@ export default function Home() {
         <div className='py-6'>
           <div className="container">
             {/* PROFILES FEATURE */}
-            <div className="row text-light pb-4 pt-5">
-              <div className="col-md-7">
-                <p className="title fs-3 fw-bold">Company Profiles</p>
-                <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                <button className="btn btn-primary mt-3">Setup your Profile</button>
+            <ScrollOpacity duration="0.8" direction="right">
+              <div className="row text-light pb-4 pt-5">
+                <div className="col-md-7">
+                  <p className="title fs-3 fw-bold">Company Profiles</p>
+                  <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <button className="btn btn-primary mt-3">Setup your Profile</button>
+                </div>
+                <div className="col-md-5 pt-5 pt-md-0">
+                  <Image className='align-middle' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
+                </div>
               </div>
-              <div className="col-md-5 pt-5 pt-md-0">
-                <Image className='align-middle' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
-              </div>
-            </div>
+            </ScrollOpacity>
             {/* POLLS FEATURE */}
-            <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
-              <div className="col-md-5">
-                <p className="title fs-3 fw-bold">Polls</p>
-                <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                <button className="btn btn-primary mt-3 me-3">Create Poll</button>
-                <button className="btn btn-primary mt-3">Browse Polls</button>
+            <ScrollOpacity duration="0.8" direction="left">
+              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
+                <div className="col-md-5">
+                  <p className="title fs-3 fw-bold">Polls</p>
+                  <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <button className="btn btn-primary mt-3 me-3">Create Poll</button>
+                  <button className="btn btn-primary mt-3">Browse Polls</button>
+                </div>
+                <div className="col-md-7 pt-5 pt-md-0">
+                  <Image className='' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
+                </div>
               </div>
-              <div className="col-md-7 pt-5 pt-md-0">
-                <Image className='' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
-              </div>
-            </div>
+            </ScrollOpacity>
             {/* SURVEYS FEATURE */}
-            <div className="row text-light pb-4 pt-5">
-              <div className="col-md-7">
-                <p className="title fs-3 fw-bold">Surveys</p>
-                <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                <button className="btn btn-primary mt-3">Create Survey</button>
+            <ScrollOpacity duration="0.8" direction="right">
+              <div className="row text-light pb-4 pt-5">
+                <div className="col-md-7">
+                  <p className="title fs-3 fw-bold">Surveys</p>
+                  <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <button className="btn btn-primary mt-3">Create Survey</button>
+                </div>
+                <div className="col-md-5 pt-5 pt-md-0">
+                  <Image className='align-middle' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
+                </div>
               </div>
-              <div className="col-md-5 pt-5 pt-md-0">
-                <Image className='align-middle' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
-              </div>
-            </div>
+            </ScrollOpacity>
             {/* PROFILE REPUTATION FEATURE */}
-            <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
-              <div className="col-md-5">
-                <p className="title fs-3 fw-bold">Profile Reputation</p>
-                <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                <button className="btn btn-primary mt-3">Most Reputated Profile</button>
+            <ScrollOpacity duration="0.8" direction="left">
+              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
+                <div className="col-md-5">
+                  <p className="title fs-3 fw-bold">Profile Reputation</p>
+                  <p className='text-gray500 text-wrap' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <button className="btn btn-primary mt-3">Most Reputated Profile</button>
+                </div>
+                <div className="col-md-7 pt-5 pt-md-0">
+                  <Image className='' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
+                </div>
               </div>
-              <div className="col-md-7 pt-5 pt-md-0">
-                <Image className='' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
-              </div>
+            </ScrollOpacity>
+          </div>
+        </div>
+      </div>
+      {/* *SOMETHING* SECTION */}
+      <div className='bg-maindark'>
+        <div className="py-6">
+          <div className="container">
+            <div className="row">
+              Test
             </div>
           </div>
         </div>

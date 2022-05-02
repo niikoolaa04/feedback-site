@@ -1,5 +1,8 @@
 import React from 'react'
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faSquarePollVertical,faNewspaper
+  , faMagnifyingGlassChart, faUserPlus, faArrowRightToBracket, faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation({ active = "home" }) {
   const isActive = (page) => {
@@ -25,28 +28,28 @@ export default function Navigation({ active = "home" }) {
               <li className="nav-item px-2">
                 <Link href={"/"}>
                   <a className={"nav-link" + isActive("home")}>
-                    <i className="fa-solid fa-house fa-md pe-2" />Home
+                    <FontAwesomeIcon icon={faHouse} size="1x" className='pe-2 align-base' />Home
                   </a>
                 </Link>
               </li>
               <li className="nav-item px-2">
                 <Link href={"/polls/new"}>
                   <a className={"nav-link" + isActive("polls")}>
-                    <i className="fa-solid fa-square-poll-vertical fa-md pe-2" />Create Poll
+                    <FontAwesomeIcon icon={faSquarePollVertical} size="1x" className='pe-2 align-base' />Create Poll
                   </a>
                 </Link>
               </li>
               <li className="nav-item px-2">
                 <Link href={"/survey/new"}>
                   <a className={"nav-link" + isActive("survey")}>
-                    <i className="fa-solid fa-newspaper fa-md pe-2" />Create Survey
+                    <FontAwesomeIcon icon={faNewspaper} size="1x" className='pe-2 align-base' />Create Survey
                   </a>
                 </Link>
               </li>
               <li className="nav-item px-2">
                 <Link href={"/polls/browse"}>
                   <a className={"nav-link" + isActive("polls_browse")}>
-                    <i className="fa-solid fa-magnifying-glass-chart fa-md pe-2" />Browse Polls
+                    <FontAwesomeIcon icon={faMagnifyingGlassChart} size="1x" className='pe-2 align-base' />Browse Polls
                   </a>
                 </Link>
               </li>
@@ -56,14 +59,14 @@ export default function Navigation({ active = "home" }) {
               <li className="nav-item px-2 rounded-3 bg-primary my-3 my-md-0 me-md-2">
                 <Link href={"/auth/login"}>
                   <a className="nav-link active">
-                    <i className="fa-solid fa-arrow-right-to-bracket fa-md pe-2" />Login
+                    <FontAwesomeIcon icon={faArrowRightToBracket} size="1x" className='pe-2 align-base' />Login
                   </a>
                 </Link>
               </li>
               <li className="nav-item px-2 bg-primary rounded-3 my-md-0 ms-md-2">
                 <Link href={"/auth/register"}>
                   <a className='nav-link active'>
-                    <i className="fa-solid fa-user-plus fa-md pe-2" />Register
+                    <FontAwesomeIcon icon={faUserPlus} size="1x" className='pe-2 align-base' />Register
                   </a>
                 </Link>
               </li>
