@@ -19,12 +19,12 @@ a {
   overflow-x: hidden;
 }
 
-.hoverSocial {
+.hoverEffect {
   opacity: 1;
   transition: all 0.3s ease-in-out;
 }
 
-.hoverSocial:hover {
+.hoverEffect:hover {
   opacity: 0.8;
 }
 

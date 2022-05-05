@@ -1,11 +1,29 @@
-import React from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
+import Answers from '../../components/Poll/Answers'
 
 export default function NewPoll() {
+  const [answers, setAnswers] = useState([''])
+  const inputRef = useRef([]);
+  const titleRef = useRef("");
+  const descriptionRef = useRef("");
+
+  const removeItem = (index) => {
+    /* Send Error Toast */
+    if(index == 0 && answers.length == 1) return;
+    let newAnswers = inputRef.current.map((x) => x?.value);
+    let indexAns = newAnswers.indexOf(inputRef.current[index]?.value);
+    let filter = newAnswers.filter((item, ind) => ind != indexAns)
+    console.log(filter)
+    setAnswers(filter)
+    // newAnswers.splice(indexAns, 1);
+    // setAnswers(newAnswers);
+  }
+
   return (
-    <div>
+    <div className='hideOverflow'>
       <Navigation active='polls' />
       <Head>
         <title>Feedback App - Create Poll</title>
@@ -14,7 +32,48 @@ export default function NewPoll() {
       </Head>
       <div>
         <div className="bg-maindark">
-          Test
+          <div className="container py-6">
+            <div className="row d-flex justify-content-center">
+              <div className="bg-bluedark w-75 rounded-1">
+                {/* FORMS */}
+                <div className='px-5 mb-3 border-bottom border-gray700'>
+                  <div className="titleSection pt-4">
+                    <p className='text-light fs-3 fw-bold mb-0'>Details</p>
+                    <p className='text-gray600'>Set general Poll details like Title, Description and similar.</p>
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="pollTitle" className="form-label text-light">Poll Title</label>
+                    <input type="text" ref={titleRef} className="form-control border-secdark bg-secdark text-light" placeholder="Title of Poll" id="pollTitle" />
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="pollQuestion" className="form-label text-light">Poll Question</label>
+                    <textarea className="form-control border-secdark bg-secdark text-light" placeholder="Question for your Poll" ref={descriptionRef} id="pollQuestion" style={{ height: "8rem", resize: "none" }} />
+                  </div>
+                  <div className="mb-2 mt-3">
+                    <p className='fs-5 text-light fw-bolder mb-2'>List of Answers</p>
+                    <Answers removeItem={removeItem} setAnswers={setAnswers} answers={answers} inputRef={inputRef} className="mb-4" />
+                    <div className='border-secdark bg-secdark text-light py-1 mt-4 mb-4 text-center rounded-1 hoverEffect cursor' onClick={(() => setAnswers([...answers, '']))}>➕</div>
+                  </div>
+                </div>
+                {/* OPTIONS */}
+                <div className="px-5 pb-4">
+                  <div>
+                    <p className='fs-3 text-light fw-bold mb-0'>Options</p>
+                    <p className='text-gray600'>Set advanced poll details.</p>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                    <label className="form-check-label text-light" htmlFor="flexCheckDefault">
+                      Some Option
+                    </label>
+                  </div>
+                </div>
+                <div className='px-5 py-3'>
+                  <button className="btn btn-primary btn-lg">Create Poll!</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

@@ -7,12 +7,14 @@
 // 2. Include any default variable overrides here
 $maindark: rgb(17 24 39);
 $secdark: rgb(31 41 55);
+$bluedark: #101523;
 $custom-theme-colors: (
   "secdark": $secdark,
   "maindark": $maindark,
   "gray500": $gray-500,
   "gray600": $gray-600,
   "gray700": $gray-700,
+  "bluedark": $bluedark,
 );
 
 $spacers: (
