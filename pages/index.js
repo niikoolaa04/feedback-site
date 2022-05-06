@@ -47,7 +47,7 @@ export default function Home() {
               <div className="col-md-7">
                 <p className="title fs-3 fw-bold pb-0 mb-1">Company Profiles</p>
                 <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
-                <p className='text-gray500 text-wrap mt-3' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                <p className='text-gray500 text-wrap mt-3 w-md-75 w-100'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
                 <button className="btn btn-primary mt-3">Setup your Profile</button>
               </div>
               <div className="col-md-5 pt-5 pt-md-0">
@@ -60,7 +60,7 @@ export default function Home() {
                 <div className="col-md-5">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Polls</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
-                  <p className='text-gray500 text-wrap mt-3' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <p className='text-gray500 text-wrap mt-3 w-100'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
                   <button className="btn btn-primary mt-3 me-3">Create Poll</button>
                   <button className="btn btn-primary mt-3">Browse Polls</button>
                 </div>
@@ -75,7 +75,7 @@ export default function Home() {
                 <div className="col-md-7">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Surveys</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
-                  <p className='text-gray500 text-wrap mt-3' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <p className='text-gray500 text-wrap mt-3 w-100 w-md-75'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
                   <button className="btn btn-primary mt-3">Create Survey</button>
                 </div>
                 <div className="col-md-5 pt-5 pt-md-0">
@@ -89,7 +89,7 @@ export default function Home() {
                 <div className="col-md-5">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Profile Reputation</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
-                  <p className='text-gray500 text-wrap mt-3' style={{ width: "30rem" }}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                  <p className='text-gray500 text-wrap mt-3 w-100'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
                   <button className="btn btn-primary mt-3">Most Reputated Profile</button>
                 </div>
                 <div className="col-md-7 pt-5 pt-md-0">
@@ -107,7 +107,7 @@ export default function Home() {
             <div className="row w-75">
               <div>
                 <p className='fs-1 text-light fw-bolder pb-0 mb-0'>Subscribe to our Newsletters!</p>
-                <p className='text-wrap text-gray500 w-100 w-md-75'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corrupti facere recusandae sint voluptatem dolores quaerat. Hic totam debitis ut?</p>
+                <p className='text-wrap text-gray500 w-100'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corrupti facere recusandae sint voluptatem dolores quaerat. Hic totam debitis ut?</p>
                 <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "16rem", height: "2px" }} />
               </div>
               <form className="form-inline mt-5">

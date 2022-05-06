@@ -40,7 +40,7 @@ export default function NewPoll() {
             <div className="row d-flex justify-content-center">
               <div className="bg-bluedark shadow w-75 rounded-1">
                 {/* FORMS */}
-                <div className='px-5'>
+                <div className='px-md-5'>
                   <div className='mb-3'>
                     <div className="titleSection pt-4">
                       <p className='text-light fs-3 fw-bold mb-0'>Details</p>
