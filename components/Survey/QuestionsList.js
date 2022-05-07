@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-const fruits = new Map();
 
-export default function QuestionsList({ questions, setQuestions, currPage, firstSurvey, lastSurvey, answerRef }) {
+export default function QuestionsList({ questions, handleChange, inputFields, setQuestions, currPage,
+   firstSurvey, lastSurvey }) {
   /* When using Real Database make this different - setQuestions */
   const [pageQuestions, setPageQuestions] = useState([]);
 
@@ -10,16 +10,16 @@ export default function QuestionsList({ questions, setQuestions, currPage, first
   }, [currPage]);
 
   return pageQuestions.map((q, i) => (
-    <div className=''>
-      <div className='text-light py-2 w-100' key={q.id}>
+    <div className='' key={q.id}>
+      <div className='text-light py-2 w-100'>
         <div className="row">
-          { q.id }
-          <div className='d-flex cursor hoverEffect' key={q.id + "-25151"}>
+          <div className='d-flex cursor hoverEffect'>
             <span className={ 'w-100 py-2 px-3 rounded-1 bg-secdark'} key={q.id + "-123"}>
               <span className='text-gray500 pe-2'>{q.id}.</span>{q.text}
               {/*  defaultValue={q.text} */}
               <input type="text" className="form-control bg-maindark mt-2 mb-1 border-start border-secdark bg-secdark text-light" 
-                onChange={(evnt)=> handleChange(q.id, evnt)}
+                onChange={(event)=> handleChange(q.id, event)}
+                defaultValue={inputFields[parseInt(q.id - 1)]}
                 placeholder={"Answer " + parseInt(q.id)} key={i + "-" + q.id} />
             </span>
           </div>

@@ -3,12 +3,9 @@ import Image from 'next/image'
 import ScrollOpacity from '../components/Animation/ScrollOpacity';
 import Navigation from '../components/Navigation/Navigation'
 import Footer from '../components/Other/Footer';
+import { myLoader } from '../utils/utils';
 
 export default function Home() {
-  const myLoader = ({ src }) => {
-    return src;
-  }
-
   return (
     <div className='hideOverflow'>
       <Navigation />
@@ -137,10 +134,10 @@ export default function Home() {
                 </div>
               </div>
               <div>
-                <div className="accordion bg-dark" id="accordionExample">
-                  <div className="accordion-item bg-dark text-light">
+                <div className="accordion rounded-2 bg-bluedark" id="accordionExample">
+                  <div className="accordion-item bg-bluedark text-light">
                     <h2 className="accordion-header" id="headingOne">
-                      <button className="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <button className="accordion-button bg-bluedark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         First Question
                       </button>
                     </h2>
@@ -150,9 +147,9 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="accordion-item bg-dark text-light">
+                  <div className="accordion-item bg-bluedark text-light">
                     <h2 className="accordion-header" id="headingTwo">
-                      <button className="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <button className="accordion-button collapsed bg-bluedark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         Second Question
                       </button>
                     </h2>
@@ -162,9 +159,9 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="accordion-item bg-dark text-light">
+                  <div className="accordion-item bg-bluedark text-light">
                     <h2 className="accordion-header" id="headingThree">
-                      <button className="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <button className="accordion-button collapsed bg-bluedark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                         Third Question
                       </button>
                     </h2>
@@ -174,9 +171,9 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="accordion-item bg-dark text-light">
+                  <div className="accordion-item bg-bluedark text-light">
                     <h2 className="accordion-header" id="headingFour">
-                      <button className="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                      <button className="accordion-button collapsed bg-bluedark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                         Fourth Question
                       </button>
                     </h2>

@@ -6,13 +6,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import QuestionsList from '../../components/Survey/QuestionsList'
 import Pagination from '../../components/Other/Pagination'
+import { myLoader } from '../../utils/utils'
 
 export default function SurveyDetails() {
   const router = useRouter()
-  const { id } = router.query;
   const answerRef = useRef([]);
+  const [inputFields, setInputFields] = useState([]);
   const [currPage, setCurrPage] = useState(1);
-  const [usersPerPage] = useState(3);
+  const [usersPerPage] = useState(5);
+  const { id } = router.query;
   const lastSurvey = currPage * usersPerPage;
   const firstSurvey = lastSurvey - usersPerPage;
 
@@ -39,13 +41,10 @@ export default function SurveyDetails() {
   const prevPage = () => currPage == 1 ? setCurrPage(currPage) : setCurrPage(currPage - 1);
   const nextPage = () => currPage == 100 ? setCurrPage(currPage) : setCurrPage(currPage + 1);
 
-  const myLoader = ({ src }) => {
-    return src;
+  const handleChange = (index, event) => {
+    inputFields[index - 1] = event.target.value;
+    setInputFields(inputFields)
   }
-
-  useEffect(() => {
-    console.log(inputFields)
-  }, [inputFields])
 
   return (
     <div className='hideOverflow'>
@@ -69,7 +68,7 @@ export default function SurveyDetails() {
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Survey Questions</p>
                   <p className='text-gray600'>These are questions on which you can answer.</p>
-                  <QuestionsList questions={questions} setQuestions={setQuestions} lastSurvey={lastSurvey} firstSurvey={firstSurvey} currPage={currPage} answerRef={answerRef} />
+                  <QuestionsList questions={questions} inputFields={inputFields} handleChange={handleChange} setQuestions={setQuestions} lastSurvey={lastSurvey} firstSurvey={firstSurvey} currPage={currPage} answerRef={answerRef} />
                   <Pagination setCurrPage={setCurrPage} nextPage={nextPage} currPage={currPage} prevPage={prevPage} />
                 </div>
                 <div className="px-md-5 mb-5 pt-3">

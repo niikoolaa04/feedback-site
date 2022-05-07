@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  firstName: {
+  profileName: {
     type: String,
     default: "N/A"
   },

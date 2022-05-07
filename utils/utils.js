@@ -26,3 +26,7 @@ export const successBar = (message, pos = "top-right", closeTime = 5000) => toas
   draggable: true,
   theme: "colored"
 });
+
+export const myLoader = ({ src }) => {
+  return src;
+}

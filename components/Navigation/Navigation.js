@@ -1,10 +1,12 @@
-import React from 'react'
+import { useState } from 'react'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faSquarePollVertical,faNewspaper
-  , faMagnifyingGlassChart, faUserPlus, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
+  , faMagnifyingGlassChart, faUserPlus
+  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation({ active = "home" }) {
+  const [isLoggedIn, setLoggedIn] = useState(true);
   const isActive = (page) => {
     if(active == page) return " active";
     else return "";
@@ -54,23 +56,55 @@ export default function Navigation({ active = "home" }) {
                 </Link>
               </li>
             </ul>
-            {/* MODAL FOR LOGIN / REGISTER, PERHAPS */}
-            <ul className="navbar-nav ms-auto mb-3 mb-md-0">
-              <li className="nav-item px-2 rounded-3 bg-primary my-3 my-md-0 me-md-2">
-                <Link href={"/auth/login"}>
-                  <a className="nav-link active">
-                    <FontAwesomeIcon icon={faArrowRightToBracket} size="1x" className='pe-2 align-base' />Login
-                  </a>
-                </Link>
-              </li>
-              <li className="nav-item px-2 bg-primary rounded-3 my-md-0 ms-md-2">
-                <Link href={"/auth/register"}>
-                  <a className='nav-link active'>
-                    <FontAwesomeIcon icon={faUserPlus} size="1x" className='pe-2 align-base' />Register
-                  </a>
-                </Link>
-              </li>
-            </ul>
+            {
+              isLoggedIn == true ?
+              <div>
+                <li class="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100">
+                  <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />
+                  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
+                    <li>
+                      <Link href="/profile/1">
+                        <a class="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faAddressCard} size="1x" className='pe-3 align-base' />Profile
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/account/settings">
+                        <a class="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faSliders} size="1x" className='pe-3 align-base' />Settings
+                        </a>
+                      </Link>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <Link href="/logout" >
+                        <a class="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </div>
+              :
+                <ul className="navbar-nav ms-auto mb-3 mb-md-0">
+                  <li className="nav-item px-2 rounded-3 bg-primary my-3 my-md-0 me-md-2">
+                    <Link href={"/login"}>
+                      <a className="nav-link active">
+                        <FontAwesomeIcon icon={faArrowRightToBracket} size="1x" className='pe-2 align-base' />Login
+                      </a>
+                    </Link>
+                  </li>
+                  <li className="nav-item px-2 bg-primary rounded-3 my-md-0 ms-md-2">
+                    <Link href={"/register"}>
+                      <a className='nav-link active'>
+                        <FontAwesomeIcon icon={faUserPlus} size="1x" className='pe-2 align-base' />Register
+                      </a>
+                    </Link>
+                  </li>
+              </ul>
+            }
           </div>
         </div>
       </nav>

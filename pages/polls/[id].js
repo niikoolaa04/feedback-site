@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
+import { myLoader } from '../../utils/utils'
 
 export default function PollDetails() {
   const router = useRouter()
@@ -22,10 +23,6 @@ export default function PollDetails() {
     id: 4,
     text: 'Test Choice number 4'
   }]);
-
-  const myLoader = ({ src }) => {
-    return src;
-  }
   
   const { id } = router.query
   return (
