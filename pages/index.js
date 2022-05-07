@@ -47,7 +47,7 @@ export default function Home() {
               <div className="col-md-7">
                 <p className="title fs-3 fw-bold pb-0 mb-1">Company Profiles</p>
                 <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
-                <p className='text-gray500 text-wrap mt-3 w-md-75 w-100'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
+                <p className='text-gray500 text-wrap mt-3 w-100 w-md-75'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
                 <button className="btn btn-primary mt-3">Setup your Profile</button>
               </div>
               <div className="col-md-5 pt-5 pt-md-0">
@@ -104,10 +104,10 @@ export default function Home() {
       <div className='bg-maindark'>
         <div className="py-6">
           <div className="container d-flex justify-content-center align-middle">
-            <div className="row w-75">
+            <div className="row w-100 w-md-75">
               <div>
                 <p className='fs-1 text-light fw-bolder pb-0 mb-0'>Subscribe to our Newsletters!</p>
-                <p className='text-wrap text-gray500 w-100'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corrupti facere recusandae sint voluptatem dolores quaerat. Hic totam debitis ut?</p>
+                <p className='text-wrap text-gray500 w-100 w-md-75'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corrupti facere recusandae sint voluptatem dolores quaerat. Hic totam debitis ut?</p>
                 <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "16rem", height: "2px" }} />
               </div>
               <form className="form-inline mt-5">
@@ -124,7 +124,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* F&Q - ACCORDITION */}
+      {/* F&Q - ACCORDION */}
       <div className="bg-secdark">
         <div className="py-6">
           <div className="container">
@@ -194,7 +194,7 @@ export default function Home() {
       </div>
       {/* READY SECTION */}
       <div className='bg-maindark'>
-        <div className="py-6">
+        <div className="py-5">
           <div className="container">
             <div className="row">
               <div className='text-center text-md-start'>

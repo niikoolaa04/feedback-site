@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faSquarePollVertical,faNewspaper
-  , faMagnifyingGlassChart, faUserPlus, faArrowRightToBracket, faCoffee } from '@fortawesome/free-solid-svg-icons';
+  , faMagnifyingGlassChart, faUserPlus, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation({ active = "home" }) {
   const isActive = (page) => {
@@ -40,7 +40,7 @@ export default function Navigation({ active = "home" }) {
                 </Link>
               </li>
               <li className="nav-item px-2">
-                <Link href={"/survey/new"}>
+                <Link href={"/surveys/new"}>
                   <a className={"nav-link" + isActive("survey")}>
                     <FontAwesomeIcon icon={faNewspaper} size="1x" className='pe-2 align-base' />Create Survey
                   </a>

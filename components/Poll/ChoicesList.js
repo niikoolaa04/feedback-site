@@ -1,7 +1,3 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
-
 export default function ChoicesList({ choices, selected, setSelected }) {
   return choices.map((c, i) => (
     <div className=''>

@@ -3,6 +3,7 @@ import '../styles/globals.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import '../scss/bootstrap.css'
+import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
-import Choices from '../../components/Poll/Choices'
+import ChoicesCreate from '../../components/Poll/ChoicesCreate'
 
 export default function NewPoll() {
   const inputRef = useRef([]);
@@ -38,7 +38,7 @@ export default function NewPoll() {
         <div className="bg-maindark">
           <div className="container py-6">
             <div className="row d-flex justify-content-center">
-              <div className="bg-bluedark shadow w-75 rounded-1">
+              <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                 {/* FORMS */}
                 <div className='px-md-5'>
                   <div className='mb-3'>
@@ -56,7 +56,7 @@ export default function NewPoll() {
                     </div>
                     <div className="mt-3">
                       <p className='text-light mb-2'>List of Choices</p>
-                      <Choices removeItem={removeItem} setAnswers={setAnswers} answers={answers} inputRef={inputRef} className="mb-4" />
+                      <ChoicesCreate removeItem={removeItem} answers={answers} inputRef={inputRef} className="mb-4" />
                       <div className='border-secdark bg-secdark text-light py-1 mt-4 text-center rounded-1 hoverEffect cursor' onClick={(() => setAnswers([...answers, '']))}>➕</div>
                     </div>
                   </div>
