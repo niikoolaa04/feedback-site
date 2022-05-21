@@ -1,8 +1,30 @@
 import { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
+import cookie from 'js-cookie'
 
 export default function Login() {
-  const testRef = useRef(null)
+  const userData = useRef([]);
+
+  const handleLogin = async() => {
+    let details = {
+      mail: userData.current.mail.value,
+      password: userData.current.pw.value,
+    }
+    await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      body: JSON.stringify(details),
+      headers: {'Content-Type': 'application/json'}
+    }).then(async(res) => {
+      const result = await res.json();
+      if(process.browser) {
+        cookie.set("token", result.token, {
+          expires: 1,
+          path: '/'
+        });
+      }
+    })
+  }
+
   return (
     <div className='hideOverflow'>
       <Head>
@@ -18,11 +40,11 @@ export default function Login() {
                 <p className='text-light fw-bolder fs-1 pt-2 mb-1'>Sign In</p>
                 <div className='bg-gray700 mb-4' style={{ width: "10rem", height: "1px" }} />
                 <div className='form-floating mb-3'>
-                  <input type="email" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
+                  <input type="email" ref={((el) => (userData.current["mail"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
                   <label htmlFor="pollTitle" className="form-label text-light">Email Address</label>
                 </div>
                 <div className='form-floating'>
-                  <input type="password" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
+                  <input type="password" ref={((el) => (userData.current["pw"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
                   <label htmlFor="pollTitle" className="form-label text-light">Password</label>
                   <p className='text-gray600 pt-1' style={{ fontSize: "13px" }}>Forgot password? Click to reset it.</p>
                 </div>
@@ -36,7 +58,7 @@ export default function Login() {
                 {/* BUTTONS */}
                 <div className='mt-4'>
                   <div className='d-flex justify-content-center w-100 mb-1'>
-                    <button className="btn btn-primary w-50">Sign In</button>
+                    <button className="btn btn-primary w-50" onClick={(async() => await handleLogin())}>Sign In</button>
                   </div>
                   {/* ADD LINK */}
                   <div className='text-center'>

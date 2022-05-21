@@ -1,27 +1,27 @@
 const express = require('express');
-const next = require('next');
+require("dotenv").config();
+const app = express();
 const port = process.env.SERVER_PORT || 3001;
-const dev = process.env.NODE_ENV != 'production';
-const app = next({ dev });
-const handle = app.getRequestHandler();
 const mongoose = require("mongoose");
+const auth = require("./routes/auth.js");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
-app.prepare().then(async() => {
-  const server = express();
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+}).then(() => console.log(`[SERVER] Successfully Connected to MongoDB.`))
+.catch((err) => console.log(err));
 
-  server.use(express.json());
+app.use(cors({
+  credentials: true,
+  origin: true
+}));
 
-  server.get('*', (req, res) => {
-    return handle(req, res);
-  });
+app.use(cookieParser());
+app.use(express.json());
+app.use("/auth", auth);
 
-  await mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-  }).then(() => console.log(`[SERVER] Successfully Connected to MongoDB.`))
-   .catch((err) => console.log(err));
-
-  server.listen(port, (err) => {
-    if (err) throw err
-    console.log(`[SERVER] Server has started on port ${process.env.SERVER_PORT || 3001}.`)
-  })
+app.listen(port, (err) => {
+  if (err) throw err
+  console.log(`[SERVER] Server has started on port ${process.env.SERVER_PORT || 3001}.`)
 })

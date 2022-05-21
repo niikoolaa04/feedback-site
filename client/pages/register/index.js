@@ -1,8 +1,34 @@
 import { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
+import { ToastContainer } from 'react-toastify';
+import { errorBar, successBar } from '../../utils/utils'
+import { useRouter } from 'next/router';
 
 export default function Register() {
-  const testRef = useRef(null)
+  const registerData = useRef([]);
+  const router = useRouter();
+
+  const submitDetails = async() => {
+    let details = {
+      username: registerData.current.username.value,
+      mail: registerData.current.email.value,
+      profileName: registerData.current.profileName.value,
+      password: registerData.current.pw.value,
+    };
+
+    fetch("http://localhost:3001/auth/register", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(details)
+    }).then(async(res) => {
+      let result = await res.json();
+      if(result.code == 201) successBar("You have been registered successfully, redirecting in 3 seconds.");
+      setTimeout(() => router.push("/"), 3000); 
+    })
+  }
+
   return (
     <div className='hideOverflow'>
       <Head>
@@ -18,23 +44,23 @@ export default function Register() {
                 <p className='text-light fw-bolder fs-1 pt-2 mb-1'>Sign Up</p>
                 <div className='bg-gray700 mb-4' style={{ width: "10rem", height: "1px" }} />
                 <div className='form-floating mb-3'>
-                  <input type="text" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="usernameField" />
+                  <input type="text" ref={((el) => (registerData.current['username'] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="usernameField" />
                   <label htmlFor="usernameField" className="form-label text-light">Username</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="text" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="nameField" />
+                  <input type="text" ref={((el) => (registerData.current['profileName'] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="nameField" />
                   <label htmlFor="nameField" className="form-label text-light">Profile Name</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="text" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="emailField" />
+                  <input type="text" ref={((el) => (registerData.current['email'] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="emailField" />
                   <label htmlFor="emailField" className="form-label text-light">Email</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="password" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="pwField" />
+                  <input type="password" ref={((el) => (registerData.current['pw'] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pwField" />
                   <label htmlFor="pwField" className="form-label text-light">Password</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="password" ref={testRef} className="form-control border-secdark bg-bluedark h-25 text-light" id="confirmPwField" />
+                  <input type="password" ref={((el) => (registerData.current['confirmPw'] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="confirmPwField" />
                   <label htmlFor="confirmPwField" className="form-label text-light">Confirm Password</label>
                 </div>
                 <div className='d-flex justify-content-center mt-5'>
@@ -42,7 +68,7 @@ export default function Register() {
                 </div>
                 <div className='mt-4'>
                   <div className='d-flex justify-content-center w-100 mb-1'>
-                    <button className="btn btn-primary w-50">Sign Up</button>
+                    <button className="btn btn-primary w-50" onClick={(async() => await submitDetails())}>Sign Up</button>
                   </div>
                   <div className='text-center'>
                     <a className='text-light text-decoration-none'>Already have an account? Sign In</a>
@@ -54,6 +80,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

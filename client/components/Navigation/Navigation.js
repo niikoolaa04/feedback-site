@@ -6,7 +6,7 @@ import { faHouse, faSquarePollVertical,faNewspaper
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation({ active = "home" }) {
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const isActive = (page) => {
     if(active == page) return " active";
     else return "";
@@ -59,7 +59,7 @@ export default function Navigation({ active = "home" }) {
             {
               isLoggedIn == true ?
               <div>
-                <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100">
+                <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100 cursor">
                   <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />
                   <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
                     <li>

@@ -41,3 +41,11 @@ $bluedark: #101523; */
   background-image: none;
   background-color: #101523;
 }
+
+.zoomIn {
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoomIn:hover {
+  transform: scale(1.02);
+}

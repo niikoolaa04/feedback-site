@@ -6,3 +6,5 @@ Polls, Create, Browse
 - todo profile info, edit etc.
  - profile/[id]/comments, profile/[id]/polls..
 - markdown profile, reputation give pos/neg, polls, surveys etc.
+
+- rest of backend, done register and login, do messages etc
