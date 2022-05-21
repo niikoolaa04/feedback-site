@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const { mailExistance, loginValidation, tokenCheck } = require("../middlewares/authMiddleware");
 
@@ -30,7 +31,8 @@ router.post("/register", mailExistance, async(req, res) => {
       code: 201,
       message: "New User have been created"
     });
-  } catch {
+  } catch(err) {
+    console.log(err)
     return res.json({
       code: 500,
       message: "Unknown error happened"
@@ -38,26 +40,24 @@ router.post("/register", mailExistance, async(req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", loginValidation, (req, res) => {
   if(req.accountExist == false) {
     res.status(404).json({
       code: 404,
       message: "User not found"
     })
   }
-  req.invalidPassword = false;
   if(req.invalidPassword == false) {
-    const payload = { id: req.userId, email: req.body.email };
+    const payload = { id: req.userId, email: req.body.mail };
     const token = jwt.sign(payload, process.env.SERVER_JWT, {
       expiresIn: '1h',
     });
-    // res.cookie('token', token, {sameSite: 'lax', httpOnly: true})
-    res.status(200).json({ code: 200, token, message: "Login Successful" })
+    res.status(200).json({ code: 200, token, message: "Login Successful" });
   } else {
     res.status(401).json({
       code: 401,
       message: "Invalid Password provided"
-    })
+    });
   }
 });
 
@@ -84,17 +84,18 @@ router.get("/check", tokenCheck, (req, res) => {
 })
 
 router.get("/decode", (req, res) => {
-  let cookie = req.cookies["token"];
-  if(!cookie) return res.json({
+  let cookie = req.cookies["token"] || req.headers['x-access-token'];
+  if(!cookie) return res.status(404).json({
     id: null,
     mail: null
-  }).status(404);
+  });
   let decodeToken = jwt.verify(cookie, process.env.SERVER_JWT);
 
-  res.json({
+  res.status(200).json({
+    code: 200,
     id: decodeToken.id,
     mail: decodeToken.email
-  }).status(200);
+  });
 })
 
 module.exports = router;

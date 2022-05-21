@@ -2,7 +2,8 @@ POST http://localhost:3001/auth/register
 Content-Type: application/json
 
 {
-  "username": "Test",
-  "profileName": "Test Testt",
-  "password": "lrm1nkj4n1jk51jk fwjkntjk"
+  "id": "1",
+  "username": "test",
+  "mail": "test@test.com",
+  "password": "test"
 }

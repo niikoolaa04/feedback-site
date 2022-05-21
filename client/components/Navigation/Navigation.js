@@ -1,16 +1,23 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isLogged } from '../../utils/utils';
 import { faHouse, faSquarePollVertical,faNewspaper
   , faMagnifyingGlassChart, faUserPlus
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navigation({ active = "home" }) {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  let [login, setLogin] = useState(false);
   const isActive = (page) => {
     if(active == page) return " active";
     else return "";
   }
+
+  useEffect(() => {
+    (async() => {
+      // await isLogged().then((res) => setLogin(res));
+    })();
+  })
 
   return (
     <div>
@@ -57,7 +64,7 @@ export default function Navigation({ active = "home" }) {
               </li>
             </ul>
             {
-              isLoggedIn == true ?
+              login == true ?
               <div>
                 <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100 cursor">
                   <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />

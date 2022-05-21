@@ -1,19 +1,26 @@
 import { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
+import { successBar } from '../../utils/utils';
+import { ToastContainer } from 'react-toastify';
 
 export default function Login() {
   const userData = useRef([]);
+  const router = useRouter();
 
   const handleLogin = async() => {
     let details = {
       mail: userData.current.mail.value,
       password: userData.current.pw.value,
     }
-    await fetch("http://localhost:3001/auth/login", {
+    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/login`, {
       method: "POST",
       body: JSON.stringify(details),
-      headers: {'Content-Type': 'application/json'}
+      headers: {
+        'credentials': 'include',
+        'Content-Type': 'application/json'
+      }
     }).then(async(res) => {
       const result = await res.json();
       if(process.browser) {
@@ -21,6 +28,8 @@ export default function Login() {
           expires: 1,
           path: '/'
         });
+        if(result.code == 201) successBar("You have been logged in successfully, redirecting in 3 seconds.");
+        setTimeout(() => router.push("/"), 3000); 
       }
     })
   }
@@ -71,6 +80,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

@@ -16,7 +16,7 @@ export default function Register() {
       password: registerData.current.pw.value,
     };
 
-    fetch("http://localhost:3001/auth/register", {
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/register`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

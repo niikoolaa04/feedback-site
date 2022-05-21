@@ -17,8 +17,10 @@ const loginValidation = async(req, res, next) => {
     } else {
       req.accountExist = true;
       if(comparedPassword == false) {
+        console.log('ovdee')
         req.invalidPassword = true;
       } else {
+        console.log("doleee")
         req.invalidPassword = false;
       }
       req.userId = post.id;
@@ -35,11 +37,11 @@ const tokenCheck = (req, res, next) => {
       req.cookies.token;
 
   if (!token) {
-    res.json({ success: false, message: 'Unauthorized: No token provided' });
+    res.json({ code: 404, message: 'Unauthorized: No token provided' });
   } else {
     jwt.verify(token, process.env.SERVER_JWT, function(err, decoded) {
       if (err) {
-        res.json({ success: false, message: 'Unauthorized: Invalid token' });
+        res.json({ code: 404, message: 'Unauthorized: Invalid token' });
       } else {
         req.email = decoded.email;
         next();

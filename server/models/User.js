@@ -50,8 +50,14 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
   } else {
     next();
   }
+});
+
+UserSchema.pre('save', async function(next) {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  thus.password = hashedPassword;
+  next();
 })
-   
+
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   return bcrypt.compare(candidatePassword, this.password);
 };
