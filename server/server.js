@@ -11,6 +11,10 @@ app.prepare().then(async() => {
 
   server.use(express.json());
 
+  server.get('*', (req, res) => {
+    return handle(req, res);
+  });
+
   await mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
   }).then(() => console.log(`[SERVER] Successfully Connected to MongoDB.`))

@@ -59,27 +59,27 @@ export default function Navigation({ active = "home" }) {
             {
               isLoggedIn == true ?
               <div>
-                <li class="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100">
+                <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100">
                   <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />
-                  <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
+                  <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
                     <li>
                       <Link href="/profile/1">
-                        <a class="dropdown-item text-light">
+                        <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faAddressCard} size="1x" className='pe-3 align-base' />Profile
                         </a>
                       </Link>
                     </li>
                     <li>
                       <Link href="/account/settings">
-                        <a class="dropdown-item text-light">
+                        <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faSliders} size="1x" className='pe-3 align-base' />Settings
                         </a>
                       </Link>
                     </li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <li><hr className="dropdown-divider" /></li>
                     <li>
                       <Link href="/logout" >
-                        <a class="dropdown-item text-light">
+                        <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
                         </a>
                       </Link>
