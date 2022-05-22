@@ -1,19 +1,24 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import QuestionsCreate from '../../components/Survey/QuestionsCreate'
 import Head from 'next/head'
+import { useRouter }from 'next/router'
 import { ToastContainer } from 'react-toastify';
-import { errorBar, successBar } from '../../utils/utils'
+import { errorBar, successBar, getProfile, createSurvey } from '../../utils/utils'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function NewSurvey() {
-  const questionRef = useRef([]);
+  const router = useRouter();
   const [questions, setQuestions] = useState([{
     id: 1,
     text: ''
-  }])
+  }]);
+  const [author, setAuthor] = useState("");
+  const questionRef = useRef([]);
   const titleRef = useRef("");
   const descriptionRef = useRef("");
+  const currUser = useContext(UserContext);
 
   const removeItem = async(index) => {
     /* Send Error Toast */
@@ -28,6 +33,31 @@ export default function NewSurvey() {
     setQuestions([...inputArr])
   }
 
+  async function getUserProfile() {
+    await getProfile(currUser.id).then((res) => setAuthor(res?._id));
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  const submitNewSurvey = async(e) => {
+    e.preventDefault();
+    let details = {
+      user: author,
+      title: titleRef.current.value,
+      description: descriptionRef.current.value,
+      options: questionRef.current.map((v) => v.value)
+    }
+
+    await createSurvey(details).then((result) => {
+      if(result.code == 201) {
+        successBar("Survey have been created, redirecting.");
+        setTimeout(() => router.push(`/surveys/${result.response.id}`), 3000);
+      }
+    });
+  }
+
   return (
     <div className='hideOverflow'>
       <Navigation active="survey" />
@@ -38,7 +68,7 @@ export default function NewSurvey() {
       </Head>
       <div>
         <div className="bg-maindark">
-          <div className="container py-6">
+          <form className="container py-6" onSubmit={(async(e) => await submitNewSurvey(e))}>
             <div className="row">
               <div className="d-flex justify-content-center">
                 <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
@@ -92,7 +122,7 @@ export default function NewSurvey() {
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <ToastContainer />

@@ -1,25 +1,26 @@
 import { useState, useEffect, useRef, useContext } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesCreate from '../../components/Poll/ChoicesCreate'
-import { createPoll, getProfile } from '../../utils/utils'
+import { createPoll, successBar, errorBar, getProfile } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
 
 export default function NewPoll() {
-  const inputRef = useRef([]);
   const currUser = useContext(UserContext)?.user;
+  const router = useRouter();
   const [answers, setAnswers] = useState([{
     id: 1,
     text: ''
-  }])
+  }]);
+  const inputRef = useRef([]);
   const titleRef = useRef("");
   const descriptionRef = useRef("");
   const [author, setAuthor] = useState("");
 
   const removeItem = async(index) => {
-    /* Send Error Toast */
-    if(index == 0 && answers.length == 1) return;
+    if(index == 0 && answers.length == 1) return errorBar("You can't remove the only choice.");
     let inputArr = inputRef.current.map((x, ind) => {
       return {
         id: ind,
@@ -38,7 +39,8 @@ export default function NewPoll() {
     getUserProfile();
   }, []);
 
-  const submitDetails = async() => {
+  const submitNewPoll = async(e) => {
+    e.preventDefault();
     let details = {
       user: author,
       title: titleRef.current.value,
@@ -46,7 +48,13 @@ export default function NewPoll() {
       options: inputRef.current.map((v) => v.value)
     }
 
-    await createPoll(details);
+    await createPoll(details).then((result) => {
+      if(result.code == 201) {
+        successBar("Poll have been created, redirecting.");
+        setTimeout(() => router.push(`/polls/${result.response.id}`), 3000);
+        return;
+      }
+    });
   }
 
   return (
@@ -59,14 +67,14 @@ export default function NewPoll() {
       </Head>
       <div>
         <div className="bg-maindark">
-          <div className="container py-6">
+          <form className="container py-6" onSubmit={(async(e) => await submitNewPoll(e))}>
             <div className="row d-flex justify-content-center">
               <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                 {/* FORMS */}
                 <div className='px-md-5'>
                   <div className='mb-3'>
                     <div className="titleSection pt-4">
-                      <p className='text-light fs-3 fw-bold mb-0' onClick={(async() => await submitDetails())}>Details</p>
+                      <p className='text-light fs-3 fw-bold mb-0'>Details</p>
                       <p className='text-gray600'>Set general Poll details like Title, Description and similar.</p>
                     </div>
                     <div className="mb-2">
@@ -106,12 +114,12 @@ export default function NewPoll() {
                   <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                 </div>
                 <div className='px-5 py-3 pb-4 text-center'>
-                  <button className="btn btn-primary btn-lg me-2">Finish</button>
-                  <button className="btn btn-danger btn-lg ms-2">Cancel</button>
+                  <button type='submit' className="btn btn-primary btn-lg me-2">Finish</button>
+                  <button onClick={(() => console.log('cancel'))} className="btn btn-danger btn-lg ms-2">Cancel</button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <Footer />

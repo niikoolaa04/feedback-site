@@ -10,10 +10,10 @@ import { UserContext } from '../../contexts/UserContext'
 import '../../styles/Profile.module.css'
 
 export default function Profile() {
-  let [userProfile, setUserProfile] = useState({});
-  const user = useContext(UserContext)?.user;
   const router = useRouter();
   const { id } = router.query;
+  const user = useContext(UserContext)?.user;
+  let [userProfile, setUserProfile] = useState({});
 
   async function getUserProfile() {
     await getProfile(id).then((res) => setUserProfile(res));

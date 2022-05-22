@@ -1,13 +1,15 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
 import { errorBar, successBar } from '../../utils/utils';
 import { ToastContainer } from 'react-toastify';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
+  const { user, setUser } = useContext(UserContext);
 
   const handleLogin = async(e) => {
     e.preventDefault();
@@ -33,6 +35,10 @@ export default function Login() {
           cookie.set("token", result.token, {
             expires: 1,
             path: '/'
+          });
+          setUser({
+            id: result.user.id,
+            mail: result.user.mail
           });
           successBar("Login successful, redirecting in 3 seconds.");
           setTimeout(() => router.push("/"), 3000); 

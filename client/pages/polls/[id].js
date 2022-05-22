@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
-import { myLoader } from '../../utils/utils'
+import { getPoll, myLoader } from '../../utils/utils'
 
 export default function PollDetails() {
-  const router = useRouter()
+  const router = useRouter();
+  const { id } = router.query
   const [selected, setSelected] = useState(-1);
+  const [poll, setPoll] = useState({});
   const [choices, setChoices] = useState([{
     id: 1,
     text: 'Test Choice number 1'
@@ -23,8 +25,17 @@ export default function PollDetails() {
     id: 4,
     text: 'Test Choice number 4'
   }]);
+
+  async function fetchPoll() {
+    await getPoll(id).then((result) => {
+      setPoll(result);
+    })
+  }
+
+  useEffect(() => {
+    fetchPoll()
+  }, [])
   
-  const { id } = router.query
   return (
     <div className='hideOverflow'>
       <Navigation active='polls' />

@@ -1,12 +1,18 @@
-Polls, Create, Browse
-- polls/ == Browse, add to model isPublic 
-- polls/new == create poll, checkmark for ispublic =====
-- new poll extra option for if poll has post on fb/ig
+**PROFILE**
 
 - todo profile info, edit etc.
  - profile/[id]/comments, profile/[id]/polls..
-- markdown profile, reputation give pos/neg, polls, surveys etc.
+- markdown profile
+- comments page myb to remove even
+- reputation give pos/neg
+
+**POLLS**
+- checkmarks
+- browse
+- extra option for social media
+- fetching is slow
+
+**OTHER**
 
 - rest of backend, done register and login, do messages etc
-login bttn left margin
-white focus on autocomplete
+- login bttn left margin

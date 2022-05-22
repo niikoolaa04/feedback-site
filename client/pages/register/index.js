@@ -59,7 +59,7 @@ export default function Register() {
           form.classList.add('was-validated')
         }, false)
       });
-  })
+  }, []);
 
   return (
     <div className='hideOverflow'>

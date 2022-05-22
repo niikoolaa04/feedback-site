@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
+import Poll from '../../server/models/Poll';
 
 export const errorBar = (message, pos = "top-right", closeTime = 5000) => toast.error(message, {
   position: pos,
@@ -78,7 +79,7 @@ export const getProfile = async(user) => {
 }
 
 export const createPoll = async(data) => {
-  await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/new`, {
+  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/new`, {
     method: "POST",
     headers: {
       'credentials': 'include',
@@ -87,6 +88,39 @@ export const createPoll = async(data) => {
     body: JSON.stringify(data)
   }).then(async(res) => {
     const result = await res.json();
-    console.log(result);
+    return result;
   });
+
+  return poll;
+}
+
+export const createSurvey = async(data) => {
+  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/new`, {
+    method: "POST",
+    headers: {
+      'credentials': 'include',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+
+  return survey;
+}
+
+export const getPoll = async(id) => {
+  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/${id}`, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(async(res) => {
+    const result = await res.json();
+    console.log(result)
+    return result;
+  });
+
+  return poll;
 }
