@@ -53,7 +53,15 @@ router.post("/login", loginValidation, (req, res) => {
     const token = jwt.sign(payload, process.env.SERVER_JWT, {
       expiresIn: '1h',
     });
-    res.status(200).json({ code: 200, token, message: "Login Successful" });
+    res.status(200).json({ 
+      code: 200, 
+      token, 
+      message: "Login Successful",
+      user: {
+        id: req.userId,
+        mail: req.body.mail,
+      }
+     });
   } else if(req.accountExist == false || req.invalidPassword == true) {
     res.status(404).json({
       code: 404,
@@ -91,12 +99,20 @@ router.get("/decode", (req, res) => {
     id: null,
     mail: null
   });
-  let decodeToken = jwt.verify(cookie, process.env.SERVER_JWT);
-
-  res.status(200).json({
-    code: 200,
-    id: decodeToken.id,
-    mail: decodeToken.email
+  jwt.verify(cookie, process.env.SERVER_JWT, function(err, decoded) {
+    if(err || !decoded) {
+      res.status(401).json({
+        code: 401,
+        type: "token_expired",
+        message: "JWT expired"
+      });
+    } else {
+      res.status(200).json({
+        code: 200,
+        id: decoded.id,
+        mail: decoded.email
+      });
+    }
   });
 })
 

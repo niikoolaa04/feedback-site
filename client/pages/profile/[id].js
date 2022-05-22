@@ -1,13 +1,28 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { myLoader } from '../../utils/utils'
+import { getProfile, myLoader } from '../../utils/utils'
+import { UserContext } from '../../contexts/UserContext'
 import '../../styles/Profile.module.css'
 
 export default function Profile() {
+  let [userProfile, setUserProfile] = useState({});
+  const user = useContext(UserContext)?.user;
+  const router = useRouter();
+  const { id } = router.query;
+
+  async function getUserProfile() {
+    await getProfile(id).then((res) => setUserProfile(res));
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+  
   return (
     <div className='hideOverflow'>
       <Navigation active='profile' />
@@ -24,8 +39,8 @@ export default function Profile() {
               <div className='d-flex flex-row'>
                 <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
                 <div className='d-flex flex-column'>
-                  <p className='text-light fw-bold ps-3 mb-0 lh-sm'>User Username</p>
-                  <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@username
+                  <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile.profileName }</p>
+                  <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile.username }
                     <span className='cursor text-gray500'>
                       <svg xmlns="http://www.w3.org/2000/svg" className='ms-2' style={{ height: "16px", width: "16px" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -37,7 +52,7 @@ export default function Profile() {
                 </div>
                 {/* SOME BUTTON HERE */}
               </div>
-              <textarea disabled className="form-control border-secdark bg-secdark mt-4 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+              <textarea disabled className="form-control border-secdark bg-secdark mt-4 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={userProfile.about} />
             </div>
             {/* LIST OF PAST 5 POLLS */}
             <div className='mt-4'>
@@ -51,7 +66,6 @@ export default function Profile() {
                   <div className='d-flex pt-0'>
                     <p className='text-light'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis ducimus in magnam corrupti sint sequi aliquam porro minus sed, nostrum cumque dolorum dolorem debitis consequatur.</p>
                   </div>
-                  {/* <button className="btn btn-primary mb-3">View Poll</button> */}
                 </div>
               </Link>
               <button className="btn btn-success mt-3">View All Polls</button>

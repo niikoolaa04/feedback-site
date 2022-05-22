@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.SERVER_PORT || 3001;
 const mongoose = require("mongoose");
 const auth = require("./routes/auth.js");
+const api = require("./routes/api.js");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -20,6 +21,7 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use("/auth", auth);
+app.use("/api", api);
 
 app.listen(port, (err) => {
   if (err) throw err

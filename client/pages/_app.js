@@ -1,12 +1,19 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import '../styles/globals.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { dom } from "@fortawesome/fontawesome-svg-core";
 import '../scss/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
+import { getCurrentUser } from '../utils/utils';
+import { UserContext } from '../contexts/UserContext'
 
 function MyApp({ Component, pageProps }) {
+  const [user, setUser] = useState({
+    id: null,
+    mail: null,
+  });
+
   useEffect(() => {
     async function loadBootstrap() {
       const { Tooltip } = await import("../node_modules/bootstrap/dist/js/bootstrap");
@@ -16,9 +23,16 @@ function MyApp({ Component, pageProps }) {
         return new Tooltip(tooltipTriggerEl)
       });
     }
+    async function getUser() {
+      await getCurrentUser(setUser)
+    }
 
     loadBootstrap();
+    getUser();
   }, []);
+
+  const ctxValue = useMemo(() => ({ user, setUser }), [user, setUser]);
+
   return (
     <>
       <Head>
@@ -27,7 +41,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{dom.css()}</style>
       </Head>
-      <Component {...pageProps} />
+      <UserContext.Provider value={ctxValue}>
+        <Component {...pageProps} />
+      </UserContext.Provider>
     </>
   )
 }

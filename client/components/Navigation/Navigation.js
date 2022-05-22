@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isLogged } from '../../utils/utils';
 import { faHouse, faSquarePollVertical,faNewspaper
   , faMagnifyingGlassChart, faUserPlus
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { UserContext } from '../../contexts/UserContext';
 
 export default function Navigation({ active = "home" }) {
-  let [login, setLogin] = useState(false);
+  const user = useContext(UserContext)?.user;
+
   const isActive = (page) => {
     if(active == page) return " active";
     else return "";
   }
-
-  useEffect(() => {
-    (async() => {
-      // await isLogged().then((res) => setLogin(res));
-    })();
-  })
 
   return (
     <div>
@@ -64,13 +59,13 @@ export default function Navigation({ active = "home" }) {
               </li>
             </ul>
             {
-              login == true ?
+              user.mail != null ?
               <div>
                 <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100 cursor">
                   <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />
                   <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
                     <li>
-                      <Link href="/profile/1">
+                      <Link href={`/profile/${user.id}`}>
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faAddressCard} size="1x" className='pe-3 align-base' />Profile
                         </a>
@@ -85,7 +80,7 @@ export default function Navigation({ active = "home" }) {
                     </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li>
-                      <Link href="/logout" >
+                      <Link href="/api/logout" >
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
                         </a>

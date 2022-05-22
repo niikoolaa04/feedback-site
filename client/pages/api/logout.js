@@ -1,5 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import cookie from 'js-cookie'
 
 export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+  cookie.remove("token");
+  res.redirect("/");
 }

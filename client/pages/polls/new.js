@@ -1,17 +1,21 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import Head from 'next/head'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesCreate from '../../components/Poll/ChoicesCreate'
+import { createPoll, getProfile } from '../../utils/utils'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function NewPoll() {
   const inputRef = useRef([]);
+  const currUser = useContext(UserContext)?.user;
   const [answers, setAnswers] = useState([{
     id: 1,
     text: ''
   }])
   const titleRef = useRef("");
   const descriptionRef = useRef("");
+  const [author, setAuthor] = useState("");
 
   const removeItem = async(index) => {
     /* Send Error Toast */
@@ -24,6 +28,25 @@ export default function NewPoll() {
     }).filter(val => val.text != undefined);
     inputArr.splice(index, 1);
     setAnswers([...inputArr])
+  }
+
+  async function getUserProfile() {
+    await getProfile(currUser.id).then((res) => setAuthor(res?._id));
+  }
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
+  const submitDetails = async() => {
+    let details = {
+      user: author,
+      title: titleRef.current.value,
+      question: descriptionRef.current.value,
+      options: inputRef.current.map((v) => v.value)
+    }
+
+    await createPoll(details);
   }
 
   return (
@@ -43,7 +66,7 @@ export default function NewPoll() {
                 <div className='px-md-5'>
                   <div className='mb-3'>
                     <div className="titleSection pt-4">
-                      <p className='text-light fs-3 fw-bold mb-0'>Details</p>
+                      <p className='text-light fs-3 fw-bold mb-0' onClick={(async() => await submitDetails())}>Details</p>
                       <p className='text-gray600'>Set general Poll details like Title, Description and similar.</p>
                     </div>
                     <div className="mb-2">
