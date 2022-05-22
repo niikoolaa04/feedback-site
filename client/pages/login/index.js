@@ -2,18 +2,20 @@ import { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
-import { successBar } from '../../utils/utils';
+import { errorBar, successBar } from '../../utils/utils';
 import { ToastContainer } from 'react-toastify';
 
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
 
-  const handleLogin = async() => {
+  const handleLogin = async(e) => {
+    e.preventDefault();
     let details = {
       mail: userData.current.mail.value,
       password: userData.current.pw.value,
     }
+
     await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/login`, {
       method: "POST",
       body: JSON.stringify(details),
@@ -24,12 +26,19 @@ export default function Login() {
     }).then(async(res) => {
       const result = await res.json();
       if(process.browser) {
-        cookie.set("token", result.token, {
-          expires: 1,
-          path: '/'
-        });
-        if(result.code == 201) successBar("You have been logged in successfully, redirecting in 3 seconds.");
-        setTimeout(() => router.push("/"), 3000); 
+        if(result.code == 401) {
+          errorBar("You have provided invalid password, please recheck it.");
+          return;
+        } else if(result.code == 200) {
+          cookie.set("token", result.token, {
+            expires: 1,
+            path: '/'
+          });
+          successBar("Login successful, redirecting in 3 seconds.");
+          setTimeout(() => router.push("/"), 3000); 
+        } else if(result.code == 404 && result.type == "user") {
+          errorBar("User with provided credentials couldn't be found.");
+        }
       }
     })
   }
@@ -43,17 +52,17 @@ export default function Login() {
       </Head>
       <div className='vh-100 bg-maindark'>
         <div>
-          <div className="container py-5">
+          <form className="container py-5 needs-validation" noValidate onSubmit={(async(e) => await handleLogin(e))}>
             <div className="row d-flex justify-content-center">
               <div className='w-100 w-md-50'>
                 <p className='text-light fw-bolder fs-1 pt-2 mb-1'>Sign In</p>
                 <div className='bg-gray700 mb-4' style={{ width: "10rem", height: "1px" }} />
                 <div className='form-floating mb-3'>
-                  <input type="email" ref={((el) => (userData.current["mail"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
+                  <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" ref={((el) => (userData.current["mail"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
                   <label htmlFor="pollTitle" className="form-label text-light">Email Address</label>
                 </div>
                 <div className='form-floating'>
-                  <input type="password" ref={((el) => (userData.current["pw"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
+                  <input type="password" minLength={6} maxLength={21} ref={((el) => (userData.current["pw"] = el))} className="form-control border-secdark bg-bluedark h-25 text-light" id="pollTitle" />
                   <label htmlFor="pollTitle" className="form-label text-light">Password</label>
                   <p className='text-gray600 pt-1' style={{ fontSize: "13px" }}>Forgot password? Click to reset it.</p>
                 </div>
@@ -67,7 +76,7 @@ export default function Login() {
                 {/* BUTTONS */}
                 <div className='mt-4'>
                   <div className='d-flex justify-content-center w-100 mb-1'>
-                    <button className="btn btn-primary w-50" onClick={(async() => await handleLogin())}>Sign In</button>
+                    <button type='submit' className="btn btn-primary w-50">Sign In</button>
                   </div>
                   {/* ADD LINK */}
                   <div className='text-center'>
@@ -77,7 +86,7 @@ export default function Login() {
                 {/* FORMS */}
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <ToastContainer />

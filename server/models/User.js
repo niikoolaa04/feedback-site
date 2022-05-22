@@ -53,8 +53,8 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
 });
 
 UserSchema.pre('save', async function(next) {
-  const hashedPassword = await bcrypt.hash(req.body.password, 10);
-  thus.password = hashedPassword;
+  const hashedPassword = await bcrypt.hash(this.password, 10);
+  this.password = hashedPassword;
   next();
 })
 

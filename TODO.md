@@ -9,3 +9,4 @@ Polls, Create, Browse
 
 - rest of backend, done register and login, do messages etc
 login bttn left margin
+white focus on autocomplete

@@ -8,19 +8,24 @@ const mailExistance = async(req, res, next) => {
   })
 }
 
+const usernameExistance = async(req, res, next) => {
+  User.findOne({ username: req.body.username }, function(err, post) {
+    if(post) req.usernameExist = true;
+    next()
+  })
+}
+
 const loginValidation = async(req, res, next) => {
   User.findOne({ mail: req.body.mail }, async function(err, post) {
-    let comparedPassword = await post.comparePassword(req.body.password);
     if(!post) {
       req.accountExist = false;
       return next();
     } else {
+      let comparedPassword = await post.comparePassword(req.body.password);
       req.accountExist = true;
       if(comparedPassword == false) {
-        console.log('ovdee')
         req.invalidPassword = true;
       } else {
-        console.log("doleee")
         req.invalidPassword = false;
       }
       req.userId = post.id;
@@ -52,6 +57,7 @@ const tokenCheck = (req, res, next) => {
 
 module.exports = {
   mailExistance,
+  usernameExistance,
   loginValidation,
   tokenCheck,
 };
