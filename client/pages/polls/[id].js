@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -7,10 +7,12 @@ import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
 import { getPoll, getProfile, myLoader } from '../../utils/utils'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function PollDetails() {
   const router = useRouter();
   const { id } = router.query;
+  const currUser = useContext(UserContext)?.user;
   const [selected, setSelected] = useState(-1);
   const [loading, setLoading] = useState(true);
   const [poll, setPoll] = useState({
@@ -20,6 +22,11 @@ export default function PollDetails() {
   });
   const [choices, setChoices] = useState([]);
   let [userProfile, setUserProfile] = useState({});
+
+  const handleSubmit = async() => {
+    /* CHECK IF SELECTED IS -1 THEN RETURN */
+    await submitPoll(id, currUser, selected);
+  }
   
   useEffect(() => {
     async function fetchPoll() {
@@ -110,7 +117,10 @@ export default function PollDetails() {
                   <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                 </div>
                 <div className='px-md-5 py-3 pb-4 text-center'>
-                  <button className="btn btn-primary btn-lg me-2">Vote</button>
+                  <button className="btn btn-primary btn-lg me-2" onClick={(async(e) => {
+                    e.preventDefault()
+                    await handleSubmit()
+                  })}>Vote</button>
                   {/* IF EVERYONE CAN SEE THEM */}
                   <button className="btn btn-success btn-lg ms-2">Results</button>
                 </div>

@@ -37,6 +37,18 @@ router.get("/polls/:id", async(req, res) => {
   })  
 });
 
+router.get("/polls/:id/vote", async(req, res) => {
+  Poll.findOneAndUpdate({ id: req.params.id }, { $push: { 
+    submitters: { 
+      user: req.body.user,
+      vote: req.body.vote,
+      date: new Date(),
+     }
+   }}, { new: true }, (err, post) => {
+     res.status(200).json(post);
+   })
+});
+
 router.post("/surveys/new", async(req, res) => {
   let newSurvey = new Survey(req.body);
   let surveyId = await Survey.estimatedDocumentCount();

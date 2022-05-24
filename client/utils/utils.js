@@ -123,3 +123,21 @@ export const getPoll = async(id) => {
 
   return poll;
 }
+
+export const submitPoll = async(poll, user, selOption) => {
+  const voteDetails = {
+    user: user ? user?.id : '-1',
+    vote: selOption,
+  };
+
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/${poll}/vote`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(voteDetails)
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}

@@ -13,6 +13,7 @@
 - fetching is slow
   - fixed (somehow)
 - handle guest polls
+- submit poll: handle submit
 
 **OTHER**
 
