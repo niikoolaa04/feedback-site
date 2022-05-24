@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
@@ -79,7 +80,7 @@ export default function PollDetails() {
                       <div className="row">
                         <div className=''>
                           {
-                            userProfile?.id == -1 ? 
+                            userProfile?.id == -1 || !userProfile?.mail ? 
                             <div>
                               <p className='text-light'>- This poll was created by Guest User (learn more)</p>
                             </div> :
@@ -91,7 +92,9 @@ export default function PollDetails() {
                                     <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
                                     <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
                                     <div className="d-block ps-3">
-                                      <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                                      <Link href={"/profile/" + userProfile?.id}>
+                                        <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                                      </Link>
                                     </div>
                                   </div>
                               </div>
