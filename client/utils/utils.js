@@ -118,7 +118,6 @@ export const getPoll = async(id) => {
     },
   }).then(async(res) => {
     const result = await res.json();
-    console.log(result)
     return result;
   });
 

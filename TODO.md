@@ -11,6 +11,8 @@
 - browse
 - extra option for social media
 - fetching is slow
+  - fixed (somehow)
+- handle guest polls
 
 **OTHER**
 

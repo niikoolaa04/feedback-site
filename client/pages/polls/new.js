@@ -32,7 +32,13 @@ export default function NewPoll() {
   }
 
   async function getUserProfile() {
-    await getProfile(currUser.id).then((res) => setAuthor(res?._id));
+    if(currUser.id) {
+      await getProfile(currUser.id).then((res) => {
+        if(res?.id) setAuthor(currUser.id);
+      });
+    } else {
+      setAuthor("-1");
+    }
   }
 
   useEffect(() => {

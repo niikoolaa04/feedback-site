@@ -1,5 +1,5 @@
 export default function ChoicesList({ choices, selected, setSelected }) {
-  return choices.map((c, i) => (
+  return choices?.map((c, i) => (
     <div className=''>
       <div className='text-light py-2 w-100' key={c.id}>
         <div className="row">
