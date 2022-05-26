@@ -8,6 +8,7 @@ import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
 import { errorBar, getPoll, getProfile, myLoader, submitPoll } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
+import { ToastContainer } from 'react-toastify'
 
 export default function PollDetails() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function PollDetails() {
   const currUser = useContext(UserContext)?.user;
   const [selected, setSelected] = useState(-1);
   const [loading, setLoading] = useState(true);
+  const [isLimit, setIsLimit] = useState(false);
   const [poll, setPoll] = useState({
     id: 0,
     title: '',
@@ -25,15 +27,14 @@ export default function PollDetails() {
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
+    if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    if(isLimit == true) return errorBar(`This Poll has limit of ${result?.limit} users that can vote`);
     await submitPoll(id, currUser, selected);
   }
   
   useEffect(() => {
     async function fetchPoll() {
       await getPoll(id).then(async(result) => {
-        if(!user?.id && result.needAuth == true) return errorBar("This Poll requires Voters to be Logged in.");
-        if(result.submitters.length == result.limit)
-          return errorBar(`This Poll has limit of ${result.limit} users that can vote`);
         setChoices(result?.options?.map((x, i) => {
           return {
             id: i+1,
@@ -42,6 +43,7 @@ export default function PollDetails() {
         }));
         setPoll(result);
         setLoading(false);
+        if(result?.limit > 0 && result?.submitters.length == result?.limit) setIsLimit(true);
         if(result?.user == "-1" || !result?.user) {
           setUserProfile({
             id: -1,
@@ -52,6 +54,7 @@ export default function PollDetails() {
             if(res?.user) setUserProfile(res);
           });
         }
+        if(!currUser?.id && result?.needAuth == true) errorBar("If you want to vote for this Poll you need to be Logged in.");
       })
     }
     fetchPoll();
@@ -132,6 +135,7 @@ export default function PollDetails() {
           </div>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </div>
   )

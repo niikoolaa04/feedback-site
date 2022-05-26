@@ -11,6 +11,7 @@ import '../../styles/Polls.module.css'
 export default function NewPoll() {
   const currUser = useContext(UserContext)?.user;
   const router = useRouter();
+  const [limitNum, setLimitNum] = useState(-1);
   const [answers, setAnswers] = useState([{
     id: 1,
     text: ''
@@ -49,15 +50,21 @@ export default function NewPoll() {
 
   const submitNewPoll = async(e) => {
     e.preventDefault();
+    if(limitNum == -1 || limitNum == "") setLimitNum(-1);
+
     let details = {
       user: author,
       title: titleRef.current.value,
       question: descriptionRef.current.value,
-      options: inputRef.current.map((v) => v.value)
+      options: inputRef.current.map((v) => v.value),
+      limit: limitNum,
+      needAuth: checksRef.current.auth.checked,
+      publicResults: checksRef.current.results.checked
     }
 
     await createPoll(details).then((result) => {
       if(result.code == 201) {
+        console.log(result)
         successBar("Poll have been created, redirecting.");
         setTimeout(() => router.push(`/polls/${result.response.id}`), 3000);
         return;
@@ -109,15 +116,15 @@ export default function NewPoll() {
                   {/* CHECKMARKS */}
                   <div className='mb-5'>
                     <div className="form-check">
-                      <input className="form-check-input" ref={((el) => (checksRef.current["results"] == el))} type="checkbox" value="" id="checkResults" />
+                      <input className="form-check-input" ref={((el) => (checksRef.current["results"] = el))} type="checkbox" value="" id="checkResults" />
                       <label className="form-check-label text-light" htmlFor="checkResults">Allow everyone to see results?</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" ref={((el) => (checksRef.current["auth"] == el))} type="checkbox" value="" id="checkAuth" />
+                      <input className="form-check-input" ref={((el) => (checksRef.current["auth"] = el))} type="checkbox" value="" id="checkAuth" />
                       <label className="form-check-label text-light" htmlFor="checkAuth">Does Voters need to be Registered?</label>
                     </div>
                     <div className="">
-                      <input className="m-0 p-0 border-0 bg-secdark quantity" style={{ "width": "50px", "outline": "none" }} ref={((el) => (checksRef.current["limit"] == el))} type="number" id="limitNumber" />
+                      <input className="m-0 p-0 bg-secdark limitNumber text-light rounded-1 border-0" onChange={((e) => setLimitNum(e.target.value))} style={{ "width": "50px", "outline": "none" }} type="number" id="limitNumber" />
                       <label className="form-check-label text-light ps-2" htmlFor="limitNumber">How much users can Vote?</label>
                     </div>
                   </div>
@@ -127,7 +134,7 @@ export default function NewPoll() {
                 </div>
                 <div className='px-5 py-3 pb-4 text-center'>
                   <button type='submit' className="btn btn-primary btn-lg me-2">Finish</button>
-                  <button onClick={(() => console.log('cancel'))} className="btn btn-danger btn-lg ms-2">Cancel</button>
+                  <button onClick={(() => router.push("/"))} className="btn btn-danger btn-lg ms-2">Cancel</button>
                 </div>
               </div>
             </div>

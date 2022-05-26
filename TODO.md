@@ -7,14 +7,19 @@
 - reputation give pos/neg
 
 **POLLS**
-- checkmarks
 - browse
 - extra option for social media
-- fetching is slow
-  - fixed (somehow)
-- handle guest polls
-- submit poll: handle submit
+- handle guest polls // done
+- submit poll: handle submit // done
 - limit == global limit, multiple votes == user can vote multiple times
+- check for if req. authentication, give error on click bttn and for limit ^^ // done
+
+**SURVEYS**
+- browse
+- checkmarks
+- submit survey
+- cancel survey
+- check for requirements
 
 **OTHER**
 

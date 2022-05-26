@@ -5,8 +5,7 @@ const PollSchema = new mongoose.Schema({
     type: String
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    type: String,
   },
   title: {
     type: String,
@@ -26,6 +25,9 @@ const PollSchema = new mongoose.Schema({
     type: Number
   },
   needAuth: {
+    type: Boolean
+  },
+  publicResults: {
     type: Boolean
   }
 });
