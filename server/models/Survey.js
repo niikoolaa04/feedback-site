@@ -5,8 +5,7 @@ const SurveySchema = new mongoose.Schema({
     type: String
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    type: String,
   },
   title: {
     type: String,
@@ -24,6 +23,12 @@ const SurveySchema = new mongoose.Schema({
   },
   limit: {
     type: Number
+  },
+  needAuth: {
+    type: Boolean
+  },
+  publicResults: {
+    type: Boolean
   }
 });
 

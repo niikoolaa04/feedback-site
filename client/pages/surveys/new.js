@@ -10,7 +10,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 export default function NewSurvey() {
   const router = useRouter();
-  const [questions, setQuestions] = useState([{
+  const [questionsList, setQuestionsList] = useState([{
     id: 1,
     text: ''
   }]);
@@ -22,7 +22,7 @@ export default function NewSurvey() {
 
   const removeItem = async(index) => {
     /* Send Error Toast */
-    if(index == 0 && questions.length == 1) return errorBar("You cannot remove first Item.");
+    if(index == 0 && questionsList.length == 1) return errorBar("You cannot remove first Item.");
     let inputArr = questionRef.current.map((x, ind) => {
       return {
         id: ind,
@@ -30,7 +30,7 @@ export default function NewSurvey() {
       }
     }).filter(val => val.text != undefined);
     inputArr.splice(index, 1);
-    setQuestions([...inputArr])
+    setQuestionsList([...inputArr])
   }
 
   async function getUserProfile() {
@@ -47,7 +47,7 @@ export default function NewSurvey() {
       user: author,
       title: titleRef.current.value,
       description: descriptionRef.current.value,
-      options: questionRef.current.map((v) => v.value)
+      questions: questionRef.current.map((v) => v.value)
     }
 
     await createSurvey(details).then((result) => {
@@ -89,8 +89,8 @@ export default function NewSurvey() {
                       </div>
                       <div className="mt-3">
                         <p className='text-light mb-2'>List of Questions</p>
-                        <QuestionsCreate removeItem={removeItem} questionRef={questionRef} questions={questions} className="mb-4" />
-                        <div className='border-secdark bg-secdark text-light py-1 mt-4 text-center rounded-1 hoverEffect cursor' onClick={(() => setQuestions([...questions, '']))}>➕</div>
+                        <QuestionsCreate removeItem={removeItem} questionRef={questionRef} questions={questionsList} className="mb-4" />
+                        <div className='border-secdark bg-secdark text-light py-1 mt-4 text-center rounded-1 hoverEffect cursor' onClick={(() => setQuestionsList([...questionsList, '']))}>➕</div>
                       </div>
                     </div>
                   </div>

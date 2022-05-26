@@ -29,6 +29,15 @@ export const successBar = (message, pos = "top-right", closeTime = 5000) => toas
   theme: "colored"
 });
 
+export const warningBar = (message, pos = "top-right", closeTime = 5000) => toast.warning(message, {
+  position: pos,
+  autoClose: closeTime,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "colored"
+});
+
 export const myLoader = ({ src }) => {
   return src;
 }
@@ -124,6 +133,20 @@ export const getPoll = async(id) => {
   return poll;
 }
 
+export const getSurvey = async(id) => {
+  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/${id}`, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+
+  return survey;
+}
+
 export const submitPoll = async(poll, user, selOption) => {
   const voteDetails = {
     user: user ? user?.id : '-1',
@@ -136,6 +159,24 @@ export const submitPoll = async(poll, user, selOption) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(voteDetails)
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
+export const submitSurvey = async(survey, user, answersList) => {
+  const surveyDetails = {
+    user: user ? user?.id : '-1',
+    answers: answersList,
+  };
+
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/${survey}/vote`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(surveyDetails)
   }).then(async(res) => {
     const result = await res.json();
     return result;

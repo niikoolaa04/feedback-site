@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
-import { errorBar, getPoll, getProfile, myLoader, submitPoll } from '../../utils/utils'
+import { errorBar, getPoll, getProfile, myLoader, submitPoll, warningBar } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 
@@ -23,7 +23,7 @@ export default function PollDetails() {
     question: ''
   });
   const [choices, setChoices] = useState([]);
-  let [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState({});
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
@@ -33,6 +33,7 @@ export default function PollDetails() {
   }
   
   useEffect(() => {
+    if(!router.isReady) return;
     async function fetchPoll() {
       await getPoll(id).then(async(result) => {
         setChoices(result?.options?.map((x, i) => {
@@ -54,11 +55,11 @@ export default function PollDetails() {
             if(res?.user) setUserProfile(res);
           });
         }
-        if(!currUser?.id && result?.needAuth == true) errorBar("If you want to vote for this Poll you need to be Logged in.");
+        if(!currUser?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
       })
     }
     fetchPoll();
-  }, [router.isReady])
+  }, [router.isReady]);
   
   return (
     <div className='hideOverflow'>

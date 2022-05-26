@@ -68,4 +68,17 @@ router.get("/surveys/:id", async(req, res) => {
   })  
 });
 
+router.post("/surveys/:id/vote", async(req, res) => {
+  /* Check for limit, if limit return */
+  Survey.findOneAndUpdate({ id: req.params.id }, { $push: { 
+    submitters: { 
+      user: req.body.user,
+      answers: req.body.answers,
+      date: new Date(),
+     }
+   }}, { new: true }, (err, post) => {
+     res.status(200).json(post);
+   })
+});
+
 module.exports = router;

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 
-export default function QuestionsList({ questions, handleChange, inputFields, setQuestions, currPage,
+export default function QuestionsList({ questions, answerRef, handleChange, inputFields, setQuestions, currPage,
    firstSurvey, lastSurvey }) {
   /* When using Real Database make this different - setQuestions */
-  const [pageQuestions, setPageQuestions] = useState([]);
+  const [pageQuestions, setPageQuestions] = useState(questions.slice(firstSurvey, lastSurvey));
+  console.log(pageQuestions)
 
   useEffect(() => {
     setPageQuestions(questions.slice(firstSurvey, lastSurvey));
   }, [currPage]);
 
-  return pageQuestions.map((q, i) => (
+  return pageQuestions?.map((q, i) => (
     <div className='' key={q.id}>
       <div className='text-light py-2 w-100'>
         <div className="row">
@@ -18,6 +19,7 @@ export default function QuestionsList({ questions, handleChange, inputFields, se
               <span className='text-gray500 pe-2'>{q.id}.</span>{q.text}
               {/*  defaultValue={q.text} */}
               <input type="text" className="form-control bg-maindark mt-2 mb-1 border-start border-secdark bg-secdark text-light" 
+                ref={((el) => (answerRef.current[q.id - 1] = el))}
                 onChange={(event)=> handleChange(q.id, event)}
                 defaultValue={inputFields[parseInt(q.id - 1)]}
                 placeholder={"Answer " + parseInt(q.id)} key={i + "-" + q.id} />

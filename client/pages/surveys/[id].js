@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { useRouter } from 'next/router'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
@@ -6,37 +6,29 @@ import Head from 'next/head'
 import Image from 'next/image'
 import QuestionsList from '../../components/Survey/QuestionsList'
 import Pagination from '../../components/Other/Pagination'
-import { myLoader } from '../../utils/utils'
+import { myLoader, warningBar, getSurvey } from '../../utils/utils'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function SurveyDetails() {
-  const router = useRouter()
+  const router = useRouter();
+  const { id } = router.query;
+  const currUser = useContext(UserContext)?.user;
   const answerRef = useRef([]);
   const [inputFields, setInputFields] = useState([]);
+  const [userProfile, setUserProfile] = useState({});
+  const [isLimit, setIsLimit] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currPage, setCurrPage] = useState(1);
   const [usersPerPage] = useState(5);
-  const { id } = router.query;
   const lastSurvey = currPage * usersPerPage;
   const firstSurvey = lastSurvey - usersPerPage;
 
-  const [questions, setQuestions] = useState([{
-    id: 1,
-    text: 'This is first question?'
-  }, {
-    id: 2,
-    text: 'This is second question?'
-  }, {
-    id: 3,
-    text: 'This is third question?'
-  }, {
-    id: 4,
-    text: 'This is fourth question?'
-  }, {
-    id: 5,
-    text: 'This is fifth question?'
-  }, {
-    id: 6,
-    text: 'This is sixth question?'
-  }]);
+  const [questions, setQuestions] = useState([]);
+  const [survey, setSurvey] = useState({
+    id: 0,
+    title: '',
+    description: ''
+  })
 
   const prevPage = () => currPage == 1 ? setCurrPage(currPage) : setCurrPage(currPage - 1);
   const nextPage = () => currPage == 100 ? setCurrPage(currPage) : setCurrPage(currPage + 1);
@@ -45,6 +37,43 @@ export default function SurveyDetails() {
     inputFields[index - 1] = event.target.value;
     setInputFields(inputFields)
   }
+
+  const handleSubmit = async(e) => {
+    e.preventDefault()
+    console.log(answerRef)
+    // if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    // if(isLimit == true) return errorBar(`This Poll has limit of ${result?.limit} users that can vote`);
+    // await submitSurvey(id, currUser, selected);
+  }
+
+  useEffect(() => {
+    if(!router.isReady) return;
+    async function fetchSurvey() {
+      await getSurvey(id).then(async(result) => {
+        setQuestions(result?.questions?.map((x, i) => {
+          return {
+            id: i+1,
+            text: x
+          }
+        }));
+        setSurvey(result);
+        setLoading(false);
+        if(result?.limit > 0 && result?.submitters.length == result?.limit) setIsLimit(true);
+        if(result?.user == "-1" || !result?.user) {
+          setUserProfile({
+            id: -1,
+            username: "N/A"
+          });
+        } else {
+          await getProfile(result?.user).then((res) => {
+            if(res?.user) setUserProfile(res);
+          });
+        }
+        if(!currUser?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
+      })
+    }
+    fetchSurvey();
+  }, [router.isReady]);
 
   return (
     <div className='hideOverflow'>
@@ -61,9 +90,9 @@ export default function SurveyDetails() {
               <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                 {/* TITLE & DESCRIPTION */}
                 <div className='px-md-5 mb-3 pt-4'>
-                  <p className='text-light fs-3 fw-bold mb-0'>Survey Title (#518)</p>
+                  <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
                   <p className='text-gray600'>This is what survey is about & some other details.</p>
-                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }} value={"This is poll description."} />
+                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Survey description." id="pollQuestion" style={{ height: "9rem", resize: "none" }} value={survey?.description} />
                 </div>
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Survey Questions</p>
@@ -74,21 +103,31 @@ export default function SurveyDetails() {
                 <div className="px-md-5 mb-5 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Poll Author</p>
                   <div className='mt-3'>
-
                     <div className="container g-0">
                       <div className="row">
                         <div className=''>
-                          <div className='d-flex flex-row'>
-                            <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
-                            <div className='d-flex flex-column'>
-                              <p className='text-light fw-bold ps-3 mb-0'>User Username</p>
-                              <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
-                              <div className="d-block ps-3">
-                                <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                        {
+                            userProfile?.id == -1 || !userProfile?.mail ? 
+                            <div>
+                              <p className='text-light'>- This poll was created by Guest User (learn more)</p>
+                            </div> :
+                            <>
+                              <div className='d-flex flex-row'>
+                                <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
+                                  
+                                  <div className='d-flex flex-column'>
+                                    <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
+                                    <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
+                                    <div className="d-block ps-3">
+                                      <Link href={"/profile/" + userProfile?.id}>
+                                        <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                                      </Link>
+                                    </div>
+                                  </div>
                               </div>
-                            </div>
-                          </div>
-                          <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                              <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                            </>
+                          }
                         </div>
                       </div>
                     </div>
@@ -98,7 +137,7 @@ export default function SurveyDetails() {
                   <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                 </div>
                 <div className='px-md-5 py-3 pb-4 text-center'>
-                  <button className="btn btn-primary btn-lg me-2">Vote</button>
+                  <button className="btn btn-primary btn-lg me-2" onClick={(async(e) => await handleSubmit(e))}>Vote</button>
                   {/* IF EVERYONE CAN SEE THEM */}
                   <button className="btn btn-success btn-lg ms-2">Results</button>
                 </div>

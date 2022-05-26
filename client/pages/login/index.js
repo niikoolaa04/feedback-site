@@ -45,7 +45,7 @@ export default function Login() {
             id: result.user.id,
             mail: result.user.mail
           });
-          successBar("Login successful, redirecting in 3 seconds.");
+          successBar("Login successful, redirecting in 3 seconds.", "top-right", 3000);
           setTimeout(() => router.push("/"), 3000); 
         } else if(result.code == 404 && result.type == "user") {
           errorBar("User with provided credentials couldn't be found.");
