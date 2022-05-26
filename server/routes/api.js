@@ -37,11 +37,12 @@ router.get("/polls/:id", async(req, res) => {
   })  
 });
 
-router.get("/polls/:id/vote", async(req, res) => {
+router.post("/polls/:id/vote", async(req, res) => {
+  /* Check for limit, if limit return */
   Poll.findOneAndUpdate({ id: req.params.id }, { $push: { 
     submitters: { 
       user: req.body.user,
-      vote: req.body.vote,
+      vote: parseInt(req.body.vote) - 1,
       date: new Date(),
      }
    }}, { new: true }, (err, post) => {

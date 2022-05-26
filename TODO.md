@@ -14,6 +14,7 @@
   - fixed (somehow)
 - handle guest polls
 - submit poll: handle submit
+- limit == global limit, multiple votes == user can vote multiple times
 
 **OTHER**
 

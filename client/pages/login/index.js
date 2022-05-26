@@ -9,10 +9,15 @@ import { UserContext } from '../../contexts/UserContext';
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
+  const termsRef = useRef(null);
   const { user, setUser } = useContext(UserContext);
 
   const handleLogin = async(e) => {
     e.preventDefault();
+    if(userData.current.mail.value == "") return errorBar("You need to provide Email of your Account.");
+    if(userData.current.pw.value == "") return errorBar("You didn't to provide Password of your Account.");
+    if(termsRef.current.checked == false) return errorBar("You must accept our Terms of Service");
+
     let details = {
       mail: userData.current.mail.value,
       password: userData.current.pw.value,
@@ -73,7 +78,7 @@ export default function Login() {
                   <p className='text-gray600 pt-1' style={{ fontSize: "13px" }}>Forgot password? Click to reset it.</p>
                 </div>
                 <div className="form-check">
-                  <input className="form-check-input cursor" type="checkbox" value="" id="flexCheckDefault" />
+                  <input className="form-check-input cursor" ref={termsRef} type="checkbox" value="" id="flexCheckDefault" />
                   <label className="form-check-label text-gray500" for="flexCheckDefault">Accept Terms of Service</label>
                 </div>
                 <div className='d-flex justify-content-center mt-5'>

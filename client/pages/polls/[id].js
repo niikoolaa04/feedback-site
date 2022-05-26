@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesList from '../../components/Poll/ChoicesList'
-import { getPoll, getProfile, myLoader } from '../../utils/utils'
+import { errorBar, getPoll, getProfile, myLoader, submitPoll } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
 
 export default function PollDetails() {
@@ -24,13 +24,16 @@ export default function PollDetails() {
   let [userProfile, setUserProfile] = useState({});
 
   const handleSubmit = async() => {
-    /* CHECK IF SELECTED IS -1 THEN RETURN */
+    if(selected == -1) return errorBar("You didn't choose option for which to vote.");
     await submitPoll(id, currUser, selected);
   }
   
   useEffect(() => {
     async function fetchPoll() {
       await getPoll(id).then(async(result) => {
+        if(!user?.id && result.needAuth == true) return errorBar("This Poll requires Voters to be Logged in.");
+        if(result.submitters.length == result.limit)
+          return errorBar(`This Poll has limit of ${result.limit} users that can vote`);
         setChoices(result?.options?.map((x, i) => {
           return {
             id: i+1,

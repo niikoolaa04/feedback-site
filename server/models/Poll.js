@@ -24,6 +24,9 @@ const PollSchema = new mongoose.Schema({
   },
   limit: {
     type: Number
+  },
+  needAuth: {
+    type: Boolean
   }
 });
 

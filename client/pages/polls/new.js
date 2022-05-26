@@ -6,6 +6,7 @@ import Footer from '../../components/Other/Footer'
 import ChoicesCreate from '../../components/Poll/ChoicesCreate'
 import { createPoll, successBar, errorBar, getProfile } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
+import '../../styles/Polls.module.css'
 
 export default function NewPoll() {
   const currUser = useContext(UserContext)?.user;
@@ -17,6 +18,7 @@ export default function NewPoll() {
   const inputRef = useRef([]);
   const titleRef = useRef("");
   const descriptionRef = useRef("");
+  const checksRef = useRef([]);
   const [author, setAuthor] = useState("");
 
   const removeItem = async(index) => {
@@ -107,12 +109,16 @@ export default function NewPoll() {
                   {/* CHECKMARKS */}
                   <div className='mb-5'>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                      <label className="form-check-label text-light" htmlFor="flexCheckDefault">Allow everyone to see results?</label>
+                      <input className="form-check-input" ref={((el) => (checksRef.current["results"] == el))} type="checkbox" value="" id="checkResults" />
+                      <label className="form-check-label text-light" htmlFor="checkResults">Allow everyone to see results?</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                      <label className="form-check-label text-light" htmlFor="flexCheckDefault">Does Voters need to be Registered?  </label>
+                      <input className="form-check-input" ref={((el) => (checksRef.current["auth"] == el))} type="checkbox" value="" id="checkAuth" />
+                      <label className="form-check-label text-light" htmlFor="checkAuth">Does Voters need to be Registered?</label>
+                    </div>
+                    <div className="">
+                      <input className="m-0 p-0 border-0 bg-secdark quantity" style={{ "width": "50px", "outline": "none" }} ref={((el) => (checksRef.current["limit"] == el))} type="number" id="limitNumber" />
+                      <label className="form-check-label text-light ps-2" htmlFor="limitNumber">How much users can Vote?</label>
                     </div>
                   </div>
                 </div>
