@@ -10,6 +10,8 @@ import { UserContext } from '../../contexts/UserContext'
 
 export default function NewSurvey() {
   const router = useRouter();
+
+  const currUser = useContext(UserContext);
   const [questionsList, setQuestionsList] = useState([{
     id: 1,
     text: ''
@@ -18,10 +20,8 @@ export default function NewSurvey() {
   const questionRef = useRef([]);
   const titleRef = useRef("");
   const descriptionRef = useRef("");
-  const currUser = useContext(UserContext);
 
   const removeItem = async(index) => {
-    /* Send Error Toast */
     if(index == 0 && questionsList.length == 1) return errorBar("You cannot remove first Item.");
     let inputArr = questionRef.current.map((x, ind) => {
       return {

@@ -64,7 +64,6 @@ export default function NewPoll() {
 
     await createPoll(details).then((result) => {
       if(result.code == 201) {
-        console.log(result)
         successBar("Poll have been created, redirecting.");
         setTimeout(() => router.push(`/polls/${result.response.id}`), 3000);
         return;

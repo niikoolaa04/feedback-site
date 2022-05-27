@@ -1,34 +1,36 @@
 import { useState, useEffect, useRef, useContext } from 'react'
 import { useRouter } from 'next/router'
-import Navigation from '../../components/Navigation/Navigation'
-import Footer from '../../components/Other/Footer'
+import Navigation from '../../../components/Navigation/Navigation'
+import Footer from '../../../components/Other/Footer'
 import Head from 'next/head'
 import Image from 'next/image'
-import QuestionsList from '../../components/Survey/QuestionsList'
-import Pagination from '../../components/Other/Pagination'
-import { myLoader, warningBar, getSurvey } from '../../utils/utils'
-import { UserContext } from '../../contexts/UserContext'
+import QuestionsList from '../../../components/Survey/QuestionsList'
+import Pagination from '../../../components/Other/Pagination'
+import { myLoader, warningBar, getSurvey, submitSurvey} from '../../../utils/utils'
+import { UserContext } from '../../../contexts/UserContext'
 
 export default function SurveyDetails() {
   const router = useRouter();
   const { id } = router.query;
+
   const currUser = useContext(UserContext)?.user;
   const answerRef = useRef([]);
+  
+  const [questions, setQuestions] = useState([]);
   const [inputFields, setInputFields] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [isLimit, setIsLimit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currPage, setCurrPage] = useState(1);
-  const [usersPerPage] = useState(5);
-  const lastSurvey = currPage * usersPerPage;
-  const firstSurvey = lastSurvey - usersPerPage;
-
-  const [questions, setQuestions] = useState([]);
+  const [questionsPerPage] = useState(5);
   const [survey, setSurvey] = useState({
     id: 0,
     title: '',
     description: ''
-  })
+  });
+
+  const lastSurvey = currPage * questionsPerPage;
+  const firstSurvey = lastSurvey - questionsPerPage;
 
   const prevPage = () => currPage == 1 ? setCurrPage(currPage) : setCurrPage(currPage - 1);
   const nextPage = () => currPage == 100 ? setCurrPage(currPage) : setCurrPage(currPage + 1);
@@ -40,23 +42,31 @@ export default function SurveyDetails() {
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    console.log(answerRef)
-    // if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
-    // if(isLimit == true) return errorBar(`This Poll has limit of ${result?.limit} users that can vote`);
-    // await submitSurvey(id, currUser, selected);
+    const surveyDetails = questions.map((v, i) => {
+      return {
+        id: i,
+        question: v.text,
+        answer: inputFields[i] || 'Not Answered'
+      }
+    })
+
+    // if(!currUser?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
+    // if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
+    await submitSurvey(id, currUser, surveyDetails);
+    console.log('lpgmakgnal')
   }
 
   useEffect(() => {
     if(!router.isReady) return;
     async function fetchSurvey() {
       await getSurvey(id).then(async(result) => {
-        setQuestions(result?.questions?.map((x, i) => {
+        await setQuestions(result?.questions?.map((x, i) => {
           return {
             id: i+1,
             text: x
           }
         }));
-        setSurvey(result);
+        await setSurvey(result);
         setLoading(false);
         if(result?.limit > 0 && result?.submitters.length == result?.limit) setIsLimit(true);
         if(result?.user == "-1" || !result?.user) {
@@ -97,7 +107,9 @@ export default function SurveyDetails() {
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Survey Questions</p>
                   <p className='text-gray600'>These are questions on which you can answer.</p>
-                  <QuestionsList questions={questions} inputFields={inputFields} handleChange={handleChange} setQuestions={setQuestions} lastSurvey={lastSurvey} firstSurvey={firstSurvey} currPage={currPage} answerRef={answerRef} />
+                  <QuestionsList loading={loading} questions={questions} inputFields={inputFields} handleChange={handleChange} 
+                    lastSurvey={lastSurvey} firstSurvey={firstSurvey} 
+                    currPage={currPage} answerRef={answerRef} />
                   <Pagination setCurrPage={setCurrPage} nextPage={nextPage} currPage={currPage} prevPage={prevPage} />
                 </div>
                 <div className="px-md-5 mb-5 pt-3">

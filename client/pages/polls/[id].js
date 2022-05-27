@@ -13,7 +13,10 @@ import { ToastContainer } from 'react-toastify'
 export default function PollDetails() {
   const router = useRouter();
   const { id } = router.query;
+
   const currUser = useContext(UserContext)?.user;
+  const [choices, setChoices] = useState([]);
+  const [userProfile, setUserProfile] = useState({});
   const [selected, setSelected] = useState(-1);
   const [loading, setLoading] = useState(true);
   const [isLimit, setIsLimit] = useState(false);
@@ -22,8 +25,6 @@ export default function PollDetails() {
     title: '',
     question: ''
   });
-  const [choices, setChoices] = useState([]);
-  const [userProfile, setUserProfile] = useState({});
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");

@@ -21,6 +21,7 @@
 - cancel survey
 - check for requirements
 - started survey submit
+- change style of 'answered this survey' section 
 
 **OTHER**
 
