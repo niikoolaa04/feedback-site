@@ -22,6 +22,7 @@
 - check for requirements
 - started survey submit
 - change style of 'answered this survey' section 
+- buttons for pagination
 
 **OTHER**
 
