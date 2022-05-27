@@ -13,6 +13,9 @@
 - submit poll: handle submit // done
 - limit == global limit, multiple votes == user can vote multiple times
 - check for if req. authentication, give error on click bttn and for limit ^^ // done
+- started poll results
+- fix handlesubmit
+- add message on vote
 
 **SURVEYS**
 - browse
@@ -26,5 +29,7 @@
 
 **OTHER**
 
+- myb some sort of 404 for invalid polls or surveys
+- handle invalid ids
 - rest of backend, done register and login, do messages etc
 - login bttn left margin

@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import Navigation from '../../components/Navigation/Navigation'
-import Footer from '../../components/Other/Footer'
-import ChoicesList from '../../components/Poll/ChoicesList'
-import { errorBar, getPoll, getProfile, myLoader, submitPoll, warningBar } from '../../utils/utils'
-import { UserContext } from '../../contexts/UserContext'
+import Navigation from '../../../components/Navigation/Navigation'
+import Footer from '../../../components/Other/Footer'
+import ChoicesList from '../../../components/Poll/ChoicesList'
+import { errorBar, getPoll, getProfile, myLoader, submitPoll, warningBar } from '../../../utils/utils'
+import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 
 export default function PollDetails() {
@@ -28,7 +28,7 @@ export default function PollDetails() {
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
-    if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    // if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
     if(isLimit == true) return errorBar(`This Poll has limit of ${result?.limit} users that can vote`);
     await submitPoll(id, currUser, selected);
   }
@@ -37,6 +37,11 @@ export default function PollDetails() {
     if(!router.isReady) return;
     async function fetchPoll() {
       await getPoll(id).then(async(result) => {
+        if(!result) {
+          router.push("/");
+          errorBar("Poll with such ID doesn't exist.");
+          return;
+        }
         setChoices(result?.options?.map((x, i) => {
           return {
             id: i+1,

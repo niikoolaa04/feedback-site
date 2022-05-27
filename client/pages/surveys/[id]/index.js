@@ -6,8 +6,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import QuestionsList from '../../../components/Survey/QuestionsList'
 import Pagination from '../../../components/Other/Pagination'
-import { myLoader, warningBar, getSurvey, submitSurvey} from '../../../utils/utils'
+import { myLoader, warningBar, getSurvey, submitSurvey, errorBar} from '../../../utils/utils'
 import { UserContext } from '../../../contexts/UserContext'
+import { ToastContainer } from 'react-toastify'
 
 export default function SurveyDetails() {
   const router = useRouter();
@@ -53,13 +54,17 @@ export default function SurveyDetails() {
     // if(!currUser?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
     // if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
     await submitSurvey(id, currUser, surveyDetails);
-    console.log('lpgmakgnal')
   }
 
   useEffect(() => {
     if(!router.isReady) return;
     async function fetchSurvey() {
       await getSurvey(id).then(async(result) => {
+        if(!result) {
+          router.push("/");
+          errorBar("Survey with such ID doesn't exist.");
+          return;
+        }
         await setQuestions(result?.questions?.map((x, i) => {
           return {
             id: i+1,
@@ -158,6 +163,7 @@ export default function SurveyDetails() {
           </div>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </div>
   )
