@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
-import { getAllPolls, warningBar } from '../../utils/utils'
+import { getAllPolls, warningBar, errorBar } from '../../utils/utils'
 import BrowseList from '../../components/Poll/BrowseList'
 import { ToastContainer } from 'react-toastify'
 

@@ -1,9 +1,2 @@
-POST http://localhost:3001/auth/register
+GET http://localhost:3001/api/comments/1
 Content-Type: application/json
-
-{
-  "id": "1",
-  "username": "test",
-  "mail": "test@test.com",
-  "password": "test"
-}

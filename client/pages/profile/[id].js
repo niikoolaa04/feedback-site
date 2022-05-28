@@ -1,25 +1,41 @@
-import { useState, useEffect, useRef, useContext } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { getProfile, myLoader } from '../../utils/utils'
-import { UserContext } from '../../contexts/UserContext'
+import { getProfile, myLoader, createComment, errorBar } from '../../utils/utils'
 import DescriptionBox from '../../components/Other/DescriptionBox'
+import config from '../../config.json';
 
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useContext(UserContext);
+  const commentRef = useRef("");
   let [userProfile, setUserProfile] = useState({});
+
+  const submitComment = async(e) => {
+    e.preventDefault();
+    if(commentRef.current.value == "") return errorBar("You didn't enter comment text.");
+
+    let commDetails = {
+      author: {
+        id,
+        username: userProfile?.username,
+        profilePicture: userProfile?.profilePicture
+      },
+      comment: commentRef.current.value
+    }
+
+    await createComment(commDetails);
+  }
 
   useEffect(() => {
     if(!router.isReady) return;
     async function getUserProfile() {
       await getProfile(id).then((res) => {
-        console.log(res)
+        if(!res) return console.log(res); 
         setUserProfile(res);
       });
     }
@@ -41,7 +57,7 @@ export default function Profile() {
             {/* MAIN PROFILE - USERNAME, ABOUT ME, PROFILE PICTURE */}
             <div className='mb-5'>
               <div className='d-flex flex-row'>
-                <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
+                <Image className='rounded-3 mw-100' src={userProfile?.profilePicture || config.defaultImage} loader={  myLoader} width="128px" height="128px" />
                 <div className='d-flex flex-column'>
                   <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
                   <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile?.username }
@@ -56,7 +72,7 @@ export default function Profile() {
                 </div>
                 {/* SOME BUTTON HERE */}
               </div>
-              <DescriptionBox text={userProfile?.about} height={"6rem"} />
+              <DescriptionBox text={userProfile?.about} />
             </div>
             {/* LIST OF PAST 5 POLLS */}
             <div className='mt-4'>
@@ -111,6 +127,13 @@ export default function Profile() {
               </Link>
               <button className="btn btn-success mt-3">View All Comments</button>
             </div>
+            <div className="mb-2 mt-4">
+              <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
+              <textarea className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
+            </div>
+            <button className='btn btn-success' onClick={(async(e) => {
+              await submitComment(e)
+            })}>Comment</button>
           </div>
         </div>
       </div>

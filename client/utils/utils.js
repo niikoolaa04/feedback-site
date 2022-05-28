@@ -181,6 +181,19 @@ export const submitSurvey = async(survey, user, answersList) => {
   });
 }
 
+export const createComment = async(commentDetails) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/comments/new`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(commentDetails)
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
 export const editProfile = async(profileDetails, user) => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${user}`, {
     method: "PUT",
@@ -208,6 +221,18 @@ export const getAllPolls = async() => {
 
 export const getAllSurveys = async() => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/list`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
+export const getAllComments = async(id) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/comments/${id}`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',

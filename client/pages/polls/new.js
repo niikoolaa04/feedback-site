@@ -18,12 +18,13 @@ export default function NewPoll() {
   }]);
   const inputRef = useRef([]);
   const titleRef = useRef("");
+  const shortDescRef = useRef("");
   const descriptionRef = useRef("");
   const checksRef = useRef([]);
   const [author, setAuthor] = useState("");
 
   const removeItem = async(index) => {
-    if(index == 0 && answers.length == 1) return errorBar("You can't remove the only choice.");
+    if(index == 0 && answers.length == 1) return errorBar("You can't remove the only option.");
     let inputArr = inputRef.current.map((x, ind) => {
       return {
         id: ind,
@@ -50,11 +51,16 @@ export default function NewPoll() {
 
   const submitNewPoll = async(e) => {
     e.preventDefault();
+    if(titleRef.current.value == "") return errorBar("You didn't enter Poll Title");
+    if(shortDescRef.current.value == "") return errorBar("You didn't enter Short Description");
+    if(descriptionRef.current.value == "") return errorBar("You didn't enter Poll Description");
+    if(inputRef.current.map((v) => v.value)[0] == "") return errorBar("You need to provide at least 1 option");
     if(limitNum < 1 || limitNum == "") setLimitNum(-1);
 
     let details = {
       user: author,
       title: titleRef.current.value,
+      shortDescription: shortDescRef.current.value,
       question: descriptionRef.current.value,
       options: inputRef.current.map((v) => v.value),
       limit: limitNum,
@@ -95,6 +101,10 @@ export default function NewPoll() {
                     <div className="mb-2">
                       <label htmlFor="pollTitle" className="form-label text-light">Poll Title</label>
                       <input type="text" ref={titleRef} className="form-control border-secdark bg-secdark text-light" placeholder="Title of Poll" id="pollTitle" />
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="pollShortDesc" className="form-label text-light">Short Poll Description</label>
+                      <input type="text" ref={shortDescRef} minLength={6} maxLength={256} className="form-control border-secdark bg-secdark text-light" placeholder="Short description of this Poll." id="pollShortDesc" />
                     </div>
                     <div className="mb-2">
                       <label htmlFor="pollQuestion" className="form-label text-light">Poll Question</label>

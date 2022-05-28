@@ -53,7 +53,7 @@ export default function SurveyResult() {
       <div className='px-md-5 mb-3 pt-4'>
         <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
         <p className='text-gray600'>This is what survey is about & some other details.</p>
-        <DescriptionBox text={survey?.description} height={"9rem"} />
+        <DescriptionBox text={survey?.description} />
       </div>
       <div className="px-md-5 mb-4 pt-3">
         <p className="text-light fs-3 fw-bold mb-0">Survey Questions & Answers</p>

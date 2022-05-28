@@ -6,7 +6,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import QuestionsList from '../../../components/Survey/QuestionsList'
 import Pagination from '../../../components/Other/Pagination'
-import { myLoader, warningBar, getSurvey, submitSurvey, errorBar} from '../../../utils/utils'
+import { myLoader, warningBar, getSurvey, submitSurvey, errorBar, getProfile } from '../../../utils/utils'
 import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
@@ -64,7 +64,6 @@ export default function SurveyDetails() {
       await getSurvey(id).then(async(result) => {
         if(!result) {
           router.push("/surveys");
-          errorBar("Survey with such ID doesn't exist.");
           return;
         }
         await setQuestions(result?.questions?.map((x, i) => {
@@ -75,10 +74,10 @@ export default function SurveyDetails() {
         }));
         await setSurvey(result);
 
-        if(result?.publicResults == false && result?.user == user?.id) {
+        if(result?.publicResults == false && result?.user == currUser?.id) {
           setViewResults(true)
-        } else {
-          setViewResults(false);
+        } else if(result?.publicResults == true) {
+          setViewResults(true);
         }
 
         setLoading(false);
@@ -115,8 +114,8 @@ export default function SurveyDetails() {
                 {/* TITLE & DESCRIPTION */}
                 <div className='px-md-5 mb-3 pt-4'>
                   <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
-                  <p className='text-gray600'>This is what survey is about & some other details.</p>
-                  <DescriptionBox text={survey?.description} height={"9rem"} />
+                  <p className='text-gray600'>{ survey?.shortDescription }</p>
+                  <DescriptionBox text={survey?.description} />
                 </div>
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Survey Questions</p>
@@ -151,7 +150,7 @@ export default function SurveyDetails() {
                                     </div>
                                   </div>
                               </div>
-                              <DescriptionBox text={userProfile?.about} height={"5rem"} />
+                              <DescriptionBox text={userProfile?.about} />
                             </>
                           }
                         </div>

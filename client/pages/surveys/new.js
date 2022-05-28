@@ -20,6 +20,7 @@ export default function NewSurvey() {
   const [limitNum, setLimitNum] = useState(-1);
   const questionRef = useRef([]);
   const titleRef = useRef("");
+  const shortDescRef = useRef("");
   const descriptionRef = useRef("");
   const checksRef = useRef([]);
 
@@ -45,11 +46,16 @@ export default function NewSurvey() {
 
   const submitNewSurvey = async(e) => {
     e.preventDefault();
+    if(titleRef.current.value == "") return errorBar("You didn't enter Survey Title");
+    if(shortDescRef.current.value == "") return errorBar("You didn't enter Short Description");
+    if(descriptionRef.current.value == "") return errorBar("You didn't enter Survey Description");
+    if(questionRef.current.map((v) => v.value)?.length < 1) return errorBar("You need to provide at least 1 question");
     if(limitNum < 1 || limitNum == "") setLimitNum(-1);
 
     let details = {
       user: author,
       title: titleRef.current.value,
+      shortDescription: shortDescRef.current.value,
       description: descriptionRef.current.value,
       questions: questionRef.current.map((v) => v.value),
       limit: limitNum,
@@ -90,6 +96,10 @@ export default function NewSurvey() {
                       <div className="mb-2">
                         <label htmlFor="surveyTitle" className="form-label text-light">Survey Title</label>
                         <input type="text" ref={titleRef} className="form-control border-secdark bg-secdark text-light" placeholder="Title for Survey" id="surveyTitle" />
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="survShortDesc" className="form-label text-light">Short Survey Description</label>
+                        <input type="text" ref={shortDescRef} minLength={6} maxLength={256} className="form-control border-secdark bg-secdark text-light" placeholder="Short description of this Survey." id="survShortDesc" />
                       </div>
                       <div className="mb-2">
                         <label htmlFor="surveyDescription" className="form-label text-light">Survey Description</label>

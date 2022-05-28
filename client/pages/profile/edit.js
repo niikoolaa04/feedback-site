@@ -44,6 +44,10 @@ export default function Edit() {
 
   useMemo(() => {
     if(!router.isReady) return;
+    if(!user?.id || !user?.username) {
+      router.push("/");
+      return;
+    }
     async function getUserProfile() {
       await getProfile(user?.id).then((res) => {
         setUserProfile(res);

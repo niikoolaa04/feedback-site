@@ -5,7 +5,10 @@
  - profile/[id]/comments, profile/[id]/polls..
 - markdown profile
 - comments page myb to remove even
+- leave comment
 - reputation give pos/neg
+- push polls & surveys to user
+- **STARTED COMMENTS, PUSHED THEM TO DB**
 - **CHECK FOR EDIT ROUTE**
 
 **POLLS**
@@ -33,6 +36,7 @@
 
 **OTHER**
 
+- **CHECKS FOR EMPTY FIELDS** +DONE
 - myb some sort of 404 for invalid polls or surveys
 - handle invalid ids +DONE SMTH - NEED 404
 - rest of backend, done register and login, do messages etc ++DONE - PROB. EVERYTHING?
@@ -42,4 +46,3 @@
 - **ENABLE PUBLICLIST IN EXPLORE/BROWSE**
 - **panel for managing**
 - **MAKE PUBLIC RESULTS ACCESSABLE JUST VIA CODE OR SMTH - ID PROBABLY**
-- **SET ORIGIN QUERY PARAM ON REDIRECT TO SURVEYS ...**

@@ -28,6 +28,9 @@ const UserSchema = new mongoose.Schema({
   surveys: [
     { type: mongoose.Schema.Types.ObjectId }
   ],
+  comments: [
+    { type: mongoose.Schema.Types.ObjectId }
+  ],
   latestPolls: {
     type: Boolean,
     default: true

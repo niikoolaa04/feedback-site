@@ -3,7 +3,8 @@ const User = require("../models/User");
 const Poll = require("../models/Poll");
 const Survey = require("../models/Survey");
 const cors = require("cors");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
+const Comment = require("../models/Comment");
 
 router.use(cors({
   credentials: true,
@@ -30,8 +31,15 @@ router.post("/polls/new", async(req, res) => {
   let newPoll = new Poll(req.body);
   let pollId = await Poll.estimatedDocumentCount();
 
-  newPoll.id = pollId;
+  newPoll.id = parseInt(pollId) + 1;
   await newPoll.save();
+
+  if(newPoll.user > 0) {
+    User.findOneAndUpdate({ id: newPoll.user }, { $push: {
+      newPoll: newSurvey._id
+    } });
+  }
+
   res.status(201).json({
     code: 201,
     response: newPoll
@@ -67,8 +75,15 @@ router.post("/surveys/new", async(req, res) => {
   let newSurvey = new Survey(req.body);
   let surveyId = await Survey.estimatedDocumentCount();
 
-  newSurvey.id = surveyId;
+  newSurvey.id = parseInt(surveyId) + 1;
   await newSurvey.save();
+
+  if(newSurvey.user > 0) {
+    User.findOneAndUpdate({ id: newSurvey.user }, { $push: {
+      surveys: newSurvey._id
+    } });
+  }
+
   res.status(201).json({
     code: 201,
     response: newSurvey
@@ -98,6 +113,36 @@ router.post("/surveys/:id/vote", async(req, res) => {
    }}, { new: true }, (err, post) => {
      res.status(200).json(post);
    })
+});
+
+router.post("/comments/new", async(req, res) => {
+  let newComment = new Comment(req.body);
+  let commentId = await Comment.estimatedDocumentCount();
+
+  newComment.id = parseInt(commentId) + 1;
+  await newComment.save();
+
+  User.findOneAndUpdate({ id: newComment.author.id }, { $push: {
+    comments: newComment._id
+  } }, (err, post) => {
+    res.status(201).json({
+      code: 201,
+      response: newComment
+    });
+  });
+
+});
+
+router.get("/comments/:id", async(req, res) => {
+  const id = req.params.id;
+
+  User.findOne({ id }, (err, post) => {
+    const comments = post.comments;
+    Comment.find({ _id: { $in: comments } }, (e, commentList) => {
+      res.json(commentList).status(200)
+    })
+  });
+
 });
 
 module.exports = router;

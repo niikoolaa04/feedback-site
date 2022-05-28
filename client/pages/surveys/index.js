@@ -3,11 +3,12 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
-import { getAllSurveys, warningBar } from '../../utils/utils'
+import { getAllSurveys, warningBar, errorBar } from '../../utils/utils'
 import BrowseList from '../../components/Survey/BrowseList'
 import { ToastContainer } from 'react-toastify'
 
 export default function Surveys() {
+  const router = useRouter();
   const [surveys, setSurveys] = useState([]);
   const [perPage] = useState(3);
   const [next, setNext] = useState(perPage);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useMemo } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Navigation from '../../../components/Navigation/Navigation'
@@ -99,8 +99,8 @@ export default function NewPoll() {
                 <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                   <div className='px-md-5 mb-3 pt-4'>
                     <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
-                    <p className='text-gray600'>This is what poll is about & some other details.</p>
-                    <DescriptionBox text={poll?.question} height={"9rem"} />
+                    <p className='text-gray600'>{ poll?.shortDescription }</p>
+                    <DescriptionBox text={poll?.question} />
                   </div>
                   <div className="px-md-5 mb-4 pt-3">
                     <p className="text-light fs-3 fw-bold mb-0">Poll Results</p>
@@ -150,7 +150,7 @@ export default function NewPoll() {
                                       </div>
                                     </div>
                                 </div>
-                                <DescriptionBox text={userProfile?.about} height={"5rem"} />
+                                <DescriptionBox text={userProfile?.about} />
                               </>
                             }
                           </div>

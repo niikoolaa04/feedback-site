@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 export default function BrowseList({ surveys }) {
   return surveys?.map((x, i) => (
@@ -9,7 +8,7 @@ export default function BrowseList({ surveys }) {
           <div className="col-md-6">
             <p className='text-light fw-bold mt-0 mb-1'>{ x.title } (#{ x?.id }) - <span className='text-gray500 fw-normal'>{ x?.submitters?.length } replies</span>
             </p>
-            <p className='text-light mt-0 mb-0'>{ x.description }</p>
+            <p className='text-light mt-0 mb-0'>{ x.shortDescription }</p>
           </div>
           <div className="col-md-6 justify-content-md-end pt-4 pt-md-0 pe-4 d-flex align-items-center align-middle">
             <Link href={`/surveys/${x?.id}`}>

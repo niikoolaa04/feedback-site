@@ -33,7 +33,7 @@ export default function PollDetails() {
     if(!user?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
     if(isLimit == true) return errorBar(`This Poll has limit of ${poll?.limit} users that can vote`);
     await submitPoll(id, user, selected).then((res) => {
-      if(res.publicResults == true) setTimeout(() => router.push(`/polls/${id}`), 3000);
+      if(res.publicResults == true) setTimeout(() => router.push(`/polls/${id}/results`), 3000);
       successBar("You have voted for this poll successfully.");
     });
   }
@@ -43,8 +43,7 @@ export default function PollDetails() {
     async function fetchPoll() {
       await getPoll(id).then(async(result) => {
         if(!result) {
-          router.push("/");
-          errorBar("Poll with such ID doesn't exist.");
+          router.push("/polls");
           return;
         }
         setChoices(result?.options?.map((x, i) => {
@@ -56,8 +55,8 @@ export default function PollDetails() {
         
         if(result?.publicResults == false && result?.user == user?.id) {
           setViewResults(true)
-        } else {
-          setViewResults(false);
+        } else if(result?.publicResults == true) {
+          setViewResults(true);
         }
 
         setPoll(result);
@@ -95,7 +94,7 @@ export default function PollDetails() {
                 {/* TITLE & DESCRIPTION */}
                 <div className='px-md-5 mb-3 pt-4'>
                   <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
-                  <p className='text-gray600'>This is what poll is about & some other details.</p>
+                  <p className='text-gray600'>{poll?.shortDescription}</p>
                   <DescriptionBox text={poll?.question} />
                 </div>
                 <div className="px-md-5 mb-4 pt-3">
@@ -130,7 +129,7 @@ export default function PollDetails() {
                                     </div>
                                   </div>
                               </div>
-                              <DescriptionBox text={userProfile?.about} height={"5rem"} />
+                              <DescriptionBox text={userProfile?.about} />
                             </>
                           }
                         </div>
