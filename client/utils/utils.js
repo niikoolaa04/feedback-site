@@ -181,6 +181,19 @@ export const submitSurvey = async(survey, user, answersList) => {
   });
 }
 
+export const editProfile = async(profileDetails, user) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${user}`, {
+    method: "PUT",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(profileDetails)
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
 export const getAllPolls = async() => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/list`, {
     headers: {

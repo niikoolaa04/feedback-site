@@ -1,6 +1,7 @@
 **PROFILE**
 
 - todo profile info, edit etc.
+ - profile edit checkmarks for listing of recent polls and surveys
  - profile/[id]/comments, profile/[id]/polls..
 - markdown profile
 - comments page myb to remove even

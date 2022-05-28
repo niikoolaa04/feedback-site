@@ -28,6 +28,18 @@ const UserSchema = new mongoose.Schema({
   surveys: [
     { type: mongoose.Schema.Types.ObjectId }
   ],
+  latestPolls: {
+    type: Boolean,
+    default: true
+  },
+  latestSurveys: {
+    type: Boolean,
+    default: true
+  },
+  latestComments: {
+    type: Boolean,
+    default: true
+  },
   profilePicture: {
     type: String,
     default: "https://thumbs.dreamstime.com/b/no-user-profile-picture-hand-drawn-illustration-53840792.jpg"

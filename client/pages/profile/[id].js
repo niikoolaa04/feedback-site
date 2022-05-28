@@ -11,16 +11,20 @@ import { UserContext } from '../../contexts/UserContext'
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
-  const user = useContext(UserContext)?.user;
+  const { user } = useContext(UserContext);
   let [userProfile, setUserProfile] = useState({});
 
-  async function getUserProfile() {
-    await getProfile(id).then((res) => setUserProfile(res));
-  }
-
   useEffect(() => {
+    if(!router.isReady) return;
+    async function getUserProfile() {
+      await getProfile(id).then((res) => {
+        console.log(res)
+        setUserProfile(res);
+      });
+    }
+    
     getUserProfile();
-  }, []);
+  }, [router.isReady]);
   
   return (
     <div className='hideOverflow'>
@@ -38,8 +42,8 @@ export default function Profile() {
               <div className='d-flex flex-row'>
                 <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
                 <div className='d-flex flex-column'>
-                  <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile.profileName }</p>
-                  <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile.username }
+                  <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
+                  <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile?.username }
                     <span className='cursor text-gray500'>
                       <svg xmlns="http://www.w3.org/2000/svg" className='ms-2' style={{ height: "16px", width: "16px" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -51,7 +55,7 @@ export default function Profile() {
                 </div>
                 {/* SOME BUTTON HERE */}
               </div>
-              <textarea disabled className="form-control border-secdark bg-secdark mt-4 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={userProfile.about} />
+              <textarea disabled className="form-control border-secdark bg-secdark mt-4 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={userProfile?.about} />
             </div>
             {/* LIST OF PAST 5 POLLS */}
             <div className='mt-4'>

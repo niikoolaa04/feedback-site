@@ -19,6 +19,13 @@ router.get("/users/:id", async(req, res) => {
   })
 });
 
+router.put("/users/:id", async(req, res) => {
+  let profile = req.params.id;
+  User.findOneAndUpdate({ id: profile }, req.body, { new: true }, (err, post) => {
+    res.status(200).json(post);
+  })
+});
+
 router.post("/polls/new", async(req, res) => {
   let newPoll = new Poll(req.body);
   let pollId = await Poll.estimatedDocumentCount();
