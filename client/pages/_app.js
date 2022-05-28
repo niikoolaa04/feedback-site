@@ -5,7 +5,7 @@ import { dom } from "@fortawesome/fontawesome-svg-core";
 import '../scss/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
-import { getCurrentUser } from '../utils/utils';
+import { decodeToken, getProfile } from '../utils/utils';
 import { UserContext } from '../contexts/UserContext'
 
 function MyApp({ Component, pageProps }) {
@@ -24,7 +24,24 @@ function MyApp({ Component, pageProps }) {
       });
     }
     async function getUser() {
-      await getCurrentUser(setUser)
+      await decodeToken().then(async(res) => {
+        await getProfile(res?.id).then(async(usr) => {
+          if(!usr) return setUser({
+            id: null,
+            username: null,
+            profileName: null,
+            mail: null,
+            picture: null            
+          })
+          setUser({
+            id: usr?.id,
+            username: usr?.username,
+            profileName: usr?.profileName,
+            mail: usr?.mail,
+            picture: usr?.profilePicture
+          });
+        })
+      })
     }
 
     loadBootstrap();

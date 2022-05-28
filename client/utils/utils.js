@@ -57,8 +57,8 @@ export const isLogged = async() => {
   return logStatus;
 }
 
-export const getCurrentUser = async(setUser) => {
-  let logStatus = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/decode`, {
+export const decodeToken = async() => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/decode`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -68,8 +68,6 @@ export const getCurrentUser = async(setUser) => {
     const result = await res.json();
     return result;
   });
-
-  setUser(logStatus);
 }
 
 export const getProfile = async(user) => {

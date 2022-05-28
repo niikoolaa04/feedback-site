@@ -35,3 +35,4 @@
 - rest of backend, done register and login, do messages etc ++DONE - PROB. EVERYTHING?
 - login bttn left margin
 - comment polls & surveys
+- add logout message

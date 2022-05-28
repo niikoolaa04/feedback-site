@@ -39,7 +39,6 @@ export default function Login() {
         } else if(result.code == 200) {
           cookie.set("token", result.token, {
             expires: 1,
-            path: '/'
           });
           setUser({
             id: result.user.id,

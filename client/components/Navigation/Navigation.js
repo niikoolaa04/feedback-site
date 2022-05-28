@@ -5,9 +5,10 @@ import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
   , faMagnifyingGlassChart, faUserPlus, faScroll
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../contexts/UserContext';
+import cookie from 'js-cookie'
 
 export default function Navigation({ active = "home" }) {
-  const user = useContext(UserContext)?.user;
+  const { user, setUser } = useContext(UserContext);
 
   const isActive = (page) => {
     if(active == page) return " active";
@@ -105,11 +106,18 @@ export default function Navigation({ active = "home" }) {
                     </li>
                     <li><hr className="dropdown-divider" /></li>
                     <li>
-                      <Link href="/api/logout" >
-                        <a className="dropdown-item text-light">
-                          <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
-                        </a>
-                      </Link>
+                      <a className="dropdown-item text-light" onClick={(() => {
+                        cookie.remove("token")
+                        setUser({
+                          id: null,
+                          username: null,
+                          profileName: null,
+                          mail: null,
+                          picture: null 
+                        });
+                      })}>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
+                      </a>
                     </li>
                   </ul>
                 </li>
