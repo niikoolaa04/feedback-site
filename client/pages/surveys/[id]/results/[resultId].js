@@ -102,15 +102,20 @@ export default function SurveyDetails() {
                     </div>
                   </div>
                 </div>
-                <button className='btn btn-secondary btn-lg' onClick={(() => {
-                  setLoading(true)
-                  router.push(`/surveys/${id}/results/${parseInt(resultId) - 1}`)
-                })}>Prev Page</button>
-                <button className='btn btn-secondary btn-lg' onClick={(() => {
-                  setLoading(true)
-                  router.push(`/surveys/${id}/results/${parseInt(resultId) + 1}`)
-                })}>Next Page</button>
-              </div>
+                <div className="d-flex justify-content-center pb-3">
+                  <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
+                </div>
+                <div className='px-md-5 py-3 pb-4 text-center'>
+                  <button className="btn btn-primary btn-lg me-2" onClick={(() => {
+                    setLoading(true)
+                    router.push(`/surveys/${id}/results/${parseInt(resultId) - 1}`)
+                  })}>Prev. Page</button>
+                  <button className="btn btn-primary btn-lg me-2" onClick={(() => {
+                    setLoading(true)
+                    router.push(`/surveys/${id}/results/${parseInt(resultId) + 1}`)
+                  })}>Next Page</button>
+                </div>
+                </div>
               </div>
             </div>
           </div>

@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { getProfile, myLoader } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
-import '../../styles/Profile.module.css'
 
 export default function Profile() {
   const router = useRouter();

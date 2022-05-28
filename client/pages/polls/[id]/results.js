@@ -16,7 +16,16 @@ export default function NewPoll() {
 
   const [poll, setPoll] = useState({});
   const [userProfile, setUserProfile] = useState({});
-  const [pollVotes, setPollVotes] = useState([]);
+  const [pollVotes, setPollVotes] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Poll results",
+        data: [0],
+        backgroundColor: []
+      }
+    ]
+  });
 
   useEffect(() => {
     if(!router.isReady) return;
@@ -27,29 +36,27 @@ export default function NewPoll() {
           errorBar("Poll with such ID doesn't exist.");
           return;
         }
+        const pollOptions = result?.options?.map((v) => v);
+        const votesList = result?.submitters.map((v) => v.vote);
+        let chartArr = [];
+        let bgColors = [];
+
+        pollOptions.forEach((x, i) => {
+          bgColors.push("#" + Math.floor(Math.random()*16777215).toString(16))
+          chartArr.push(votesList.filter((j) => pollOptions[j] == x).length)
+        })
+
         setPollVotes({
-          labels: result?.options?.map((v) => v),
+          labels: pollOptions,
           datasets: [
             {
               label: "Poll results",
-              data: result?.submitters?.map((v, i) => {
-                return result?.options[v?.vote];
-              }),
-              backgroundColor: [
-                "#ffbb11",
-                "#ecf0f1",
-                "#50AF95",
-                "#f3ba2f",
-                "#2a71d0"
-              ]
+              data: chartArr,
+              backgroundColor: bgColors
             }
           ]
         });
-        console.log(pollVotes)
-        console.log(result?.submitters?.map((v, i) => {
-          return result?.options[v?.vote];
-        }))
-        console.log(result?.options?.map((v) => v))
+
         setPoll(result);
         if(result?.user == "-1" || !result?.user) {
           setUserProfile({
@@ -79,20 +86,72 @@ export default function NewPoll() {
           <div className="container py-6">
             <div className="row d-flex justify-content-center">
               <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
-                {/* FORMS */}
-                <div className='px-md-5'>
-                  <div className='mb-3'>
-                  {/* <Pie
-                      data={pollVotes}
-                    /> */}
+                <div className='px-md-5 mb-3 pt-4'>
+                  <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
+                  <p className='text-gray600'>This is what poll is about & some other details.</p>
+                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }}  value={poll?.question} />
+                </div>
+                <div className="px-md-5 mb-4 pt-3">
+                  <p className="text-light fs-3 fw-bold mb-0">Poll Results</p>
+                  <p className='text-gray600'>Results of how Users voted for this Poll.</p>
+                  <Pie
+                    data={pollVotes}
+                    options={{
+                      aspectRatio: 2,
+                      responsive: true,
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: "Poll Results",
+                          color: "#f0f0f0",
+                          fullSize: true
+                        },
+                        legend: {
+                          fullSize: true,
+                          position: 'bottom',
+                        }
+                      }
+                    }}
+                  />
+                </div>
+                <div className="px-md-5 mb-5 pt-3">
+                  <p className="text-light fs-3 fw-bold mb-0">Poll Author</p>
+                  <div className='mt-3'>
+                    <div className="container g-0">
+                      <div className="row">
+                        <div className=''>
+                          {
+                            userProfile?.id == -1 || !userProfile?.mail ? 
+                            <div>
+                              <p className='text-light'>- This poll was created by Guest User (learn more)</p>
+                            </div> :
+                            <>
+                              <div className='d-flex flex-row'>
+                                <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
+                                  
+                                  <div className='d-flex flex-column'>
+                                    <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
+                                    <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
+                                    <div className="d-block ps-3">
+                                      <Link href={"/profile/" + userProfile?.id}>
+                                        <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                                      </Link>
+                                    </div>
+                                  </div>
+                              </div>
+                              <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                            </>
+                          }
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="d-flex justify-content-center pb-3">
                   <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                 </div>
                 <div className='px-5 py-3 pb-4 text-center'>
-                  <button type='submit' className="btn btn-primary btn-lg me-2">Finish</button>
-                  <button onClick={(() => router.push("/"))} className="btn btn-danger btn-lg ms-2">Cancel</button>
+                  <button onClick={(() => router.push(`/polls/${id}`))} className="btn btn-danger btn-lg ms-2">Go Back</button>
                 </div>
               </div>
             </div>

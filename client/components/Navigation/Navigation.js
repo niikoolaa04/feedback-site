@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faSquarePollVertical,faNewspaper
-  , faMagnifyingGlassChart, faUserPlus
-  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
+  , faMagnifyingGlassChart, faUserPlus, faScroll
+  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../contexts/UserContext';
 
 export default function Navigation({ active = "home" }) {
@@ -50,19 +50,44 @@ export default function Navigation({ active = "home" }) {
                   </a>
                 </Link>
               </li>
-              <li className="nav-item px-2">
-                <Link href={"/polls/browse"}>
-                  <a className={"nav-link" + isActive("polls_browse")}>
-                    <FontAwesomeIcon icon={faMagnifyingGlassChart} size="1x" className='pe-2 align-base' />Browse Polls
-                  </a>
-                </Link>
-              </li>
+              <div className='dropBrowse'>
+                <li className="nav-item dropHoverEffect dropdown list-unstyled cursor">
+                  <div className="nav-item px-2">
+                      <a className={"nav-link" + isActive("survey")}>
+                        <FontAwesomeIcon icon={faMagnifyingGlassChart} size="1x" className='pe-2 align-base' />Browse
+                      </a>
+                  </div>
+                  <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
+                    <li>
+                      <Link href="/polls">
+                        <a className="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faBarsProgress} size="1x" className='pe-3 align-base' />Polls
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/surveys">
+                        <a className="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faScroll} size="1x" className='pe-3 align-base' />Surveys
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </div>
             </ul>
             {
               user.mail != null ?
               <div>
                 <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100 cursor">
-                  <img className='rounded-circle' style={{ width: "42px", height: "42px" }} data-bs-toggle="dropdown" src="https://www.komysafety.com/images/banner/no-image.png" alt="" />
+                  <div className='d-flex align-items-center mt-3 mt-md-0' data-bs-toggle="dropdown">
+                    <img className='rounded-circle' style={{ width: "42px", height: "42px" }} src={ user?.picture } alt="" />
+                    <div className='flex-col ms-3 lh-sm'>
+                      <p className='text-light mb-0 mt-0'>{ user.profileName }</p>
+                      <p className='text-gray500 mb-0 mt-0 fs-7'>@{ user.username }</p>
+                    </div>
+                    <FontAwesomeIcon icon={faAngleDown} size="1x" className='align-base ps-3 text-gray500' />
+                  </div>
                   <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
                     <li>
                       <Link href={`/profile/${user.id}`}>
@@ -98,7 +123,7 @@ export default function Navigation({ active = "home" }) {
                       </a>
                     </Link>
                   </li>
-                  <li className="nav-item px-2 bg-primary rounded-3 my-md-0 ms-md-2">
+                  <li className="nav-item px-2 bg-primary rounded-3 my-md-0 me-md-2">
                     <Link href={"/register"}>
                       <a className='nav-link active'>
                         <FontAwesomeIcon icon={faUserPlus} size="1x" className='pe-2 align-base' />Register

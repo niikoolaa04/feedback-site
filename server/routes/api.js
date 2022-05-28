@@ -31,6 +31,12 @@ router.post("/polls/new", async(req, res) => {
   });
 });
 
+router.get("/polls/list", async(req, res) => {
+  Poll.find({ }, (err, post) => {
+    res.status(200).json(post);
+  })
+});
+
 router.get("/polls/:id", async(req, res) => {
   Poll.findOne({ id: req.params.id }, (err, post) => {
     res.status(200).json(post);
@@ -60,6 +66,12 @@ router.post("/surveys/new", async(req, res) => {
     code: 201,
     response: newSurvey
   });
+});
+
+router.get("/surveys/list", async(req, res) => {
+  Survey.find({ }, (err, post) => {
+    res.status(200).json(post);
+  })
 });
 
 router.get("/surveys/:id", async(req, res) => {

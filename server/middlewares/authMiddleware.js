@@ -28,6 +28,9 @@ const loginValidation = async(req, res, next) => {
       } else {
         req.invalidPassword = false;
       }
+      req.username = post.username;
+      req.profileName = post.profileName;
+      req.picture = post.profilePicture;
       req.userId = post.id;
       next();
     }

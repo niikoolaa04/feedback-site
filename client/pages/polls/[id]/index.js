@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Navigation from '../../../components/Navigation/Navigation'
 import Footer from '../../../components/Other/Footer'
 import ChoicesList from '../../../components/Poll/ChoicesList'
-import { errorBar, getPoll, getProfile, myLoader, submitPoll, warningBar } from '../../../utils/utils'
+import { errorBar, getPoll, getProfile, myLoader, submitPoll, successBar, warningBar } from '../../../utils/utils'
 import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 
@@ -28,9 +28,12 @@ export default function PollDetails() {
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
-    // if(!currUser?.id && result?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
-    if(isLimit == true) return errorBar(`This Poll has limit of ${result?.limit} users that can vote`);
-    await submitPoll(id, currUser, selected);
+    if(!currUser?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    if(isLimit == true) return errorBar(`This Poll has limit of ${poll?.limit} users that can vote`);
+    await submitPoll(id, currUser, selected).then((res) => {
+      if(res.publicResults == true) setTimeout(() => router.push(`/polls/${id}/results`), 3000);
+      successBar("You have voted for this poll successfully.");
+    });
   }
   
   useEffect(() => {
@@ -135,7 +138,12 @@ export default function PollDetails() {
                     await handleSubmit()
                   })}>Vote</button>
                   {/* IF EVERYONE CAN SEE THEM */}
-                  <button className="btn btn-success btn-lg ms-2">Results</button>
+                  {
+                    poll?.publicResults == true ? 
+                    <Link href={`/polls/${id}/results`}>
+                      <button className="btn btn-success btn-lg ms-2">Results</button>
+                    </Link> : ''
+                  }
                 </div>
               </div>
             </div>

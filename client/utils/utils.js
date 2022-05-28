@@ -182,3 +182,27 @@ export const submitSurvey = async(survey, user, answersList) => {
     return result;
   });
 }
+
+export const getAllPolls = async() => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/list`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
+export const getAllSurveys = async() => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/list`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}

@@ -59,7 +59,10 @@ router.post("/login", loginValidation, (req, res) => {
       message: "Login Successful",
       user: {
         id: req.userId,
+        username: req.username,
+        profileName: req.profileName,
         mail: req.body.mail,
+        picture: req.picture
       }
      });
   } else if(req.accountExist == false || req.invalidPassword == true) {

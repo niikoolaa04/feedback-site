@@ -65,3 +65,7 @@ input:-webkit-autofill:active{
   -webkit-appearance: none;
   margin: 0;
 }
+
+.dropBrowse li:hover>.dropdown-menu {
+  display: block;
+}

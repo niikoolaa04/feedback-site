@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
   ],
   profilePicture: {
     type: String,
-    default: "https://www.komysafety.com/images/banner/no-image.png"
+    default: "https://thumbs.dreamstime.com/b/no-user-profile-picture-hand-drawn-illustration-53840792.jpg"
   },
 });
 
