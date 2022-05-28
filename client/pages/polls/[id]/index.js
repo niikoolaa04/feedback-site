@@ -14,12 +14,13 @@ export default function PollDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const currUser = useContext(UserContext)?.user;
+  const { user } = useContext(UserContext);
   const [choices, setChoices] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [selected, setSelected] = useState(-1);
   const [loading, setLoading] = useState(true);
   const [isLimit, setIsLimit] = useState(false);
+  const [viewResults, setViewResults] = useState(false);
   const [poll, setPoll] = useState({
     id: 0,
     title: '',
@@ -28,10 +29,10 @@ export default function PollDetails() {
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
-    if(!currUser?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    if(!user?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
     if(isLimit == true) return errorBar(`This Poll has limit of ${poll?.limit} users that can vote`);
-    await submitPoll(id, currUser, selected).then((res) => {
-      if(res.publicResults == true) setTimeout(() => router.push(`/polls/${id}/results`), 3000);
+    await submitPoll(id, user, selected).then((res) => {
+      if(res.publicResults == true) setTimeout(() => router.push(`/polls/${id}`), 3000);
       successBar("You have voted for this poll successfully.");
     });
   }
@@ -51,6 +52,13 @@ export default function PollDetails() {
             text: x
           }
         }));
+        
+        if(result?.publicResults == false && result?.user == user?.id) {
+          setViewResults(true)
+        } else {
+          setViewResults(false);
+        }
+
         setPoll(result);
         setLoading(false);
         if(result?.limit > 0 && result?.submitters.length == result?.limit) setIsLimit(true);
@@ -64,7 +72,7 @@ export default function PollDetails() {
             if(res?.user) setUserProfile(res);
           });
         }
-        if(!currUser?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
+        if(!user?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
       })
     }
     fetchPoll();
@@ -137,9 +145,9 @@ export default function PollDetails() {
                     e.preventDefault()
                     await handleSubmit()
                   })}>Vote</button>
-                  {/* IF EVERYONE CAN SEE THEM */}
+
                   {
-                    poll?.publicResults == true ? 
+                    viewResults == true ? 
                     <Link href={`/polls/${id}/results`}>
                       <button className="btn btn-success btn-lg ms-2">Results</button>
                     </Link> : ''

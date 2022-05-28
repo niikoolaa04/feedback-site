@@ -3,18 +3,19 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Navigation from '../../../components/Navigation/Navigation'
 import Footer from '../../../components/Other/Footer'
-import ChoicesCreate from '../../../components/Poll/ChoicesCreate'
+import Loading from '../../../components/Other/Loading'
 import { UserContext } from '../../../contexts/UserContext'
 import { getPoll } from '../../../utils/utils'
 import { Pie } from 'react-chartjs-2'
 import 'chart.js/auto';
 
 export default function NewPoll() {
-  const currUser = useContext(UserContext)?.user;
+  const { user } = useContext(UserContext);
   const router = useRouter();
-  const {id } = router.query;
+  const { id } = router.query;
 
   const [poll, setPoll] = useState({});
+  const [publicResults, setPublicResults] = useState(true);
   const [userProfile, setUserProfile] = useState({});
   const [pollVotes, setPollVotes] = useState({
     labels: [],
@@ -36,6 +37,7 @@ export default function NewPoll() {
           errorBar("Poll with such ID doesn't exist.");
           return;
         }
+        setPublicResults(result?.publicResults || true);
         const pollOptions = result?.options?.map((v) => v);
         const votesList = result?.submitters.map((v) => v.vote);
         let chartArr = [];
@@ -73,6 +75,12 @@ export default function NewPoll() {
     fetchPoll();
   }, [router.isReady]);
 
+  useMemo(() => {
+    if(poll?.publicResults == false && poll?.user !== user.id) {
+      return router.push("/polls");
+    }
+  }, [user, router.isReady, poll]);
+
   return (
     <div className='hideOverflow'>
       <Navigation active='polls' />
@@ -84,77 +92,80 @@ export default function NewPoll() {
       <div>
         <div className="bg-maindark">
           <div className="container py-6">
-            <div className="row d-flex justify-content-center">
-              <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
-                <div className='px-md-5 mb-3 pt-4'>
-                  <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
-                  <p className='text-gray600'>This is what poll is about & some other details.</p>
-                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }}  value={poll?.question} />
-                </div>
-                <div className="px-md-5 mb-4 pt-3">
-                  <p className="text-light fs-3 fw-bold mb-0">Poll Results</p>
-                  <p className='text-gray600'>Results of how Users voted for this Poll.</p>
-                  <Pie
-                    data={pollVotes}
-                    options={{
-                      aspectRatio: 2,
-                      responsive: true,
-                      plugins: {
-                        title: {
-                          display: true,
-                          text: "Poll Results",
-                          color: "#f0f0f0",
-                          fullSize: true
-                        },
-                        legend: {
-                          fullSize: true,
-                          position: 'bottom',
-                        }
-                      }
-                    }}
-                  />
-                </div>
-                <div className="px-md-5 mb-5 pt-3">
-                  <p className="text-light fs-3 fw-bold mb-0">Poll Author</p>
-                  <div className='mt-3'>
-                    <div className="container g-0">
-                      <div className="row">
-                        <div className=''>
-                          {
-                            userProfile?.id == -1 || !userProfile?.mail ? 
-                            <div>
-                              <p className='text-light'>- This poll was created by Guest User (learn more)</p>
-                            </div> :
-                            <>
-                              <div className='d-flex flex-row'>
-                                <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
-                                  
-                                  <div className='d-flex flex-column'>
-                                    <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
-                                    <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
-                                    <div className="d-block ps-3">
-                                      <Link href={"/profile/" + userProfile?.id}>
-                                        <button className='btn btn-primary btn-sm'>Visit Profile</button>
-                                      </Link>
-                                    </div>
-                                  </div>
-                              </div>
-                              <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
-                            </>
+            {
+              publicResults == false && (!user?.id || !user?.mail || !user?.id) ? <Loading w={"128px"} h={"128px"} /> :
+              <div className="row d-flex justify-content-center">
+                <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
+                  <div className='px-md-5 mb-3 pt-4'>
+                    <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
+                    <p className='text-gray600'>This is what poll is about & some other details.</p>
+                    <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }}  value={poll?.question} />
+                  </div>
+                  <div className="px-md-5 mb-4 pt-3">
+                    <p className="text-light fs-3 fw-bold mb-0">Poll Results</p>
+                    <p className='text-gray600'>Results of how Users voted for this Poll.</p>
+                    <Pie
+                      data={pollVotes}
+                      options={{
+                        aspectRatio: 2,
+                        responsive: true,
+                        plugins: {
+                          title: {
+                            display: true,
+                            text: "Poll Results",
+                            color: "#f0f0f0",
+                            fullSize: true
+                          },
+                          legend: {
+                            fullSize: true,
+                            position: 'bottom',
                           }
+                        }
+                      }}
+                    />
+                  </div>
+                  <div className="px-md-5 mb-5 pt-3">
+                    <p className="text-light fs-3 fw-bold mb-0">Poll Author</p>
+                    <div className='mt-3'>
+                      <div className="container g-0">
+                        <div className="row">
+                          <div className=''>
+                            {
+                              userProfile?.id == -1 || !userProfile?.mail ? 
+                              <div>
+                                <p className='text-light'>- This poll was created by Guest User (learn more)</p>
+                              </div> :
+                              <>
+                                <div className='d-flex flex-row'>
+                                  <Image className='rounded-3 mw-100' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="128px" height="128px" />
+                                    
+                                    <div className='d-flex flex-column'>
+                                      <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
+                                      <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
+                                      <div className="d-block ps-3">
+                                        <Link href={"/profile/" + userProfile?.id}>
+                                          <button className='btn btn-primary btn-sm'>Visit Profile</button>
+                                        </Link>
+                                      </div>
+                                    </div>
+                                </div>
+                                <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                              </>
+                            }
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="d-flex justify-content-center pb-3">
-                  <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
-                </div>
-                <div className='px-5 py-3 pb-4 text-center'>
-                  <button onClick={(() => router.push(`/polls/${id}`))} className="btn btn-danger btn-lg ms-2">Go Back</button>
+                  <div className="d-flex justify-content-center pb-3">
+                    <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
+                  </div>
+                  <div className='px-5 py-3 pb-4 text-center'>
+                    <button onClick={(() => router.push(`/polls/${id}`))} className="btn btn-danger btn-lg ms-2">Go Back</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>

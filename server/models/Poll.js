@@ -9,9 +9,11 @@ const PollSchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    required: true
   },
   question: {
     type: String,
+    required: true
   },
   options: {
     type: Array,
@@ -22,13 +24,20 @@ const PollSchema = new mongoose.Schema({
     default: []
   },
   limit: {
-    type: Number
+    type: Number,
+    default: -1
   },
   needAuth: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   publicResults: {
-    type: Boolean
+    type: Boolean,
+    default: true,
+  },
+  publicList: {
+    type: Boolean,
+    default: true
   }
 });
 

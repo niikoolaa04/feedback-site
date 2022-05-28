@@ -17,9 +17,11 @@ export default function NewSurvey() {
     text: ''
   }]);
   const [author, setAuthor] = useState("");
+  const [limitNum, setLimitNum] = useState(-1);
   const questionRef = useRef([]);
   const titleRef = useRef("");
   const descriptionRef = useRef("");
+  const checksRef = useRef([]);
 
   const removeItem = async(index) => {
     if(index == 0 && questionsList.length == 1) return errorBar("You cannot remove first Item.");
@@ -43,11 +45,17 @@ export default function NewSurvey() {
 
   const submitNewSurvey = async(e) => {
     e.preventDefault();
+    if(limitNum < 1 || limitNum == "") setLimitNum(-1);
+
     let details = {
       user: author,
       title: titleRef.current.value,
       description: descriptionRef.current.value,
-      questions: questionRef.current.map((v) => v.value)
+      questions: questionRef.current.map((v) => v.value),
+      limit: limitNum,
+      needAuth: checksRef.current.auth.checked,
+      publicResults: checksRef.current.results.checked,
+      publicList: checksRef.current.explore.checked
     }
 
     await createSurvey(details).then((result) => {
@@ -103,12 +111,20 @@ export default function NewSurvey() {
                     {/* CHECKMARKS */}
                     <div className='mb-5'>
                       <div className="form-check">
-                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                        <input className="form-check-input" ref={((el) => (checksRef.current["results"] = el))} defaultChecked={true} type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label text-light" htmlFor="flexCheckDefault">Allow everyone to see results?</label>
                       </div>
                       <div className="form-check">
                         <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                        <label className="form-check-label text-light" htmlFor="flexCheckDefault">Does Voters need to be Registered?  </label>
+                        <label className="form-check-label text-light" ref={((el) => (checksRef.current["auth"] = el))} htmlFor="flexCheckDefault">Does Users need to be Registered?</label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" ref={((el) => (checksRef.current["explore"] = el))} defaultChecked={true} type="checkbox" value="" id="explorePoll" />
+                        <label className="form-check-label text-light" htmlFor="explorePoll">Is this Poll Listed in 'Explore Polls' section?</label>
+                      </div>
+                      <div className="">
+                        <input className="m-0 p-0 bg-secdark limitNumber text-light rounded-1 border-0" onChange={((e) => setLimitNum(e.target.value))} style={{ "width": "50px", "outline": "none" }} type="number" id="limitNumber" />
+                        <label className="form-check-label text-light ps-2" htmlFor="limitNumber">How much users can answer Survey?</label>
                       </div>
                     </div>
                   </div>
@@ -116,8 +132,8 @@ export default function NewSurvey() {
                     <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                   </div>
                   <div className='px-5 py-3 pb-4 text-center'>
-                    <button className="btn btn-primary btn-lg me-2">Finish</button>
-                    <button className="btn btn-danger btn-lg ms-2">Cancel</button>
+                    <button type="submit" className="btn btn-primary btn-lg me-2">Finish</button>
+                    <button type="button" onClick={(() => router.push("/surveys"))} className="btn btn-danger btn-lg ms-2">Cancel</button>
                   </div>
                 </div>
               </div>

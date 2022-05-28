@@ -23,6 +23,7 @@ export default function SurveyDetails() {
   const [isLimit, setIsLimit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currPage, setCurrPage] = useState(1);
+  const [viewResults, setViewResults] = useState(false);
   const [questionsPerPage] = useState(5);
   const [survey, setSurvey] = useState({
     id: 0,
@@ -51,8 +52,8 @@ export default function SurveyDetails() {
       }
     })
 
-    // if(!currUser?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
-    // if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
+    if(!currUser?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
+    if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
     await submitSurvey(id, currUser, surveyDetails);
   }
 
@@ -72,6 +73,13 @@ export default function SurveyDetails() {
           }
         }));
         await setSurvey(result);
+
+        if(result?.publicResults == false && result?.user == user?.id) {
+          setViewResults(true)
+        } else {
+          setViewResults(false);
+        }
+
         setLoading(false);
         if(result?.limit > 0 && result?.submitters.length == result?.limit) setIsLimit(true);
         if(result?.user == "-1" || !result?.user) {
@@ -154,9 +162,12 @@ export default function SurveyDetails() {
                   <div className='bg-gray700' style={{ width: "30rem", height: "1px" }} />
                 </div>
                 <div className='px-md-5 py-3 pb-4 text-center'>
-                  <button className="btn btn-primary btn-lg me-2" onClick={(async(e) => await handleSubmit(e))}>Vote</button>
-                  {/* IF EVERYONE CAN SEE THEM */}
-                  <button className="btn btn-success btn-lg ms-2">Results</button>
+                  <button type='submit' className="btn btn-primary btn-lg me-2" onClick={(async(e) => await handleSubmit(e))}>Vote</button>
+                  {
+                    viewResults == true ? 
+                    <button type='button' className="btn btn-success btn-lg ms-2">Results</button>
+                    : ''
+                  }
                 </div>
               </div>
             </div>

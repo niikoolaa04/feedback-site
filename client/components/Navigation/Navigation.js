@@ -6,6 +6,8 @@ import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../contexts/UserContext';
 import cookie from 'js-cookie'
+import { ToastContainer } from 'react-toastify'
+import { successBar } from '../../utils/utils'
 
 export default function Navigation({ active = "home" }) {
   const { user, setUser } = useContext(UserContext);
@@ -107,7 +109,7 @@ export default function Navigation({ active = "home" }) {
                     <li><hr className="dropdown-divider" /></li>
                     <li>
                       <a className="dropdown-item text-light" onClick={(() => {
-                        cookie.remove("token")
+                        cookie.remove("token");
                         setUser({
                           id: null,
                           username: null,
@@ -115,6 +117,7 @@ export default function Navigation({ active = "home" }) {
                           mail: null,
                           picture: null 
                         });
+                        successBar("Logged out successfully")
                       })}>
                         <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out
                       </a>
@@ -143,6 +146,7 @@ export default function Navigation({ active = "home" }) {
           </div>
         </div>
       </nav>
+      <ToastContainer />
     </div>
   )
 }

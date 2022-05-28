@@ -9,9 +9,11 @@ const SurveySchema = new mongoose.Schema({
   },
   title: {
     type: String,
+    required: true
   },
   description: {
     type: String,
+    required: true
   },
   questions: {
     type: Array,
@@ -22,13 +24,20 @@ const SurveySchema = new mongoose.Schema({
     default: []
   },
   limit: {
-    type: Number
+    type: Number,
+    default: -1
   },
   needAuth: {
-    type: Boolean
+    type: Boolean,
+    default: false,
   },
   publicResults: {
-    type: Boolean
+    type: Boolean,
+    default: false
+  },
+  publicList: {
+    type: Boolean,
+    default: true,
   }
 });
 

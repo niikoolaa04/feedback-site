@@ -3,6 +3,7 @@ import Image from 'next/image'
 import ScrollOpacity from '../components/Animation/ScrollOpacity';
 import Navigation from '../components/Navigation/Navigation'
 import Footer from '../components/Other/Footer';
+import Link from 'next/link';
 import { myLoader } from '../utils/utils';
 
 export default function Home() {
@@ -58,8 +59,12 @@ export default function Home() {
                   <p className="title fs-3 fw-bold pb-0 mb-1">Polls</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
                   <p className='text-gray500 text-wrap mt-3 w-100'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                  <button className="btn btn-primary mt-3 me-3">Create Poll</button>
-                  <button className="btn btn-primary mt-3">Browse Polls</button>
+                  <Link href={"/polls/new"}>
+                    <button className="btn btn-primary mt-3 me-3">Create Poll</button>
+                  </Link>
+                  <Link href={"/polls"}>
+                    <button className="btn btn-primary mt-3">Browse Polls</button>
+                  </Link>
                 </div>
                 <div className="col-md-7 pt-5 pt-md-0">
                   <Image className='' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
@@ -73,7 +78,12 @@ export default function Home() {
                   <p className="title fs-3 fw-bold pb-0 mb-1">Surveys</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
                   <p className='text-gray500 text-wrap mt-3 w-100 w-md-75'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem ex sapiente delectus quos facilis aperiam inventore laudantium dolor necessitatibus, sit cum rem, nihil in voluptates?</p>
-                  <button className="btn btn-primary mt-3">Create Survey</button>
+                  <Link href={"/surveys/new"}>
+                    <button className="btn btn-primary mt-3 me-3">Create Survey</button>
+                  </Link>
+                  <Link href={"/surveys"}>
+                    <button className="btn btn-primary mt-3">Browse Surveys</button>
+                  </Link>
                 </div>
                 <div className="col-md-5 pt-5 pt-md-0">
                   <Image className='align-middle' src="https://www.hopkinsmedicine.org/sebin/n/u/noimageavailable.png" loader={myLoader} width="512px" height="256px" />
@@ -199,9 +209,13 @@ export default function Home() {
                 <div className='d-flex d-md-block justify-content-center justify-content-md-start'>
                   <div className='bg-light rounded-1' style={{ width: "10rem", height: "2px" }} />
                 </div>
-                  <p className='text-gray600 mt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, amet itaque neque deleniti culpa sapiente,<br/> possimus veniam necessitatibus nam in ipsa dolores ipsum porro libero.</p>
-                <button className='btn btn-primary fw-bold btn-lg me-3 mt-4'>Create First Poll!</button>
-                <button className='btn btn-primary fw-bold btn-lg mt-4'>Create First Survey!</button>
+                <p className='text-gray600 mt-3'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, amet itaque neque deleniti culpa sapiente,<br/> possimus veniam necessitatibus nam in ipsa dolores ipsum porro libero.</p>
+                <Link href={"/polls/new"}>
+                  <button className='btn btn-primary fw-bold btn-lg me-3 mt-4'>Create First Poll!</button>
+                </Link>
+                <Link href={"/surveys/new"}>
+                  <button className='btn btn-primary fw-bold btn-lg mt-4'>Create First Survey!</button>
+                </Link>
               </div>
             </div>
           </div>

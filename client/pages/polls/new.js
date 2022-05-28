@@ -50,7 +50,7 @@ export default function NewPoll() {
 
   const submitNewPoll = async(e) => {
     e.preventDefault();
-    if(limitNum == -1 || limitNum == "") setLimitNum(-1);
+    if(limitNum < 1 || limitNum == "") setLimitNum(-1);
 
     let details = {
       user: author,
@@ -59,7 +59,8 @@ export default function NewPoll() {
       options: inputRef.current.map((v) => v.value),
       limit: limitNum,
       needAuth: checksRef.current.auth.checked,
-      publicResults: checksRef.current.results.checked
+      publicResults: checksRef.current.results.checked,
+      publicList: checksRef.current.explore.checked
     }
 
     await createPoll(details).then((result) => {
@@ -115,12 +116,16 @@ export default function NewPoll() {
                   {/* CHECKMARKS */}
                   <div className='mb-5'>
                     <div className="form-check">
-                      <input className="form-check-input" ref={((el) => (checksRef.current["results"] = el))} type="checkbox" value="" id="checkResults" />
+                      <input className="form-check-input" ref={((el) => (checksRef.current["results"] = el))} defaultChecked={true} type="checkbox" value="" id="checkResults" />
                       <label className="form-check-label text-light" htmlFor="checkResults">Allow everyone to see results?</label>
                     </div>
                     <div className="form-check">
                       <input className="form-check-input" ref={((el) => (checksRef.current["auth"] = el))} type="checkbox" value="" id="checkAuth" />
                       <label className="form-check-label text-light" htmlFor="checkAuth">Does Voters need to be Registered?</label>
+                    </div>
+                    <div className="form-check">
+                      <input className="form-check-input" ref={((el) => (checksRef.current["explore"] = el))} defaultChecked={true} type="checkbox" value="" id="explorePoll" />
+                      <label className="form-check-label text-light" htmlFor="explorePoll">Is this Poll Listed in 'Explore Polls' section?</label>
                     </div>
                     <div className="">
                       <input className="m-0 p-0 bg-secdark limitNumber text-light rounded-1 border-0" onChange={((e) => setLimitNum(e.target.value))} style={{ "width": "50px", "outline": "none" }} type="number" id="limitNumber" />
@@ -133,7 +138,7 @@ export default function NewPoll() {
                 </div>
                 <div className='px-5 py-3 pb-4 text-center'>
                   <button type='submit' className="btn btn-primary btn-lg me-2">Finish</button>
-                  <button onClick={(() => router.push("/"))} className="btn btn-danger btn-lg ms-2">Cancel</button>
+                  <button type='button' onClick={(() => router.push("/polls"))} className="btn btn-danger btn-lg ms-2">Cancel</button>
                 </div>
               </div>
             </div>
