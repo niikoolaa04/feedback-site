@@ -9,6 +9,7 @@ import Pagination from '../../../components/Other/Pagination'
 import { myLoader, warningBar, getSurvey, submitSurvey, errorBar} from '../../../utils/utils'
 import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
+import DescriptionBox from '../../../components/Other/DescriptionBox'
 
 export default function SurveyDetails() {
   const router = useRouter();
@@ -115,7 +116,7 @@ export default function SurveyDetails() {
                 <div className='px-md-5 mb-3 pt-4'>
                   <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
                   <p className='text-gray600'>This is what survey is about & some other details.</p>
-                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Survey description." id="pollQuestion" style={{ height: "9rem", resize: "none" }} value={survey?.description} />
+                  <DescriptionBox text={survey?.description} height={"9rem"} />
                 </div>
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Survey Questions</p>
@@ -150,7 +151,7 @@ export default function SurveyDetails() {
                                     </div>
                                   </div>
                               </div>
-                              <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                              <DescriptionBox text={userProfile?.about} height={"5rem"} />
                             </>
                           }
                         </div>

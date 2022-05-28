@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { getProfile, myLoader } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
+import DescriptionBox from '../../components/Other/DescriptionBox'
 
 export default function Profile() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function Profile() {
                 </div>
                 {/* SOME BUTTON HERE */}
               </div>
-              <textarea disabled className="form-control border-secdark bg-secdark mt-4 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={userProfile?.about} />
+              <DescriptionBox text={userProfile?.about} height={"6rem"} />
             </div>
             {/* LIST OF PAST 5 POLLS */}
             <div className='mt-4'>

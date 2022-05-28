@@ -9,6 +9,7 @@ import ChoicesList from '../../../components/Poll/ChoicesList'
 import { errorBar, getPoll, getProfile, myLoader, submitPoll, successBar, warningBar } from '../../../utils/utils'
 import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
+import DescriptionBox from '../../../components/Other/DescriptionBox'
 
 export default function PollDetails() {
   const router = useRouter();
@@ -95,7 +96,7 @@ export default function PollDetails() {
                 <div className='px-md-5 mb-3 pt-4'>
                   <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
                   <p className='text-gray600'>This is what poll is about & some other details.</p>
-                  <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }}  value={poll?.question} />
+                  <DescriptionBox text={poll?.question} />
                 </div>
                 <div className="px-md-5 mb-4 pt-3">
                   <p className="text-light fs-3 fw-bold mb-0">Poll Choices</p>
@@ -129,7 +130,7 @@ export default function PollDetails() {
                                     </div>
                                   </div>
                               </div>
-                              <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                              <DescriptionBox text={userProfile?.about} height={"5rem"} />
                             </>
                           }
                         </div>

@@ -6,6 +6,7 @@ import Footer from '../../../components/Other/Footer'
 import Loading from '../../../components/Other/Loading'
 import { UserContext } from '../../../contexts/UserContext'
 import { getPoll } from '../../../utils/utils'
+import DescriptionBox from '../../../components/Other/DescriptionBox'
 import { Pie } from 'react-chartjs-2'
 import 'chart.js/auto';
 
@@ -99,7 +100,7 @@ export default function NewPoll() {
                   <div className='px-md-5 mb-3 pt-4'>
                     <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
                     <p className='text-gray600'>This is what poll is about & some other details.</p>
-                    <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "9rem", resize: "none" }}  value={poll?.question} />
+                    <DescriptionBox text={poll?.question} height={"9rem"} />
                   </div>
                   <div className="px-md-5 mb-4 pt-3">
                     <p className="text-light fs-3 fw-bold mb-0">Poll Results</p>
@@ -149,7 +150,7 @@ export default function NewPoll() {
                                       </div>
                                     </div>
                                 </div>
-                                <textarea disabled className="form-control border-secdark bg-secdark mt-3 text-light" placeholder="Question for your Poll" id="pollQuestion" style={{ height: "5rem", resize: "none" }} value={"This is Profile description."} />
+                                <DescriptionBox text={userProfile?.about} height={"5rem"} />
                               </>
                             }
                           </div>

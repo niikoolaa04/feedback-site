@@ -1,11 +1,12 @@
 **PROFILE**
 
 - todo profile info, edit etc.
- - profile edit checkmarks for listing of recent polls and surveys
+ - profile edit checkmarks for listing of recent polls and surveys - left comments
  - profile/[id]/comments, profile/[id]/polls..
 - markdown profile
 - comments page myb to remove even
 - reputation give pos/neg
+- **CHECK FOR EDIT ROUTE**
 
 **POLLS**
 - browse +DONE
