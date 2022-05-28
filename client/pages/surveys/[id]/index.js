@@ -63,7 +63,7 @@ export default function SurveyDetails() {
     async function fetchSurvey() {
       await getSurvey(id).then(async(result) => {
         if(!result) {
-          router.push("/");
+          router.push("/surveys");
           errorBar("Survey with such ID doesn't exist.");
           return;
         }
