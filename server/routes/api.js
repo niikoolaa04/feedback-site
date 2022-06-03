@@ -24,7 +24,7 @@ router.get("/users/:id/comments", async(req, res) => {
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
-    const comments = post.comments;
+    const comments = post?.comments;
     Comment.find({ _id: { $in: comments } }, (e, commentList) => {
       res.json(commentList).status(200)
     })
@@ -35,7 +35,7 @@ router.get("/users/:id/surveys", async(req, res) => {
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
-    const surveys = post.surveys;
+    const surveys = post?.surveys;
     Survey.find({ _id: { $in: surveys } }, (e, surveyList) => {
       res.json(surveyList).status(200)
     })
@@ -46,7 +46,7 @@ router.get("/users/:id/polls", async(req, res) => {
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
-    const polls = post.polls;
+    const polls = post?.polls;
     Poll.find({ _id: { $in: polls } }, (e, pollsList) => {
       res.json(pollsList).status(200)
     })

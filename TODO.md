@@ -11,6 +11,7 @@
 
 **OTHER**
 
+- Finish 404 page
 - myb some sort of 404 for invalid polls or surveys + NEED TO BE DONE, CURRENTLY JUST REDIRECT AND TOAST
 - handle invalid ids +DONE SMTH - NEED 404
 - **ENABLE PUBLICLIST IN EXPLORE/BROWSE**

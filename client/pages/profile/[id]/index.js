@@ -75,7 +75,16 @@ export default function Profile() {
     }
     async function getUserProfile() {
       await getProfile(id).then((res) => {
-        if(!res) return console.log(res); 
+        if(!res) {
+          router.push({
+            pathname: "/404",
+            query: {
+              errorType: "profileNotFound",
+              error: "Profile with such ID couldn't be found"
+            }
+          });
+          return;
+        } 
         setUserProfile(res);
       });
     }
