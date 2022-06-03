@@ -104,7 +104,9 @@ export default function Profile() {
                 <div className='d-flex flex-column'>
                   <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
                   <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile?.username }
-                    <span className='cursor text-gray500'>
+                    <span className='cursor text-gray500' data-bs-toggle="tooltip" data-bs-placement="top" title="Click to Copy Username" onClick={(() => {
+                      navigator.clipboard.writeText(userProfile?.username)
+                    })}>
                       <svg xmlns="http://www.w3.org/2000/svg" className='ms-2' style={{ height: "16px", width: "16px" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                       </svg>
