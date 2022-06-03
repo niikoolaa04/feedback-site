@@ -1,19 +1,37 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { getProfile, myLoader, createComment, errorBar } from '../../utils/utils'
 import DescriptionBox from '../../components/Other/DescriptionBox'
+import Pagination from '../../components/Other/Pagination'
 import config from '../../config.json';
+import CommentList from '../../components/Profile/CommentList'
+import SurveyList from '../../components/Profile/SurveyList'
+import { getProfile, myLoader, createComment,
+   errorBar, getAllComments, successBar, getUserPolls, getUserSurveys } from '../../utils/utils'
+import PollList from '../../components/Profile/PollList'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
   const commentRef = useRef("");
-  let [userProfile, setUserProfile] = useState({});
+  const { user } = useContext(UserContext);
+  const [userProfile, setUserProfile] = useState({});
+  const [comments, setComments] = useState([]);
+  const [surveys, setSurveys] = useState([]);
+  const [polls, setPolls] = useState([]);
+  const [commentsPerPage] = useState(1);
+  const [currPage, setCurrPage] = useState(1);
+
+  const lastComment = currPage * commentsPerPage;
+  const firstComment = lastComment - commentsPerPage;
+
+  const prevPage = () => currPage == 1 ? setCurrPage(currPage) : setCurrPage(currPage - 1);
+  const nextPage = () => currPage == 100 ? setCurrPage(currPage) : setCurrPage(currPage + 1);
 
   const submitComment = async(e) => {
     e.preventDefault();
@@ -22,17 +40,39 @@ export default function Profile() {
     let commDetails = {
       author: {
         id,
+        profileName: userProfile?.profileName,
         username: userProfile?.username,
         profilePicture: userProfile?.profilePicture
       },
       comment: commentRef.current.value
     }
 
-    await createComment(commDetails);
+    await createComment(commDetails).then(() => {
+      successBar("Comment have been posted successfully")
+      commentRef.current.value = "";
+    });
   }
 
   useEffect(() => {
     if(!router.isReady) return;
+    async function fetchComments() {
+      await getAllComments(id).then((res) => {
+        if(!res) return console.log(res); 
+        setComments(res);
+      });
+    }
+    async function fetchPolls() {
+      await getUserPolls(id).then((res) => {
+        if(!res) return console.log(res); 
+        setPolls(res?.slice(0, 3));
+      });
+    }
+    async function fetchSurveys() {
+      await getUserSurveys(id).then((res) => {
+        if(!res) return console.log(res); 
+        setSurveys(res?.slice(0, 3));
+      });
+    }
     async function getUserProfile() {
       await getProfile(id).then((res) => {
         if(!res) return console.log(res); 
@@ -41,6 +81,9 @@ export default function Profile() {
     }
     
     getUserProfile();
+    fetchComments();
+    fetchSurveys();
+    fetchPolls();
   }, [router.isReady]);
   
   return (
@@ -80,15 +123,17 @@ export default function Profile() {
                 <p className='text-light fs-3 fw-bold mb-0'>Latest Polls</p>
                 <p className='text-gray600'>Three latest polls that this User Created.</p>
               </div>
-              <Link href={"/polls/2"}>
-                <div className='bg-secdark pt-3 ps-2 pb-0 rounded-1 w-100 zoomIn cursor'>
-                  <p className='text-light fw-bold mb-1 mt-0 fs-5'>Poll Title</p>
-                  <div className='d-flex pt-0'>
-                    <p className='text-light'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis ducimus in magnam corrupti sint sequi aliquam porro minus sed, nostrum cumque dolorum dolorem debitis consequatur.</p>
-                  </div>
+              {
+                polls?.length > 0 ? <div>
+                  <PollList polls={polls} />
+                  <Link href={"/polls"}>
+                    <button className="btn btn-success mt-3">View All Polls</button>
+                  </Link>
+                </div> : 
+                <div className='bg-secdark text-light pb-0 rounded-1 w-50'>
+                  <p className='m-0 p-2'>This User didn't create any Poll, yet.</p>
                 </div>
-              </Link>
-              <button className="btn btn-success mt-3">View All Polls</button>
+              }
             </div>
             {/* LIST OF PAST 5 SURVEYS */}
             <div className='mt-4'>
@@ -96,44 +141,48 @@ export default function Profile() {
                 <p className='text-light fs-3 fw-bold mb-0'>Latest Surveys</p>
                 <p className='text-gray600'>Three latest surveys that this User Created.</p>
               </div>
-              <Link href={"/surveys/2"}>
-                <div className=' bg-secdark pt-3 ps-2 pb-0 rounded-1 w-100 cursor zoomIn'>
-                  <p className='text-light fw-bold mb-1 mt-0 fs-5'>Survey Title</p>
-                  <div className='d-flex pt-0'>
-                    <p className='text-light'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis ducimus in magnam corrupti sint sequi aliquam porro minus sed, nostrum cumque dolorum dolorem debitis consequatur.</p>
-                  </div>
+              {
+                surveys?.length > 0 ? <div>
+                  <SurveyList surveys={surveys} />
+                  <Link href={"/surveys"}>
+                    <button className="btn btn-success mt-3">View All Surveys</button>
+                  </Link>
+                </div> : 
+                <div className='bg-secdark text-light pb-0 rounded-1 w-50'>
+                  <p className='m-0 p-2'>This User didn't create any Survey, yet.</p>
                 </div>
-              </Link>
-              <button className="btn btn-success mt-3">View All Surveys</button>
+              }
             </div>
             {/* LIST OF PAST 3 COMMENTS */}
             <div className='mt-5'>
               <div>
                 <p className='text-light fs-3 fw-bold mb-0'>Latest Comments</p>
-                <p className='text-gray600'>Three latest comments that this User Received.</p>
+                <p className='text-gray600'>Comments that have been posted on this User's Profile.</p>
               </div>
-              <Link href={"/comments/2"}>
-                <div className=' bg-secdark pt-3 ps-2 pb-0 rounded-1 w-100 cursor zoomIn'>
-                  <div className='d-flex flex-row align-items-center'>
-                    <div className='d-flex align-items-center'>
-                      <Image className='rounded-circle' src="https://www.komysafety.com/images/banner/no-image.png" loader={  myLoader} width="32px" height="32px" />
-                      <p className='text-light ms-2 mb-0 lh-sm'>User Username <span className='text-gray600 fs-7'>@username</span></p>
-                    </div>
-                  </div>
-                  <div className='d-flex pt-2'>
-                    <p className='text-light'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facilis ducimus in magnam corrupti sint sequi aliquam porro minus sed, nostrum cumque dolorum dolorem debitis consequatur.</p>
-                  </div>
+              <CommentList comments={comments} 
+                firstComment={firstComment} lastComment={lastComment}
+                currPage={currPage} />
+              <Pagination setCurrPage={setCurrPage} nextPage={nextPage} currPage={currPage} prevPage={prevPage} />
+            </div>
+            {
+              user != null && user > 0 ?
+              <div>
+                <div className="mb-2 mt-4">
+                  <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
+                  <textarea className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
                 </div>
-              </Link>
-              <button className="btn btn-success mt-3">View All Comments</button>
-            </div>
-            <div className="mb-2 mt-4">
-              <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
-              <textarea className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
-            </div>
-            <button className='btn btn-success' onClick={(async(e) => {
-              await submitComment(e)
-            })}>Comment</button>
+                <button className='btn btn-success' onClick={(async(e) => {
+                  await submitComment(e)
+                })}>Comment</button>
+              </div> :
+              <div>
+                <div className="mb-2 mt-4">
+                  <label htmlFor="profileComm" className="form-label text-light">Leave comment (You must be Logged In)</label>
+                  <textarea disabled className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
+                </div>
+                <button disabled className='btn btn-success'>Comment</button>
+              </div> 
+            }
           </div>
         </div>
       </div>

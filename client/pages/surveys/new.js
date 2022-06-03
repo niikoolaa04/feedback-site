@@ -11,7 +11,7 @@ import { UserContext } from '../../contexts/UserContext'
 export default function NewSurvey() {
   const router = useRouter();
 
-  const currUser = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [questionsList, setQuestionsList] = useState([{
     id: 1,
     text: ''
@@ -37,7 +37,7 @@ export default function NewSurvey() {
   }
 
   async function getUserProfile() {
-    await getProfile(currUser.id).then((res) => setAuthor(res?._id));
+    await getProfile(user.id).then((res) => setAuthor(res?._id));
   }
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function NewSurvey() {
     if(limitNum < 1 || limitNum == "") setLimitNum(-1);
 
     let details = {
-      user: author,
+      user: user?.id || "-1",
       title: titleRef.current.value,
       shortDescription: shortDescRef.current.value,
       description: descriptionRef.current.value,
@@ -61,7 +61,8 @@ export default function NewSurvey() {
       limit: limitNum,
       needAuth: checksRef.current.auth.checked,
       publicResults: checksRef.current.results.checked,
-      publicList: checksRef.current.explore.checked
+      publicList: checksRef.current.explore.checked,
+      date: new Date().toLocaleDateString()
     }
 
     await createSurvey(details).then((result) => {

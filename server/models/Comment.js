@@ -12,7 +12,8 @@ const CommentSchema = new mongoose.Schema({
       type: String
     },
     username: {
-      type: String
+      type: String,
+      default: 'N/A'
     },
     profilePicture: {
       type: String

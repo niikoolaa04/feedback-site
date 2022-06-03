@@ -232,7 +232,31 @@ export const getAllSurveys = async() => {
 }
 
 export const getAllComments = async(id) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/comments/${id}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/comments`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
+export const getUserSurveys = async(id) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/surveys`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
+export const getUserPolls = async(id) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/polls`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',

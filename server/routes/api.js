@@ -20,6 +20,39 @@ router.get("/users/:id", async(req, res) => {
   })
 });
 
+router.get("/users/:id/comments", async(req, res) => {
+  const id = req.params.id;
+
+  User.findOne({ id }, (err, post) => {
+    const comments = post.comments;
+    Comment.find({ _id: { $in: comments } }, (e, commentList) => {
+      res.json(commentList).status(200)
+    })
+  });
+});
+
+router.get("/users/:id/surveys", async(req, res) => {
+  const id = req.params.id;
+
+  User.findOne({ id }, (err, post) => {
+    const surveys = post.surveys;
+    Survey.find({ _id: { $in: surveys } }, (e, surveyList) => {
+      res.json(surveyList).status(200)
+    })
+  });
+});
+
+router.get("/users/:id/polls", async(req, res) => {
+  const id = req.params.id;
+
+  User.findOne({ id }, (err, post) => {
+    const polls = post.polls;
+    Poll.find({ _id: { $in: polls } }, (e, pollsList) => {
+      res.json(pollsList).status(200)
+    })
+  });
+});
+
 router.put("/users/:id", async(req, res) => {
   let profile = req.params.id;
   User.findOneAndUpdate({ id: profile }, req.body, { new: true }, (err, post) => {
@@ -36,14 +69,19 @@ router.post("/polls/new", async(req, res) => {
 
   if(newPoll.user > 0) {
     User.findOneAndUpdate({ id: newPoll.user }, { $push: {
-      newPoll: newSurvey._id
-    } });
+      surveys: newPoll._id
+    } }, (err, post) => {
+      res.status(201).json({
+        code: 201,
+        response: newPoll
+      });
+    });
+  } else {
+    res.status(201).json({
+      code: 201,
+      response: newPoll
+    });
   }
-
-  res.status(201).json({
-    code: 201,
-    response: newPoll
-  });
 });
 
 router.get("/polls/list", async(req, res) => {
@@ -81,13 +119,18 @@ router.post("/surveys/new", async(req, res) => {
   if(newSurvey.user > 0) {
     User.findOneAndUpdate({ id: newSurvey.user }, { $push: {
       surveys: newSurvey._id
-    } });
+    } }, (err, post) => {
+      res.status(201).json({
+        code: 201,
+        response: newSurvey
+      });
+    });
+  } else {
+    res.status(201).json({
+      code: 201,
+      response: newSurvey
+    });
   }
-
-  res.status(201).json({
-    code: 201,
-    response: newSurvey
-  });
 });
 
 router.get("/surveys/list", async(req, res) => {
@@ -130,19 +173,6 @@ router.post("/comments/new", async(req, res) => {
       response: newComment
     });
   });
-
-});
-
-router.get("/comments/:id", async(req, res) => {
-  const id = req.params.id;
-
-  User.findOne({ id }, (err, post) => {
-    const comments = post.comments;
-    Comment.find({ _id: { $in: comments } }, (e, commentList) => {
-      res.json(commentList).status(200)
-    })
-  });
-
 });
 
 module.exports = router;

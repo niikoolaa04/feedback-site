@@ -42,6 +42,10 @@ const PollSchema = new mongoose.Schema({
   publicList: {
     type: Boolean,
     default: true
+  },
+  date: {
+    type: Date,
+    default: new Date().toLocaleDateString()
   }
 });
 

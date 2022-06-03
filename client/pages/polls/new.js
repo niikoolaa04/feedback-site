@@ -66,7 +66,8 @@ export default function NewPoll() {
       limit: limitNum,
       needAuth: checksRef.current.auth.checked,
       publicResults: checksRef.current.results.checked,
-      publicList: checksRef.current.explore.checked
+      publicList: checksRef.current.explore.checked,
+      date: new Date().toLocaleDateString()
     }
 
     await createPoll(details).then((result) => {

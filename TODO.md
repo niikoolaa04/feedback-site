@@ -2,14 +2,14 @@
 
 - todo profile info, edit etc.
  - profile edit checkmarks for listing of recent polls and surveys - left comments
- - profile/[id]/comments, profile/[id]/polls..
-- markdown profile
-- comments page myb to remove even
-- leave comment
+ - profile/[id]/comments, profile/[id]/polls.. + NEED TO BE DONE /USER/ID/POLLS-SURVEYS..
+- markdown profile +DONE
+- leave comment +DONE
 - reputation give pos/neg
 - push polls & surveys to user
-- **STARTED COMMENTS, PUSHED THEM TO DB**
+- **STARTED COMMENTS, PUSHED THEM TO DB** +DONE
 - **CHECK FOR EDIT ROUTE**
+- **DATE NOT SAVED PROPERLY**
 
 **POLLS**
 - browse +DONE
