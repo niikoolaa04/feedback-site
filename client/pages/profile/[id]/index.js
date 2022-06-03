@@ -1,19 +1,19 @@
 import { useState, useEffect, useRef, useContext } from 'react'
-import Navigation from '../../components/Navigation/Navigation'
-import Footer from '../../components/Other/Footer'
+import Navigation from '../../../components/Navigation/Navigation'
+import Footer from '../../../components/Other/Footer'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import DescriptionBox from '../../components/Other/DescriptionBox'
-import Pagination from '../../components/Other/Pagination'
-import config from '../../config.json';
-import CommentList from '../../components/Profile/CommentList'
-import SurveyList from '../../components/Profile/SurveyList'
+import DescriptionBox from '../../../components/Other/DescriptionBox'
+import Pagination from '../../../components/Other/Pagination'
+import config from '../../../config.json';
+import CommentList from '../../../components/Profile/CommentList'
+import SurveyList from '../../../components/Profile/SurveyList'
 import { getProfile, myLoader, createComment,
-   errorBar, getAllComments, successBar, getUserPolls, getUserSurveys } from '../../utils/utils'
-import PollList from '../../components/Profile/PollList'
-import { UserContext } from '../../contexts/UserContext'
+   errorBar, getAllComments, successBar, getUserPolls, getUserSurveys } from '../../../utils/utils'
+import PollList from '../../../components/Profile/PollList'
+import { UserContext } from '../../../contexts/UserContext'
 
 export default function Profile() {
   const router = useRouter();
@@ -126,7 +126,7 @@ export default function Profile() {
               {
                 polls?.length > 0 ? <div>
                   <PollList polls={polls} />
-                  <Link href={"/polls"}>
+                  <Link href={`/polls?author=${userProfile?.id}`}>
                     <button className="btn btn-success mt-3">View All Polls</button>
                   </Link>
                 </div> : 
@@ -144,7 +144,7 @@ export default function Profile() {
               {
                 surveys?.length > 0 ? <div>
                   <SurveyList surveys={surveys} />
-                  <Link href={"/surveys"}>
+                  <Link href={`/surveys?author=${userProfile?.id}`}>
                     <button className="btn btn-success mt-3">View All Surveys</button>
                   </Link>
                 </div> : 
@@ -165,7 +165,7 @@ export default function Profile() {
               <Pagination setCurrPage={setCurrPage} nextPage={nextPage} currPage={currPage} prevPage={prevPage} />
             </div>
             {
-              user != null && user > 0 ?
+              (user != null || user > 0) && userProfile?.id != user?.id ?
               <div>
                 <div className="mb-2 mt-4">
                   <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
@@ -177,7 +177,7 @@ export default function Profile() {
               </div> :
               <div>
                 <div className="mb-2 mt-4">
-                  <label htmlFor="profileComm" className="form-label text-light">Leave comment (You must be Logged In)</label>
+                  <label htmlFor="profileComm" className="form-label text-light">Leave comment ({ user == null ? 'You must be logged in' : 'You cannot leave comment to yourself' })</label>
                   <textarea disabled className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
                 </div>
                 <button disabled className='btn btn-success'>Comment</button>

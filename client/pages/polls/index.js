@@ -9,6 +9,9 @@ import { ToastContainer } from 'react-toastify'
 
 export default function Polls() {
   const router = useRouter();
+  const [filters, setFilters] = useState({
+    user: router.query.author || null
+  });
   const [polls, setPolls] = useState([]);
   const [perPage] = useState(3);
   const [next, setNext] = useState(perPage);
@@ -22,8 +25,18 @@ export default function Polls() {
   };
 
   useEffect(() => {
+    if(!router.isReady) return;
+    setFilters({
+      user: router.query.author || null
+    });
+  }, [router.isReady])
+
+  useEffect(() => {
     const fetchPolls = async() => {
       await getAllPolls().then(async(res) => {
+        if(filters.author) {
+          res = res.filter((x) => x.user == filters.user)
+        }
         setPolls(res);
         setNext(perPage);
         setItems(res?.slice(0, next));
