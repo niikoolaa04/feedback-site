@@ -28,4 +28,5 @@ Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mon
 - React: https://reactjs.org/
 - NextJS: https://nextjs.org/
 - Bootstrap: https://getbootstrap.com/
+- JWT: https://jwt.io/
 - Express: https://expressjs.com/
