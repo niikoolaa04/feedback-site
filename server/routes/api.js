@@ -91,6 +91,8 @@ router.post("/polls/new", async(req, res) => {
 });
 
 router.get("/polls/list", async(req, res) => {
+  console.log(req.headers)
+  console.log(req.headers.origin)
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Poll.find({ }, (err, post) => {
     res.status(200).json(post);
