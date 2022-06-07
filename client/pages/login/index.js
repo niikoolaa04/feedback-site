@@ -23,7 +23,7 @@ export default function Login() {
       password: userData.current.pw.value,
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/login`, {
+    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, {
       method: "POST",
       body: JSON.stringify(details),
       headers: {

@@ -22,7 +22,7 @@ export default function Register() {
       return;
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/register`, {
+    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/register`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

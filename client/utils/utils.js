@@ -42,7 +42,7 @@ export const myLoader = ({ src }) => {
 }
 
 export const isLogged = async() => {
-  let logStatus = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/decode`, {
+  let logStatus = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/decode`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -57,7 +57,7 @@ export const isLogged = async() => {
 }
 
 export const decodeToken = async() => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/auth/decode`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/decode`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -70,7 +70,7 @@ export const decodeToken = async() => {
 }
 
 export const getProfile = async(user) => {
-  let profile = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${user}`, {
+  let profile = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -85,7 +85,7 @@ export const getProfile = async(user) => {
 }
 
 export const createPoll = async(data) => {
-  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/new`, {
+  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/new`, {
     method: "POST",
     headers: {
       'credentials': 'include',
@@ -101,7 +101,7 @@ export const createPoll = async(data) => {
 }
 
 export const createSurvey = async(data) => {
-  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/new`, {
+  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/new`, {
     method: "POST",
     headers: {
       'credentials': 'include',
@@ -117,7 +117,7 @@ export const createSurvey = async(data) => {
 }
 
 export const getPoll = async(id) => {
-  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/${id}`, {
+  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/${id}`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json'
@@ -131,7 +131,7 @@ export const getPoll = async(id) => {
 }
 
 export const getSurvey = async(id) => {
-  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/${id}`, {
+  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/${id}`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json'
@@ -150,7 +150,7 @@ export const submitPoll = async(poll, user, selOption) => {
     vote: selOption,
   };
 
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/${poll}/vote`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/${poll}/vote`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ export const submitSurvey = async(survey, user, answersList) => {
     answers: answersList,
   };
 
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/${survey}/vote`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/${survey}/vote`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ export const submitSurvey = async(survey, user, answersList) => {
 }
 
 export const createComment = async(commentDetails) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/comments/new`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/comments/new`, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -194,7 +194,7 @@ export const createComment = async(commentDetails) => {
 }
 
 export const editProfile = async(profileDetails, user) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${user}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}`, {
     method: "PUT",
     headers: {
       'Content-Type': 'application/json'
@@ -207,7 +207,7 @@ export const editProfile = async(profileDetails, user) => {
 }
 
 export const getAllPolls = async() => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/polls/list`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/list`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',
@@ -219,7 +219,7 @@ export const getAllPolls = async() => {
 }
 
 export const getAllSurveys = async() => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/surveys/list`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/list`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',
@@ -231,7 +231,7 @@ export const getAllSurveys = async() => {
 }
 
 export const getAllComments = async(id) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/comments`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/comments`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ export const getAllComments = async(id) => {
 }
 
 export const getUserSurveys = async(id) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/surveys`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/surveys`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ export const getUserSurveys = async(id) => {
 }
 
 export const getUserPolls = async(id) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}:${process.env.NEXT_PUBLIC_SERVER_PORT}/api/users/${id}/polls`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/polls`, {
     headers: {
       method: "GET",
       'Content-Type': 'application/json',
