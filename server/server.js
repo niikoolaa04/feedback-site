@@ -1,7 +1,7 @@
 const express = require('express');
 require("dotenv").config();
 const app = express();
-const port = process.env.SERVER_PORT || 3001;
+const port = process.env.PORT || 3001;
 const mongoose = require("mongoose");
 const auth = require("./routes/auth.js");
 const api = require("./routes/api.js");
@@ -25,5 +25,5 @@ app.use("/api", api);
 
 app.listen(port, (err) => {
   if (err) throw err
-  console.log(`[SERVER] Server has started on port ${process.env.SERVER_PORT || 3001}.`)
+  console.log(`[SERVER] Server has started on port ${process.env.PORT || 3001}.`)
 })
