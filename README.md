@@ -4,7 +4,7 @@ Website used for getting feedback from your fans, clients or anyone else. Make S
 Want to see if someone is trusted and not scammer? See reputation on his profile!
 Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mongoose).
 
-✨ **Live Demo:** Soon
+✨ **Live Demo:** https://feedback-site-niikoolaa04.vercel.app/
 
 ## Setup of Backend & Frontend
 ### Server Installation
