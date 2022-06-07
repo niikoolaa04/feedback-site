@@ -10,7 +10,7 @@ export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
   const termsRef = useRef(null);
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = async(e) => {
     e.preventDefault();
