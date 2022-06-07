@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
-import Poll from '../../server/models/Poll';
 
 export const errorBar = (message, pos = "top-right", closeTime = 5000) => toast.error(message, {
   position: pos,
