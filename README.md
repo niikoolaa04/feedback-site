@@ -19,7 +19,6 @@ Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mon
 1. Run `npm install` command in client directory
 2. Make `.env` file in client directory and fill as so:  
 2.1 `NEXT_PUBLIC_SERVER_URL=<URL of your backend/server>`
-2.2 `NEXT_PUBLIC_SERVER_PORT=<Port of your backend/server>`
 
 ## Other Information
  - If you like this website feel free to star it ;D

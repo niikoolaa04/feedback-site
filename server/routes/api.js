@@ -14,6 +14,7 @@ router.use(cors({
 router.use(cookieParser());
 
 router.get("/users/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;
   User.findOne({ id: profile }, { id: true, about: true, profileName: true, polls: true, surveys: true, username: true, mail: true, profilePicture: true }, (err, post) => {
     res.status(200).json(post);
@@ -21,6 +22,7 @@ router.get("/users/:id", async(req, res) => {
 });
 
 router.get("/users/:id/comments", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
@@ -32,6 +34,7 @@ router.get("/users/:id/comments", async(req, res) => {
 });
 
 router.get("/users/:id/surveys", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
@@ -43,6 +46,7 @@ router.get("/users/:id/surveys", async(req, res) => {
 });
 
 router.get("/users/:id/polls", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   const id = req.params.id;
 
   User.findOne({ id }, (err, post) => {
@@ -54,6 +58,7 @@ router.get("/users/:id/polls", async(req, res) => {
 });
 
 router.put("/users/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;
   User.findOneAndUpdate({ id: profile }, req.body, { new: true }, (err, post) => {
     res.status(200).json(post);
@@ -61,6 +66,7 @@ router.put("/users/:id", async(req, res) => {
 });
 
 router.post("/polls/new", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let newPoll = new Poll(req.body);
   let pollId = await Poll.estimatedDocumentCount();
 
@@ -85,18 +91,21 @@ router.post("/polls/new", async(req, res) => {
 });
 
 router.get("/polls/list", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Poll.find({ }, (err, post) => {
     res.status(200).json(post);
   })
 });
 
 router.get("/polls/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Poll.findOne({ id: req.params.id }, (err, post) => {
     res.status(200).json(post);
   })  
 });
 
 router.post("/polls/:id/vote", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   /* Check for limit, if limit return */
   Poll.findOneAndUpdate({ id: req.params.id }, { $push: { 
     submitters: { 
@@ -110,6 +119,7 @@ router.post("/polls/:id/vote", async(req, res) => {
 });
 
 router.post("/surveys/new", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let newSurvey = new Survey(req.body);
   let surveyId = await Survey.estimatedDocumentCount();
 
@@ -134,18 +144,21 @@ router.post("/surveys/new", async(req, res) => {
 });
 
 router.get("/surveys/list", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Survey.find({ }, (err, post) => {
     res.status(200).json(post);
   })
 });
 
 router.get("/surveys/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Survey.findOne({ id: req.params.id }, (err, post) => {
     res.status(200).json(post);
   })  
 });
 
 router.post("/surveys/:id/vote", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   /* Check for limit, if limit return */
   Survey.findOneAndUpdate({ id: req.params.id }, { $push: { 
     submitters: { 
@@ -159,6 +172,7 @@ router.post("/surveys/:id/vote", async(req, res) => {
 });
 
 router.post("/comments/new", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let newComment = new Comment(req.body);
   let commentId = await Comment.estimatedDocumentCount();
 

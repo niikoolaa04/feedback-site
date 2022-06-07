@@ -13,6 +13,7 @@ router.use(cors({
 router.use(cookieParser());
 
 router.post("/register", [mailExistance, usernameExistance], async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   if(req.emailExist) {
     return res.status(409).json({
       code: 409,
@@ -48,6 +49,7 @@ router.post("/register", [mailExistance, usernameExistance], async(req, res) => 
 });
 
 router.post("/login", loginValidation, (req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   if(req.invalidPassword == false) {
     const payload = { id: req.userId, email: req.body.mail };
     const token = jwt.sign(payload, process.env.SERVER_JWT, {
@@ -75,6 +77,7 @@ router.post("/login", loginValidation, (req, res) => {
 });
 
 router.post("/password/check", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let userId = req.body.id;
   let password = req.body.password;
   let exist = await User.exists({ id: userId });
@@ -93,10 +96,12 @@ router.post("/password/check", async(req, res) => {
 });
 
 router.get("/check", tokenCheck, (req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   res.status(200).json({ code: 200, message: 'Working' });
 })
 
 router.get("/decode", (req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let cookie = req.cookies["token"] || req.headers['x-access-token'];
   if(!cookie) return res.status(404).json({
     id: null,
