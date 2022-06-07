@@ -5,6 +5,7 @@
 
 **POLLS**
 - extra option for social media
+- fix creation when loggedin marked as guest
 
 **SURVEYS**
 -
