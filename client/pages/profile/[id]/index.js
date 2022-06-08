@@ -122,7 +122,7 @@ export default function Profile() {
                     </span>
                   </p>
                   <p className='ps-3 text-gray500 mt-0 mb-1'>Joined on 5th of May, 2022</p>
-                  <p className='ps-3 text-gray500'>⭐⭐⭐⭐⭐ (5)</p>
+                  <p className='ps-3 text-gray500'>5 - 👍 | 2 - 👎</p>
                 </div>
                 {/* SOME BUTTON HERE */}
               </div>

@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema({
   comments: [
     { type: mongoose.Schema.Types.ObjectId }
   ],
+  ratings: [
+    { type: String }
+  ],
   latestPolls: {
     type: Boolean,
     default: true

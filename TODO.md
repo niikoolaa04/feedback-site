@@ -1,6 +1,9 @@
 **PROFILE**
 
 - reputation give pos/neg +TBD FEATURE
+- percentage likes/dislikes
+  - `const percentages = (xs) =>
+  xs .reduce ((pcts, x) => ({...pcts, [x]: (pcts [x] || 0) + 100 / (xs .length)}), {})`
 - **DATE NOT SAVED PROPERLY**
 
 **POLLS**
