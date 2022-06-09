@@ -57,6 +57,27 @@ router.get("/users/:id/polls", async(req, res) => {
   });
 });
 
+router.post("/users/:id/reputation/:type", async(req, res) => {
+  // if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  const id = req.params.id;
+  const repType = req.params.type;
+  const author = new String(req.body.author);
+
+  User.findOne({ id }, { likes: true, dislikes: true }, async(err, post) => {
+    if(post.likes.includes("1")) console.log('jesss')
+    else console.log("noo");
+
+    post.likes.push({ user: `${author}` });
+
+    await post.save();
+
+    res.json({
+      code: 200,
+      response: post
+    })
+  });
+});
+
 router.put("/users/:id", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;
@@ -91,8 +112,6 @@ router.post("/polls/new", async(req, res) => {
 });
 
 router.get("/polls/list", async(req, res) => {
-  console.log(req.headers)
-  console.log(req.headers.origin)
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   Poll.find({ }, (err, post) => {
     res.status(200).json(post);

@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const LikesSchema = new mongoose.Schema({
+  user: {
+    type: String
+  }
+});
+
+const DislikesSchema = new mongoose.Schema({
+  user: {
+    type: String
+  }
+});
+
 const UserSchema = new mongoose.Schema({
   id: {
     type: String
@@ -31,9 +43,8 @@ const UserSchema = new mongoose.Schema({
   comments: [
     { type: mongoose.Schema.Types.ObjectId }
   ],
-  ratings: [
-    { type: String }
-  ],
+  likes: [LikesSchema],
+  dislikes: [DislikesSchema],
   latestPolls: {
     type: Boolean,
     default: true
@@ -69,12 +80,6 @@ UserSchema.pre('findOneAndUpdate', async function (next) {
     next();
   }
 });
-
-UserSchema.pre('save', async function(next) {
-  const hashedPassword = await bcrypt.hash(this.password, 10);
-  this.password = hashedPassword;
-  next();
-})
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   return bcrypt.compare(candidatePassword, this.password);

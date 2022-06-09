@@ -265,3 +265,16 @@ export const getUserPolls = async(id) => {
     return result;
   });
 }
+
+export const getReputation = async(id, author) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/reputation`, {
+    headers: {
+      method: "GET",
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ author })
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}

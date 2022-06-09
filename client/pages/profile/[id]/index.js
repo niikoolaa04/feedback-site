@@ -11,7 +11,7 @@ import config from '../../../config.json';
 import CommentList from '../../../components/Profile/CommentList'
 import SurveyList from '../../../components/Profile/SurveyList'
 import { getProfile, myLoader, createComment,
-   errorBar, getAllComments, successBar, getUserPolls, getUserSurveys } from '../../../utils/utils'
+   errorBar, getAllComments, successBar, getUserPolls, getUserSurveys, getReputation } from '../../../utils/utils'
 import PollList from '../../../components/Profile/PollList'
 import { UserContext } from '../../../contexts/UserContext'
 
@@ -26,6 +26,7 @@ export default function Profile() {
   const [polls, setPolls] = useState([]);
   const [commentsPerPage] = useState(1);
   const [currPage, setCurrPage] = useState(1);
+  // const [reputation, setReputation] = useState({});
 
   const lastComment = currPage * commentsPerPage;
   const firstComment = lastComment - commentsPerPage;
@@ -73,6 +74,12 @@ export default function Profile() {
         setSurveys(res?.slice(0, 3));
       });
     }
+/*     async function fetchReputation() {
+      await getReputation(id, ).then((res) => {
+        if(!res) return console.log(res); 
+        setSurveys(res?.slice(0, 3));
+      });
+    } */
     async function getUserProfile() {
       await getProfile(id).then((res) => {
         if(!res) {
