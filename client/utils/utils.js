@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import cookie from 'js-cookie'
 
-export const errorBar = (message, pos = "top-right", closeTime = 5000) => toast.error(message, {
+export const errorBar = (message, closeTime = 5000, pos = "top-right") => toast.error(message, {
   position: pos,
   autoClose: closeTime,
   closeOnClick: true,
@@ -10,7 +10,7 @@ export const errorBar = (message, pos = "top-right", closeTime = 5000) => toast.
   theme: "colored"
 });
 
-export const infoBar = (message, pos = "top-right", closeTime = 5000) => toast.info(message, {
+export const infoBar = (message, closeTime = 5000, pos = "top-right") => toast.info(message, {
   position: pos,
   autoClose: closeTime,
   closeOnClick: true,
@@ -19,7 +19,7 @@ export const infoBar = (message, pos = "top-right", closeTime = 5000) => toast.i
   theme: "colored"
 });
 
-export const successBar = (message, pos = "top-right", closeTime = 5000) => toast.success(message, {
+export const successBar = (message, closeTime = 5000, pos = "top-right") => toast.success(message, {
   position: pos,
   autoClose: closeTime,
   closeOnClick: true,
@@ -28,7 +28,7 @@ export const successBar = (message, pos = "top-right", closeTime = 5000) => toas
   theme: "colored"
 });
 
-export const warningBar = (message, pos = "top-right", closeTime = 5000) => toast.warning(message, {
+export const warningBar = (message, closeTime = 5000, pos = "top-right") => toast.warning(message, {
   position: pos,
   autoClose: closeTime,
   closeOnClick: true,
@@ -42,7 +42,7 @@ export const myLoader = ({ src }) => {
 }
 
 export const isLogged = async() => {
-  let logStatus = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/decode`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/decode`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -52,8 +52,6 @@ export const isLogged = async() => {
     const result = await res.json();
     return result.code == 200 ? true : false;
   });
-
-  return logStatus;
 }
 
 export const decodeToken = async() => {
@@ -70,7 +68,7 @@ export const decodeToken = async() => {
 }
 
 export const getProfile = async(user) => {
-  let profile = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}`, {
     method: "GET",
     headers: {
       'credentials': 'include',
@@ -80,12 +78,10 @@ export const getProfile = async(user) => {
     const result = await res.json();
     return result;
   });
-
-  return profile;
 }
 
 export const createPoll = async(data) => {
-  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/new`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/new`, {
     method: "POST",
     headers: {
       'credentials': 'include',
@@ -96,12 +92,10 @@ export const createPoll = async(data) => {
     const result = await res.json();
     return result;
   });
-
-  return poll;
 }
 
 export const createSurvey = async(data) => {
-  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/new`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/new`, {
     method: "POST",
     headers: {
       'credentials': 'include',
@@ -112,12 +106,10 @@ export const createSurvey = async(data) => {
     const result = await res.json();
     return result;
   });
-
-  return survey;
 }
 
 export const getPoll = async(id) => {
-  let poll = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/${id}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/${id}`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json'
@@ -126,12 +118,10 @@ export const getPoll = async(id) => {
     const result = await res.json();
     return result;
   });
-
-  return poll;
 }
 
 export const getSurvey = async(id) => {
-  let survey = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/${id}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/${id}`, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json'
@@ -140,8 +130,6 @@ export const getSurvey = async(id) => {
     const result = await res.json();
     return result;
   });
-
-  return survey;
 }
 
 export const submitPoll = async(poll, user, selOption) => {
@@ -266,13 +254,15 @@ export const getUserPolls = async(id) => {
   });
 }
 
-export const getReputation = async(id, author) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/reputation`, {
+export const postReputation = async(repType, user, author) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}/reputation/${repType}`, {
+    method: "POST",
     headers: {
-      method: "GET",
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ author })
+    body: JSON.stringify({
+      author
+    })
   }).then(async(res) => {
     const result = await res.json();
     return result;

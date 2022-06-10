@@ -16,7 +16,9 @@ router.use(cookieParser());
 router.get("/users/:id", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;
-  User.findOne({ id: profile }, { id: true, about: true, profileName: true, polls: true, surveys: true, username: true, mail: true, profilePicture: true }, (err, post) => {
+  User.findOne({ id: profile }, { id: true, about: true, profileName: true, polls: true,
+     surveys: true, username: true, mail: true, profilePicture: true,
+      likes: true, dislikes: true }, (err, post) => {
     res.status(200).json(post);
   })
 });
@@ -58,16 +60,30 @@ router.get("/users/:id/polls", async(req, res) => {
 });
 
 router.post("/users/:id/reputation/:type", async(req, res) => {
-  // if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   const id = req.params.id;
   const repType = req.params.type;
   const author = new String(req.body.author);
 
-  User.findOne({ id }, { likes: true, dislikes: true }, async(err, post) => {
-    if(post.likes.includes("1")) console.log('jesss')
-    else console.log("noo");
+  User.findOne({ id }, { likes: true, dislikes: true }, { new: true }, async(err, post) => {
+    if(!post) return;
 
-    post.likes.push({ user: `${author}` });
+    if((post.likes.find((like) => like.user == `${author}`) && repType == "pos") || (post.dislikes.find((dislike) => dislike.user == `${author}`) && repType == "neg")) {
+      post.likes = post.likes.filter((like) => like.user != `${author}`);
+      post.dislikes = post.dislikes.filter((dislike) => dislike.user != `${author}`);
+
+      await post.save();
+      return res.status(200).json({
+        code: 200,
+        response: "Removed " + repType == "pos" ? " Like" : " Dislike"
+      });
+    }
+
+    post.likes = post.likes.filter((like) => like.user != `${author}`);
+    post.dislikes = post.dislikes.filter((dislike) => dislike.user != `${author}`);
+
+    if(repType == "pos") post.likes.push({ user: `${author}` });
+    else if(repType == "neg") post.dislikes.push({ user: `${author}` });
 
     await post.save();
 
