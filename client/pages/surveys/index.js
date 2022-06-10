@@ -50,7 +50,7 @@ export default function Surveys() {
     <div className='hideOverflow'>
       <Navigation active='surveys' />
       <Head>
-        <title>Feedback App - Browse Surveys</title>
+        <title>Feedback - Browse Surveys</title>
       </Head>
       <div>
         <div className="bg-maindark">

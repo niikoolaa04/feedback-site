@@ -72,7 +72,7 @@ export default function SurveyDetails() {
     <div className='hideOverflow'>
       <Navigation active='surveys' />
       <Head>
-        <title>Feedback App - Poll #{id}</title>
+        <title>Feedback - Poll #{id}</title>
       </Head>
       <div className="">
         <div className='bg-maindark'>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
 import { ToastContainer } from 'react-toastify';
-import { errorBar, successBar } from '../../utils/utils'
+import { errorBar, successBar, getProfile, decodeToken } from '../../utils/utils'
 import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
 
@@ -9,6 +9,19 @@ export default function Register() {
   const registerData = useRef([]);
   const router = useRouter();
   const termsRef = useRef(null);
+
+  async function getUser() {
+    await decodeToken().then(async(res) => {
+      await getProfile(res?.id).then(async(usr) => {
+        if(usr) router.push("/") 
+      })
+    })
+  }
+
+  useEffect(() => {
+    if(router.isReady == false) return;
+    getUser();
+  }, [router.isReady]);
 
   const submitDetails = async(e) => {
     e.preventDefault();
@@ -68,7 +81,7 @@ export default function Register() {
   return (
     <div className='hideOverflow'>
       <Head>
-        <title>Feedback App - Register</title>
+        <title>Feedback - Register</title>
       </Head>
       <div className='bg-maindark'>
         <div>

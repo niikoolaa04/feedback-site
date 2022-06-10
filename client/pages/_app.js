@@ -33,6 +33,7 @@ function MyApp({ Component, pageProps }) {
             mail: null,
             picture: null            
           })
+          
           setUser({
             id: usr?.id,
             username: usr?.username,

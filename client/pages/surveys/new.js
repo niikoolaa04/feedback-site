@@ -77,7 +77,7 @@ export default function NewSurvey() {
     <div className='hideOverflow'>
       <Navigation active="survey" />
       <Head>
-        <title>Feedback App - Create Survey</title>
+        <title>Feedback - Create Survey</title>
       </Head>
       <div>
         <div className="bg-maindark">

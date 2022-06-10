@@ -81,7 +81,7 @@ export default function PollDetails() {
     <div className='hideOverflow'>
       <Navigation active='polls' />
       <Head>
-        <title>Feedback App - Poll #{id}</title>
+        <title>Feedback - Poll #{id}</title>
       </Head>
       <div className="">
         <div className='bg-maindark'>

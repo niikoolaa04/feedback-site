@@ -1,19 +1,28 @@
 import { useEffect, useRef, useContext } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
-import { errorBar, successBar } from '../../utils/utils';
+import { useRouter } from 'next/router'
 import { ToastContainer } from 'react-toastify';
 import { UserContext } from '../../contexts/UserContext';
+import { getProfile, decodeToken, successBar, errorBar } from '../../utils/utils';
 
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
   const { setUser } = useContext(UserContext);
 
+  async function getUser() {
+    await decodeToken().then(async(res) => {
+      await getProfile(res?.id).then(async(usr) => {
+        if(usr) router.push("/") 
+      })
+    })
+  }
+
   useEffect(() => {
-    if(cookie.get("token") && userData.current.mail.value == "") router.push("/");
-  }, []);
+    if(router.isReady == false) return;
+    getUser();
+  }, [router.isReady]);
 
   const handleLogin = async(e) => {
     e.preventDefault();

@@ -91,6 +91,7 @@ export default function Profile() {
   }
 
   useEffect(() => {
+    console.log(user)
     if(!router.isReady) return;
     async function fetchComments() {
       await getAllComments(id).then((res) => {
@@ -121,7 +122,7 @@ export default function Profile() {
     <div className='hideOverflow'>
       <Navigation active='profile' />
       <Head>
-        <title>Feedback App - Profile</title>
+        <title>Feedback - Profile</title>
       </Head>
       <div className="">
         <div className='bg-maindark'>
@@ -212,7 +213,7 @@ export default function Profile() {
               }
             </div>
             {
-              (user != null || user > 0) && userProfile?.id != user?.id ?
+              (user?.id != null || user?.id > 0) && userProfile?.id != user?.id ?
               <div>
                 <div className="mb-2 mt-4">
                   <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
@@ -224,7 +225,7 @@ export default function Profile() {
               </div> :
               <div>
                 <div className="mb-2 mt-4">
-                  <label htmlFor="profileComm" className="form-label text-light">Leave comment ({ user == null ? 'You must be logged in' : 'You cannot leave comment to yourself' })</label>
+                  <label htmlFor="profileComm" className="form-label text-light">Leave comment ({ user?.id == null ? 'You must be logged in' : 'You cannot leave comment to yourself' })</label>
                   <textarea disabled className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
                 </div>
                 <button disabled className='btn btn-success'>Comment</button>

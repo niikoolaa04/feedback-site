@@ -11,7 +11,7 @@ export default function Home() {
     <div className='hideOverflow'>
       <Navigation />
       <Head>
-        <title>Feedback App - Ask Community</title>
+        <title>Feedback - Ask Community</title>
         <meta name="theme-color" content="#FFFF00"></meta>
         <meta name="description" content="Create Surveys, Polls, leave Reputation to others and much more!" />
         <link rel="icon" href="/favicon.ico" />
