@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import cookie from 'js-cookie'
+import cookie from 'js-cookie';
 
 export const errorBar = (message, closeTime = 5000, pos = "top-right") => toast.error(message, {
   position: pos,
