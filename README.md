@@ -21,7 +21,7 @@ Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mon
 2.1 `NEXT_PUBLIC_SERVER_URL=<URL of your backend/server>`
 
 ## Other Information
- - If you like this website feel free to star it ;D
+ - If you like this website feel free to star repo ;D
 
 ## Useful Links
 - React: https://reactjs.org/
