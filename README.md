@@ -10,10 +10,10 @@ Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mon
 ### Server Installation
 1. Run `npm install` command in server directory
 2. Make `.env` file in server directory and fill as so:  
-2.1 `SERVER_MONGO_URL=<MongoDB URL>`  
-2.2 `SERVER_CLIENT_URL=<URL of your frontend/client>`  
-2.3 `PORT=<Whatever Port you want>`
-2.4 `SERVER_JWT`=<Some super secret & strong string>
+2.1 `SERVER_MONGO_URL=<MongoDB URL>`   
+2.2 `SERVER_CLIENT_URL=<URL of your frontend/client>`   
+2.3 `PORT=<Whatever Port you want>`    
+2.4 `SERVER_JWT=<Some super secret & strong string>`    
 
 ### Client Installation
 1. Run `npm install` command in client directory
