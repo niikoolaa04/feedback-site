@@ -56,7 +56,7 @@ export default function Navigation({ active = "home" }) {
               <div className='dropBrowse'>
                 <li className="nav-item dropHoverEffect dropdown list-unstyled cursor">
                   <div className="nav-item px-2">
-                      <a className={"nav-link" + isActive("survey")}>
+                      <a className={"nav-link" + isActive("browse")}>
                         <FontAwesomeIcon icon={faMagnifyingGlassChart} size="1x" className='pe-2 align-base' />Browse
                       </a>
                   </div>

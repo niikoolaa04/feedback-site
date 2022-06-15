@@ -48,7 +48,7 @@ export default function Polls() {
 
   return (
     <div className='hideOverflow'>
-      <Navigation active='polls' />
+      <Navigation active='browse' />
       <Head>
         <title>Feedback - Browse Polls</title>
       </Head>

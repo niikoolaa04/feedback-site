@@ -74,8 +74,15 @@ export default function Login() {
       </Head>
       <div className='vh-100 bg-maindark'>
         <div>
+          <div className="d-none d-md-inline position-absolute opacity-25 w-50 end-50">
+            <svg viewBox="0 0 800 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+              <g transform="translate(320, -44)">
+                <path class="blob" d="M412.5,331Q344,412,235.5,437.5Q127,463,85,356.5Q43,250,98.5,166.5Q154,83,241,99Q328,115,404.5,182.5Q481,250,412.5,331Z" fill="#24314d"></path>
+              </g>
+            </svg>
+          </div>
           <form className="container py-5 needs-validation" noValidate onSubmit={(async(e) => await handleLogin(e))}>
-            <div className="row d-flex justify-content-center">
+            <div className="row d-flex justify-content-center position-relative">
               <div className='w-100 w-md-50'>
                 <p className='text-light fw-bolder fs-1 pt-2 mb-1'>Sign In</p>
                 <div className='bg-gray700 mb-4' style={{ width: "10rem", height: "1px" }} />
@@ -101,7 +108,6 @@ export default function Login() {
                     <a className='text-light text-decoration-none'>Don't have account? Sign Up</a>
                   </div>
                 </div>
-                {/* FORMS */}
               </div>
             </div>
           </form>

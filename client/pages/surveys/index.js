@@ -48,7 +48,7 @@ export default function Surveys() {
 
   return (
     <div className='hideOverflow'>
-      <Navigation active='surveys' />
+      <Navigation active='browse' />
       <Head>
         <title>Feedback - Browse Surveys</title>
       </Head>

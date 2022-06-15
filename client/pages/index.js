@@ -21,7 +21,15 @@ export default function Home() {
         <div className='bg-maindark'>
           <div className="container">
             <div className="row">
-              <div className="col-md-6 text-light">
+              {/* FIRST BLOB ON PAGE */}
+              <div className="position-absolute w-50 opacity-25 start-0">
+                <svg viewBox="0 0 800 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+                  <g transform="translate(299, -75)">
+                    <path className="blob" d="M412.5,331Q344,412,235.5,437.5Q127,463,85,356.5Q43,250,98.5,166.5Q154,83,241,99Q328,115,404.5,182.5Q481,250,412.5,331Z" fill="#24314d"></path>
+                  </g>
+                </svg>
+              </div>
+              <div className="col-md-6 text-light position-relative">
                 <div className='mx-5 my-6'>
                   <p className="title display-6 fw-bolder">Feedback.ROCKS</p>
                   <p className="">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic libero qui placeat saepe? Rerum magni enim blanditiis? Animi, non facere!
@@ -42,7 +50,7 @@ export default function Home() {
         <div className='py-6'>
           <div className="container">
             {/* PROFILES FEATURE */}
-            <div className="row text-light pb-4 pt-5">
+            <div className="row text-light pb-4 pt-5 position-relative" style={{ zIndex: 50 }}>
               <div className="col-md-7">
                 <p className="title fs-3 fw-bold pb-0 mb-1">Company Profiles</p>
                 <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
@@ -55,7 +63,7 @@ export default function Home() {
             </div>
             {/* POLLS FEATURE */}
             <ScrollOpacity duration="0.8" direction="left">
-              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
+              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse position-relative" style={{ zIndex: 50 }}>
                 <div className="col-md-5">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Polls</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
@@ -72,9 +80,17 @@ export default function Home() {
                 </div>
               </div>
             </ScrollOpacity>
+            {/* LEFT SIDE BLOB - TOP */}
+            <div className="position-absolute w-50 opacity-25 start-0 top-100">
+              <svg viewBox="0 0 800 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+                <g transform="translate(144.11597442626953, -19.426651000976562)">
+                  <path class="blob" d="M412.5,331Q344,412,235.5,437.5Q127,463,85,356.5Q43,250,98.5,166.5Q154,83,241,99Q328,115,404.5,182.5Q481,250,412.5,331Z" fill="#415066"></path>
+                </g>
+              </svg>
+            </div>
             {/* SURVEYS FEATURE */}
             <ScrollOpacity duration="0.8" direction="right">
-              <div className="row text-light pb-4 pt-5">
+              <div className="row text-light pb-4 pt-5 position-relative">
                 <div className="col-md-7">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Surveys</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
@@ -91,9 +107,17 @@ export default function Home() {
                 </div>
               </div>
             </ScrollOpacity>
+            {/* RIGHT SIDE BLOB - BOTTOM */}
+            <div className="position-absolute w-50 opacity-25 start-50" style={{ zIndex: 2 }}>
+              <svg viewBox="0 0 800 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+                <g transform="translate(144.11597442626953, -19.426651000976562)">
+                  <path class="blob" d="M412.5,331Q344,412,235.5,437.5Q127,463,85,356.5Q43,250,98.5,166.5Q154,83,241,99Q328,115,404.5,182.5Q481,250,412.5,331Z" fill="#415066"></path>
+                </g>
+              </svg>
+            </div>
             {/* PROFILE REPUTATION FEATURE */}
             <ScrollOpacity duration="0.8" direction="left">
-              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse">
+              <div className="row text-light pb-4 pt-5 d-flex flex-row flex-row-reverse position-relative" style={{ zIndex: 150 }}>
                 <div className="col-md-5">
                   <p className="title fs-3 fw-bold pb-0 mb-1">Profile Reputation</p>
                   <div className='d-block bg-light rounded-1 mb-0' style={{ margin: "0px", width: "10rem", height: "2px" }} />
@@ -134,7 +158,15 @@ export default function Home() {
       </div>
       {/* F&Q - ACCORDION */}
       <div className="bg-secdark">
-        <div className="py-6">
+        {/* FAQ BLOB IN CORNER */}
+        <div className="position-absolute opacity-25 w-50">
+          <svg viewBox="0 0 800 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" id="blobSvg">
+            <g transform="translate(-281, -214)">
+              <path class="blob" d="M412.5,331Q344,412,235.5,437.5Q127,463,85,356.5Q43,250,98.5,166.5Q154,83,241,99Q328,115,404.5,182.5Q481,250,412.5,331Z" fill="#415066"></path>
+            </g>
+          </svg>
+        </div>
+        <div className="py-6 position-relative">
           <div className="container">
             <div className="row">
               <div className='pb-5 text-center text-md-start'>
