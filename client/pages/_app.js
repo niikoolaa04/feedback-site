@@ -11,7 +11,11 @@ import { UserContext } from '../contexts/UserContext'
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({
     id: null,
+    username: null,
+    profileName: null,
     mail: null,
+    picture: null,
+    role: 0,  
   });
 
   useEffect(() => {

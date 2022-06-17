@@ -14,6 +14,7 @@ import { getProfile, myLoader, createComment,
    errorBar, getAllComments, successBar, getUserPolls, getUserSurveys, postReputation } from '../../../utils/utils'
 import PollList from '../../../components/Profile/PollList'
 import { UserContext } from '../../../contexts/UserContext'
+import Badge from '../../../components/Admin/Badge'
 
 export default function Profile() {
   const router = useRouter();
@@ -132,7 +133,10 @@ export default function Profile() {
               <div className='d-flex flex-row'>
                 <Image className='rounded-3 mw-100' src={userProfile?.profilePicture || config.defaultImage} loader={myLoader} width="128px" height="128px" />
                 <div className='d-flex flex-column'>
-                  <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
+                  <div className='d-flex align-items-center'>
+                    <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
+                    <Badge type={"admin"} />
+                  </div>
                   <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile?.username }
                     <span className='cursor text-gray500' data-bs-toggle="tooltip" data-bs-placement="top" title="Click to Copy Username" onClick={(() => {
                       navigator.clipboard.writeText(userProfile?.username)

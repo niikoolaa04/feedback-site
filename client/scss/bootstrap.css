@@ -1267,6 +1267,14 @@ progress {
   font-size: 0.8rem !important;
 }
 
+.fs-8 {
+  font-size: 1.1rem !important;
+}
+
+.fs-9 {
+  font-size: 0.7rem !important;
+}
+
 .fst-italic {
   font-style: italic !important;
 }

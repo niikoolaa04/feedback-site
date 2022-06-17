@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
   , faMagnifyingGlassChart, faUserPlus, faScroll
-  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress } from '@fortawesome/free-solid-svg-icons';
+  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress, faLock } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../contexts/UserContext';
 import cookie from 'js-cookie'
 import { ToastContainer } from 'react-toastify'
@@ -106,6 +106,17 @@ export default function Navigation({ active = "home" }) {
                         </a>
                       </Link>
                     </li>
+                    {
+                      user?.role == 1 || user?.role == 2 ?
+                      <li>
+                        <Link href="/admin">
+                          <a className="dropdown-item text-light">
+                            <FontAwesomeIcon icon={faLock} size="1x" className='pe-3 align-base' />Admin Panel
+                          </a>
+                        </Link>
+                      </li> :
+                      ''
+                    }
                     <li><hr className="dropdown-divider" /></li>
                     <li>
                       <a className="dropdown-item text-light" onClick={(() => {

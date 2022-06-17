@@ -196,8 +196,8 @@ export const editProfile = async(profileDetails, user) => {
 
 export const getAllPolls = async() => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/list`, {
+    method: "GET",
     headers: {
-      method: "GET",
       'Content-Type': 'application/json',
     }
   }).then(async(res) => {
@@ -208,8 +208,8 @@ export const getAllPolls = async() => {
 
 export const getAllSurveys = async() => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/list`, {
+    method: "GET",
     headers: {
-      method: "GET",
       'Content-Type': 'application/json',
     }
   }).then(async(res) => {
@@ -220,8 +220,8 @@ export const getAllSurveys = async() => {
 
 export const getAllComments = async(id) => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/comments`, {
+    method: "GET",
     headers: {
-      method: "GET",
       'Content-Type': 'application/json',
     }
   }).then(async(res) => {
@@ -232,14 +232,23 @@ export const getAllComments = async(id) => {
 
 export const getUserSurveys = async(id) => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/surveys`, {
+    method: "GET",
     headers: {
-      method: "GET",
       'Content-Type': 'application/json',
     }
   }).then(async(res) => {
     const result = await res.json();
     return result;
   });
+}
+
+export const getAllUsers = async() => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
+    method: "GET"
+  }).then(async(res) => {
+    let result = await res.json();
+    return result;
+  })
 }
 
 export const getUserPolls = async(id) => {

@@ -13,6 +13,13 @@ router.use(cors({
 
 router.use(cookieParser());
 
+router.get("/users", async(req, res) => {
+  // if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  User.find({ }, { password: false, _id: false }, (err, post) => {
+    res.status(200).json(post);
+  });
+});
+
 router.get("/users/:id", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;
