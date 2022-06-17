@@ -21,6 +21,7 @@
 - **ENABLE PUBLICLIST IN EXPLORE/BROWSE**
 - **panel for managing**
   - 0: member, 1: staff, 2: administrator
+  - add auth check for panel
 - **MAKE PUBLIC RESULTS ACCESSABLE JUST VIA CODE OR SMTH - ID PROBABLY**
 - **CONFIG FOR LANGUAGE - REP TYPE ALSO**
 - **ADD FILTERS DROPDOWN, FEATURE ALREADY EXIST**
