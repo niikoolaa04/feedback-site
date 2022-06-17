@@ -61,6 +61,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "https://thumbs.dreamstime.com/b/no-user-profile-picture-hand-drawn-illustration-53840792.jpg"
   },
+  role: {
+    type: Number,
+    default: 0,
+  }
 });
 
 UserSchema.pre('save', async function (next) {

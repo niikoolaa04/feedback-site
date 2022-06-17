@@ -56,7 +56,8 @@ export default function Login() {
             username: result.user.username,
             profileName: result.user.profileName,
             mail: result.user.mail,
-            picture: result.user.picture
+            picture: result.user.picture,
+            role: result.user.role || 0
           });
           successBar("Login successful, redirecting in 3 seconds.", 3000);
           setTimeout(() => router.push("/"), 3000); 

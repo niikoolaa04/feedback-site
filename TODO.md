@@ -9,9 +9,10 @@
 **POLLS**
 - extra option for social media
 - fix creation when loggedin marked as guest
+- delete bttn if role is 2
 
 **SURVEYS**
--
+- delete bttn if role is 2
 
 **OTHER**
 
@@ -19,6 +20,7 @@
 - handle invalid ids +DONE SMTH - NEED 404
 - **ENABLE PUBLICLIST IN EXPLORE/BROWSE**
 - **panel for managing**
+  - 0: member, 1: staff, 2: administrator
 - **MAKE PUBLIC RESULTS ACCESSABLE JUST VIA CODE OR SMTH - ID PROBABLY**
 - **CONFIG FOR LANGUAGE - REP TYPE ALSO**
 - **ADD FILTERS DROPDOWN, FEATURE ALREADY EXIST**

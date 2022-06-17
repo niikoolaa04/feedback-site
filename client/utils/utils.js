@@ -268,3 +268,12 @@ export const postReputation = async(repType, user, author) => {
     return result;
   });
 }
+
+export const deleteUser = async(user) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user}`, {
+    method: "DELETE",
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  })
+}

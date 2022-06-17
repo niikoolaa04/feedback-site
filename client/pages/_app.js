@@ -31,7 +31,8 @@ function MyApp({ Component, pageProps }) {
             username: null,
             profileName: null,
             mail: null,
-            picture: null            
+            picture: null,
+            role: 0,         
           })
           
           setUser({
@@ -39,7 +40,8 @@ function MyApp({ Component, pageProps }) {
             username: usr?.username,
             profileName: usr?.profileName,
             mail: usr?.mail,
-            picture: usr?.profilePicture
+            picture: usr?.profilePicture,
+            role: usr?.role
           });
         })
       })

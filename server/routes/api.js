@@ -18,10 +18,18 @@ router.get("/users/:id", async(req, res) => {
   let profile = req.params.id;
   User.findOne({ id: profile }, { id: true, about: true, profileName: true, polls: true,
      surveys: true, username: true, mail: true, profilePicture: true,
-      likes: true, dislikes: true }, (err, post) => {
+      likes: true, dislikes: true, role: true }, (err, post) => {
     res.status(200).json(post);
   })
 });
+
+router.delete("/users/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  let profile = req.params.id;
+  User.findOneAndDelete({ id: profile }, (err, post) => {
+    res.status(200).json(post);
+  })
+})
 
 router.get("/users/:id/comments", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);

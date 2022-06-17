@@ -115,7 +115,8 @@ export default function Navigation({ active = "home" }) {
                           username: null,
                           profileName: null,
                           mail: null,
-                          picture: null 
+                          picture: null,
+                          role: 0,
                         });
                         successBar("Logged out successfully")
                       })}>
