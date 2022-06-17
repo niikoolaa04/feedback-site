@@ -44,12 +44,6 @@ export default function Admin() {
                   <p className='text-center text-white'>Manage Site</p>
                 </div>
               </Link>
-{/*               <Link href={"/admin/other"}>
-                <div className="col-sm col-md-2 text-center mx-2 cursor zoomIn py-2 my-md-0">
-                  <FontAwesomeIcon icon={faPen} className="text-white fa-3x py-3" /> 
-                  <p className='text-center text-white'>Other</p>
-                </div>
-              </Link> */}
               <div className="col-sm col-md-2 text-center mx-2 cursor zoomIn py-2 my-md-0" onClick={(() => router.push("/"))}>
                 <FontAwesomeIcon icon={faRightFromBracket} className="text-white fa-3x py-3" /> 
                 <p className='text-center text-white'>Exit</p>
