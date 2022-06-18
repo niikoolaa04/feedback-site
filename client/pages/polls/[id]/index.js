@@ -9,6 +9,7 @@ import { errorBar, getPoll, getProfile, submitPoll, successBar, warningBar } fro
 import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
+import ProfileWidget from '../../../components/Profile/ProfileWidget'
 
 export default function PollDetails() {
   const router = useRouter();

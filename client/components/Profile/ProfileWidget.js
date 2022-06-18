@@ -12,7 +12,7 @@ export default function ProfileWidget({ userProfile }) {
         <Image className='rounded-3 mw-100' src={ userProfile?.profilePicture || config.defaultPicture } loader={myLoader} width="128px" height="128px" />
                                   
         <div className='d-flex flex-column'>
-          <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.username }</p>
+          <p className='text-light fw-bold ps-3 mb-0'>{ userProfile?.profileName }</p>
           <p className='ps-3 text-gray500'>{ userProfile?.likes?.length } - 👍 | { userProfile?.dislikes?.length } - 👎</p>
           <div className="d-block ps-3">
             <Link href={"/profile/" + userProfile?.id}>

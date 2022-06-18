@@ -15,6 +15,13 @@ export default function Badge({ type }) {
     </div>
   )
 
+  if(type == "profile") return (
+    <div className='ms-2'>
+      <p className='d-none d-md-block bg-primary px-2 py-1 m-0 rounded-1 text-white fs-9' style={{ transform: "scale(0.9)"}}>Your Profile</p>
+      <p className='d-block d-md-none bg-primary px-2 py-1 m-0 rounded-1 text-white fs-9 me-2' style={{ transform: "scale(0.9)"}}>Y</p>
+    </div>
+  )
+
   return (
     <div className='ms-2'>
       <p className='d-none d-md-block bg-primary px-2 py-1 m-0 rounded-1 text-white fs-9' style={{ transform: "scale(0.9)"}}>Member</p>

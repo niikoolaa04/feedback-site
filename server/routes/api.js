@@ -36,7 +36,7 @@ router.delete("/users/:id", async(req, res) => {
   User.findOneAndDelete({ id: profile }, (err, post) => {
     res.status(200).json(post);
   })
-})
+});
 
 router.get("/users/:id/comments", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
@@ -156,6 +156,13 @@ router.get("/polls/:id", async(req, res) => {
   })  
 });
 
+router.delete("/polls/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  Poll.findOneAndDelete({ id: req.params.id }, (err, post) => {
+    res.status(200).json(post);
+  })
+});
+
 router.post("/polls/:id/vote", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   /* Check for limit, if limit return */
@@ -207,6 +214,13 @@ router.get("/surveys/:id", async(req, res) => {
   Survey.findOne({ id: req.params.id }, (err, post) => {
     res.status(200).json(post);
   })  
+});
+
+router.delete("/surveys/:id", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  Survey.findOneAndDelete({ id: req.params.id }, (err, post) => {
+    res.status(200).json(post);
+  })
 });
 
 router.post("/surveys/:id/vote", async(req, res) => {

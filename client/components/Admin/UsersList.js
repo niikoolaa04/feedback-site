@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Image from 'next/image'
 import { myLoader, successBar } from '../../utils/utils'
 import { faTrash, faPenToSquare, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteUser } from '../../utils/utils'
 import { useRouter } from 'next/router'
+import { UserContext } from '../../contexts/UserContext';
 import Badge from './Badge'
 
 export default function UsersList({ users, firstUser, lastUser, currPage, loading }) {
   const router = useRouter();
+  const { user } = useContext(UserContext)
   const [pageUsers, setPageUsers] = useState(users.slice(firstUser, lastUser));
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function UsersList({ users, firstUser, lastUser, currPage, loadin
     if(loading == false) setPageUsers(users.slice(firstUser, lastUser));
   }, [currPage, router.isReady, loading])
 
-  const clickRemoveUser = async(userId) => {
+  const handleDelete = async(userId) => {
     await deleteUser(userId).then(async(res) => {
       successBar("User with ID " + userId + " have been deleted.");
     })
@@ -44,12 +46,22 @@ export default function UsersList({ users, firstUser, lastUser, currPage, loadin
                 <span data-bs-toggle="tooltip" data-bs-placement="top" title="View Profile">
                   <FontAwesomeIcon icon={faEye} className="cursor text-white me-2" onClick={(() => router.push("/profile/" + x.id))} />
                 </span>
-                <span data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User">
-                  <FontAwesomeIcon icon={faPenToSquare} className="cursor text-white me-2" onClick={(() => router.push("/profile/" + x.id + "/edit"))} />
-                </span>
-                <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User">
-                  <FontAwesomeIcon icon={faTrash} className="cursor text-white" onClick={(async() => await clickRemoveUser(x.id))} />
-                </span>
+                {
+                  user?.role > 0 ?
+                  <div>
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User">
+                      <FontAwesomeIcon icon={faPenToSquare} className="cursor text-white me-2" onClick={(() => router.push("/profile/" + x.id + "/edit"))} />
+                    </span>
+                  </div> : ''
+                }
+                {
+                  user?.role == 2 ?
+                  <div>
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User">
+                      <FontAwesomeIcon icon={faTrash} className="cursor text-white" onClick={(async() => await handleDelete(x.id))} />
+                    </span>
+                  </div> : ''
+                }
               </div>
             </div>
           </div>

@@ -286,3 +286,21 @@ export const deleteUser = async(user) => {
     return result;
   })
 }
+
+export const deletePoll = async(poll) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/polls/${poll}`, {
+    method: "DELETE",
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  })
+}
+
+export const deleteSurvey = async(survey) => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/surveys/${survey}`, {
+    method: "DELETE",
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  })
+}

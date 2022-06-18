@@ -92,7 +92,6 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    console.log(user)
     if(!router.isReady) return;
     async function fetchComments() {
       await getAllComments(id).then((res) => {
@@ -136,6 +135,10 @@ export default function Profile() {
                   <div className='d-flex align-items-center'>
                     <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
                     <Badge type={"admin"} />
+                    {
+                      user?.id && user?.id == id ?
+                      <Badge type={"profile"} /> : ''
+                    }
                   </div>
                   <p className='text-gray600 ps-3 mt-0 lh-sm mb-1'>@{ userProfile?.username }
                     <span className='cursor text-gray500' data-bs-toggle="tooltip" data-bs-placement="top" title="Click to Copy Username" onClick={(() => {

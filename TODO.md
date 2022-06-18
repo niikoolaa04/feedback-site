@@ -1,14 +1,9 @@
 **PROFILE**
 
-- reputation give pos/neg +TBD FEATURE
-- percentage likes/dislikes
-  - `const percentages = (xs) =>
-  xs .reduce ((pcts, x) => ({...pcts, [x]: (pcts [x] || 0) + 100 / (xs .length)}), {})`
 - **DATE NOT SAVED PROPERLY**
 
 **POLLS**
 - extra option for social media
-- fix creation when loggedin marked as guest
 - delete bttn if role is 2
 
 **SURVEYS**
@@ -25,3 +20,4 @@
 - **MAKE PUBLIC RESULTS ACCESSABLE JUST VIA CODE OR SMTH - ID PROBABLY**
 - **CONFIG FOR LANGUAGE - REP TYPE ALSO**
 - **ADD FILTERS DROPDOWN, FEATURE ALREADY EXIST**
+- sort profile by reputation

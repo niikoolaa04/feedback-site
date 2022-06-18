@@ -1,6 +1,17 @@
 import Link from 'next/link'
+import { useContext } from 'react'
+import { UserContext } from '../../contexts/UserContext'
+import { deletePoll, successBar } from '../../utils/utils';
 
 export default function BrowseList({ polls }) {
+  const { user } = useContext(UserContext);
+
+  const handleDelete = async(id) => {
+    await deletePoll(id).then(async() => {
+      successBar("Poll with ID " + id + " have been deleted.");
+    });
+  }
+
   return polls?.map((x, i) => (
     <div className='mt-3'>
       <div className='bg-secdark py-3 px-3 rounded-2' key={x.id}>
@@ -15,10 +26,14 @@ export default function BrowseList({ polls }) {
               <button className='btn btn-primary me-3'>View Poll</button>
             </Link>
             {
-              x?.publicResults == true ?
+              x?.publicResults == true || user?.role > 0 ?
               <Link href={`/polls/${x?.id}/results`}>
-                <button className='btn btn-success'>Results</button>
+                <button className='btn btn-success me-3'>Results</button>
               </Link> : ''
+            }
+            {
+              user?.role > 0 ?
+              <button className="btn btn-danger" onClick={(async() => await handleDelete(x?.id))}>Delete</button> : ''
             }
           </div>
         </div>
