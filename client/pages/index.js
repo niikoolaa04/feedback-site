@@ -145,12 +145,12 @@ export default function Home() {
               <form className="form-inline mt-5">
                 <div className="input-group pb-1">
                   <div className="input-group-prepend">
-                    <span className="input-group-text rounded-0 rounded-start" id="basic-addon1">@</span>
+                    <span className="input-group-text bg-maindark border-secdark text-white rounded-0 rounded-start" id="basic-addon1">@</span>
                   </div>
-                  <input type="text" className="form-control rounded-end me-2" placeholder="Your Email Address" aria-label="Player" aria-describedby="basic-addon1" />
+                  <input type="text" className="form-control rounded-end text-light bg-maindark border-secdark me-2" placeholder="Your Email Address" aria-label="Player" aria-describedby="basic-addon1" />
                   <button className="btn btn-outline-primary rounded-1" type="submit">Subscribe</button>
                 </div>
-                <a href='/unsubscribe' className='text-gray600'>How to Unsubscribe?</a>
+                <a className='text-gray600 cursor'>How to Unsubscribe?</a>
               </form>
             </div>
           </div>

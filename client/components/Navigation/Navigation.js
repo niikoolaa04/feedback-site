@@ -107,7 +107,7 @@ export default function Navigation({ active = "home" }) {
                       </Link>
                     </li>
                     {
-                      user?.role == 1 || user?.role == 2 ?
+                      user?.role > 0 ?
                       <li>
                         <Link href="/admin">
                           <a className="dropdown-item text-light">

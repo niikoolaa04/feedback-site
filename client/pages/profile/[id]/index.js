@@ -134,7 +134,7 @@ export default function Profile() {
                 <div className='d-flex flex-column'>
                   <div className='d-flex align-items-center'>
                     <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
-                    <Badge type={"admin"} />
+                    <Badge type={userProfile?.role == 0 ? "member" : userProfile?.role == 1 ? "staff" : "admin"} />
                     {
                       user?.id && user?.id == id ?
                       <Badge type={"profile"} /> : ''

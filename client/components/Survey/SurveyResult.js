@@ -88,7 +88,7 @@ export default function SurveyResult() {
               {
                   userProfile?.id == -1 || !userProfile?.mail ? 
                   <div>
-                    <p className='text-light'>- Guest answered this Survey (learn more)</p>
+                    <p className='text-light'>- Guest answered this Survey</p>
                   </div> :
                   <>
                     <p className='text-light'>- <b>{ userProfile?.username }</b> answered this Survey (view profile)</p>

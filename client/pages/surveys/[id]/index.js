@@ -133,7 +133,7 @@ export default function SurveyDetails() {
                         {
                             userProfile?.id == -1 || !userProfile?.mail ? 
                             <div>
-                              <p className='text-light'>- This poll was created by Guest User (learn more)</p>
+                              <p className='text-light'>- This poll was created by Guest User</p>
                             </div> :
                             <ProfileWidget userProfile={userProfile} />
                           }
