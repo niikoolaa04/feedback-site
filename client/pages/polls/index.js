@@ -16,6 +16,7 @@ export default function Polls() {
   const [perPage] = useState(3);
   const [next, setNext] = useState(perPage);
   const [items, setItems] = useState([]);
+  const [sort, setSort] = useState("none");
   
   const nextPage = () => {
     if(items.length == polls?.length) return warningBar("You have reached end of list.", 2000);
@@ -37,6 +38,11 @@ export default function Polls() {
         if(filters.author) {
           res = res.filter((x) => x.user == filters.user)
         }
+        if(sort == "most_votes") {
+          res = res.sort((a, b) => b.submitters.length - a.submitters.length);
+        } else if(sort == "least_votes") {
+          res = res.sort((a, b) => a.submitters.length - b.submitters.length);
+        }
         setPolls(res);
         setNext(perPage);
         setItems(res?.slice(0, next));
@@ -44,7 +50,7 @@ export default function Polls() {
     }
 
     fetchPolls();
-  }, [])
+  }, [sort]);
 
   return (
     <div className='hideOverflow'>
@@ -57,7 +63,19 @@ export default function Polls() {
           <div className="container py-6">
             <div className="row d-flex justify-content-center">
               <p className='text-light fs-2 fw-bold mb-0'>Polls list</p>
-              <p className='text-gray600 mb-3 mt-0'>List of all public polls for which you can vote.</p>
+              <p className='text-gray600 mb-0 mt-0'>List of all public polls for which you can vote.</p>
+              <div className='mb-3 '>
+                <div className="btn-group mt-3">
+                  <button type="button" className="btn btn-secondary dropdown-toggle bg-secdark border-maindark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort Polls
+                  </button>
+                  <div className="dropdown-menu dropdown-menu-dark bg-maindark">
+                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_votes"))}>Most Votes</button>
+                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("least_votes"))}>Least Votes</button>
+                    {/* <button className="dropdown-item text-white" type="button">Administrator</button> */}
+                  </div>
+                </div>
+              </div>
               <BrowseList polls={items} />
             </div>
             <div className='text-center mt-5 mb-0'>
