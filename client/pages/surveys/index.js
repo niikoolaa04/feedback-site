@@ -72,7 +72,7 @@ export default function Surveys() {
                     Sort Surveys
                   </button>
                   <div className="dropdown-menu dropdown-menu-dark bg-maindark">
-                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_replies"))}>Most Replied</button>
+                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_replies"))}>Most Replies</button>
                     <button className="dropdown-item text-white" type="button" onClick={(() => setSort("least_replies"))}>Least Replies</button>
                     {/* <button className="dropdown-item text-white" type="button">Administrator</button> */}
                   </div>
