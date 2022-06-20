@@ -66,13 +66,13 @@ export default function SurveyDetails() {
     if(survey?.publicResults == false && survey?.user !== auth.id) {
       return router.push("/surveys");
     }
-  }, [user, router.isReady, survey]);
+  }, [auth, router.isReady, survey]);
 
   return (
     <div className='hideOverflow'>
       <Navigation active='surveys' />
       <Head>
-        <title>Feedback - Poll #{id}</title>
+        <title>Feedback - Survey #{id}</title>
       </Head>
       <div className="">
         <div className='bg-maindark'>

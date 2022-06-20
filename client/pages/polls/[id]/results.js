@@ -80,7 +80,7 @@ export default function NewPoll() {
     if(poll?.publicResults == false && poll?.user !== auth.id) {
       return router.push("/polls");
     }
-  }, [user, router.isReady, poll]);
+  }, [auth, router.isReady, poll]);
 
   return (
     <div className='hideOverflow'>
