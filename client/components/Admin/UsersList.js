@@ -31,11 +31,11 @@ export default function UsersList({ users, firstUser, lastUser, currPage, loadin
           <div className="bg-secdark rounded-1 d-flex align-items-center">
             <div className="col-6 col-md-8 px-md-2">
               <div className="d-flex justify-content-start align-items-center py-2">
-                <Image className='rounded-1' src={x.profilePicture} loader={myLoader} width="32px" height="32px" />
+                <Image className='rounded-1' src={x.profilePicture} loader={myLoader} width="64px" height="64px" />
                 <div className='m-0 lh-sm'>
                   <div className='d-flex align-items-center'>
                     <p className='text-white m-0 p-0 ps-2'>{x.profileName}</p>
-                    <Badge type={"admin"} />
+                    <Badge type={x?.role == 0 ? "member" : x?.role == 1 ? "staff" : "admin"} />
                   </div>
                   <span className='text-gray600 m-0 fs-7 ps-2'>@{x.username}</span>
                 </div>

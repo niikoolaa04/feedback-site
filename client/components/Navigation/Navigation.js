@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
   , faMagnifyingGlassChart, faUserPlus, faScroll
-  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress, faLock } from '@fortawesome/free-solid-svg-icons';
+  , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress, faLock, faPeopleLine } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../contexts/UserContext';
 import cookie from 'js-cookie'
 import { ToastContainer } from 'react-toastify'
@@ -72,6 +72,13 @@ export default function Navigation({ active = "home" }) {
                       <Link href="/surveys">
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faScroll} size="1x" className='pe-3 align-base' />Surveys
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/profile">
+                        <a className="dropdown-item text-light">
+                          <FontAwesomeIcon icon={faPeopleLine} size="1x" className='pe-3 align-base' />Profiles
                         </a>
                       </Link>
                     </li>

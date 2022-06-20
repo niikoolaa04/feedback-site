@@ -2,8 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import { deleteSurvey } from '../../utils/utils';
-import { successBar } from '../../utils/utils';
+import Badge from '../Admin/Badge';
 import { myLoader } from '../../utils/utils';
 
 export default function BrowseList({ profiles }) {
@@ -17,12 +16,14 @@ export default function BrowseList({ profiles }) {
             <div className='d-flex align-items-center'>
               <Image className='rounded-1' src={x?.profilePicture} loader={myLoader} width="64px" height="64px" />
               <div>
+              <div className='d-flex'>
               <p className='text-light fw-bold mt-0 mb-0 ms-3'>{ x?.profileName } (#{ x?.id }) - <span className='text-gray500 fw-normal'>👍 {x?.likes?.length} - 👎 {x?.dislikes?.length}</span></p>
+                <Badge type={x?.role == 0 ? "member" : x?.role == 1 ? "staff" : "admin"} />
+              </div>
               <p className='text-gray700 mt-0 mb-0 ms-3 fs-7'>{x?.polls?.length} Polls | {x?.surveys?.length} Surveys</p>
 
               </div>
             </div>
-            {/* <p className='text-light mt-0 mb-0'>{ x.shortDescription }</p> */}
           </div>
           <div className="col-md-6 justify-content-md-end pt-4 pt-md-0 pe-4 d-flex align-items-center align-middle">
             <Link href={`/profile/${x?.id}`}>

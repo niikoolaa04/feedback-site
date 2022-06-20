@@ -7,21 +7,21 @@ import { getAllProfiles, warningBar } from '../../utils/utils'
 import BrowseList from '../../components/Profile/BrowseList'
 import { ToastContainer } from 'react-toastify'
 
-export default function Surveys() {
+export default function Profiles() {
   const router = useRouter();
   const [filters, setFilters] = useState({
     user: router.query.author || null
   });
-  const [surveys, setSurveys] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [perPage] = useState(3);
   const [next, setNext] = useState(perPage);
   const [items, setItems] = useState([]);
   const [sort, setSort] = useState("none");
   
   const nextPage = () => {
-    if(items.length == surveys?.length) return warningBar("You have reached end of list.", 2000);
-    let slicedSurveys = surveys?.slice(next, parseInt(next) + parseInt(perPage));
-    setItems(items.concat(slicedSurveys));
+    if(items.length == profiles?.length) return warningBar("You have reached end of list.", 2000);
+    let slicedProfiles = profiles?.slice(next, parseInt(next) + parseInt(perPage));
+    setItems(items.concat(slicedProfiles));
     setNext(next + perPage);
   };
 
@@ -33,15 +33,12 @@ export default function Surveys() {
   }, [router.isReady])
 
   useEffect(() => {
-    const fetchSurveys = async() => {
+    const fetchProfiles = async() => {
       await getAllProfiles().then(async(res) => {
-        if(filters.user) {
-          res = res.filter((x) => x.user == filters.user);
-        }
-        if(sort == "most_reputation") {
+        if(sort == "positive_rep") {
           res = res.sort((a, b) => b.likes.length - a.likes.length);
-        } else if(sort == "least_reputation") {
-          res = res.sort((a, b) => a.dislikes.length - b.dislikes.length);
+        } else if(sort == "negative_rep") {
+          res = res.sort((a, b) => b.dislikes.length - a.dislikes.length);
         } else if(sort == "most_polls") {
           res = res.sort((a, b) => b.polls.length - a.polls.length);
         } else if(sort == "least_polls") {
@@ -53,14 +50,14 @@ export default function Surveys() {
         } else if(sort == "staff") {
           res = res.filter((t) => t.role > 0)
         }
-        setSurveys(res);
+        setProfiles(res);
         setNext(perPage);
         setItems(res?.slice(0, next));
       })
     }
 
-    fetchSurveys();
-  }, [])
+    fetchProfiles();
+  }, [sort])
 
   return (
     <div className='hideOverflow'>
@@ -80,8 +77,8 @@ export default function Surveys() {
                     Sort Profiles
                   </button>
                   <div className="dropdown-menu dropdown-menu-dark bg-maindark">
-                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_reputation"))}>Most Reputation</button>
-                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("least_reputation"))}>Least Reputation</button>
+                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("positive_rep"))}>Positive Reputation</button>
+                    <button className="dropdown-item text-white" type="button" onClick={(() => setSort("negative_rep"))}>Negative Reputation</button>
                     <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_polls"))}>Most Polls</button>
                     <button className="dropdown-item text-white" type="button" onClick={(() => setSort("least_polls"))}>Least Polls</button>
                     <button className="dropdown-item text-white" type="button" onClick={(() => setSort("most_surveys"))}>Most Surveys</button>
