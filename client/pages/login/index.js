@@ -1,29 +1,20 @@
 import { useEffect, useRef, useContext } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { UserContext } from '../../contexts/UserContext';
-import { getProfile, decodeToken, successBar, errorBar } from '../../utils/utils';
+import { errorBar } from '../../utils/utils';
 import { signIn } from '../../store/actions/authActions';
 
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
   const dispatch = useDispatch();
-  const { setUser } = useContext(UserContext);
-
-  async function getUser() {
-    await decodeToken().then(async(res) => {
-      await getProfile(res?.id).then(async(usr) => {
-        if(usr) router.push("/") 
-      })
-    })
-  }
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if(router.isReady == false) return;
-    getUser();
+    if(auth?.id && auth?.username) router.push("/");
   }, [router.isReady]);
 
   const handleLogin = async(e) => {

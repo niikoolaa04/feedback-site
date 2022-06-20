@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, useContext, useMemo } from 'react'
 import { useRouter } from 'next/router';
-import { UserContext } from '../../../contexts/UserContext';
 import Navigation from '../../../components/Navigation/Navigation';
 import Footer from '../../../components/Other/Footer';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
 import { errorBar, getProfile, successBar, editProfile } from '../../../utils/utils';
+import { useSelector } from 'react-redux';
 
 export default function Edit() {
   const router = useRouter();
   const { id } = router.query;
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
   let [userProfile, setUserProfile] = useState({});
   const editData = useRef([]);
   const checksRef = useRef([]);
@@ -43,7 +43,7 @@ export default function Edit() {
 
   useEffect(() => {
     if(!router.isReady) return;
-    if(!user?.id || (user?.id != id && user?.role != 2)) router.push("/");
+    if(!auth?.id || (auth?.id != id && auth?.role != 2)) router.push("/");
   }, [userProfile]);
 
   const editRole = async(role) => {

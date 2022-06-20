@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
+import { useSelector } from 'react-redux';
 import { deleteSurvey } from '../../utils/utils';
 import { successBar } from '../../utils/utils';
 
 export default function BrowseList({ surveys }) {
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
 
   const handleDelete = async(id) => {
     await deleteSurvey(id).then(async() => {
@@ -33,7 +33,7 @@ export default function BrowseList({ surveys }) {
               </Link> : ''
             }
             {
-              user?.role > 0 ?
+              auth?.role > 0 ?
               <button className="btn btn-danger" onClick={(async() => await handleDelete(x?.id))}>Delete</button> : ''
             }
           </div>

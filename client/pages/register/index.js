@@ -14,17 +14,9 @@ export default function Register() {
   const router = useRouter();
   const termsRef = useRef(null);
 
-  async function getUser() {
-    await decodeToken().then(async(res) => {
-      await getProfile(res?.id).then(async(usr) => {
-        if(usr) router.push("/") 
-      })
-    })
-  }
-
   useEffect(() => {
     if(router.isReady == false) return;
-    getUser();
+    if(auth?.id && auth?.username) router.push("/");
   }, [router.isReady]);
 
   const submitDetails = async(e) => {

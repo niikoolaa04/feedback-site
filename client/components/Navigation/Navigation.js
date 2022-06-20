@@ -4,15 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faSquarePollVertical,faNewspaper, faAngleDown
   , faMagnifyingGlassChart, faUserPlus, faScroll
   , faArrowRightToBracket, faAddressCard, faSliders, faArrowRightFromBracket, faBarsProgress, faLock, faPeopleLine } from '@fortawesome/free-solid-svg-icons';
-import { UserContext } from '../../contexts/UserContext';
 import cookie from 'js-cookie'
 import { ToastContainer } from 'react-toastify'
 import { successBar } from '../../utils/utils'
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from '../../store/actions/authActions';
+import { useRouter } from 'next/router';
 
 export default function Navigation({ active = "home" }) {
-  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch();
 
@@ -22,8 +22,9 @@ export default function Navigation({ active = "home" }) {
   }
 
   useEffect(() => {
+    if(!router.isReady) return;
     dispatch(loadUser());
-  }, [])
+  }, [router.isReady])
 
   return (
     <div>
@@ -137,14 +138,14 @@ export default function Navigation({ active = "home" }) {
                       <a className="dropdown-item text-light" onClick={(() => {
                         // here dispatch
                         cookie.remove("token");
-                        setUser({
+                        /* setUser({
                           id: null,
                           username: null,
                           profileName: null,
                           mail: null,
                           picture: null,
                           role: 0,
-                        });
+                        }); */
                         successBar("Logged out successfully")
                       })}>
                         <FontAwesomeIcon icon={faArrowRightFromBracket} size="1x" className='pe-3 align-base' />Log Out

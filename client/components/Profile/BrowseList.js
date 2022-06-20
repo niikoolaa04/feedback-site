@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
 import Badge from '../Admin/Badge';
 import { myLoader } from '../../utils/utils';
+import { useSelector } from 'react-redux';
 
 export default function BrowseList({ profiles }) {
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
 
   return profiles?.map((x, i) => (
     <div className='mt-3'>
@@ -30,7 +30,7 @@ export default function BrowseList({ profiles }) {
               <button className='btn btn-primary me-3'>View Profile</button>
             </Link>
             {
-              user?.role > 0 ?
+              auth?.role > 0 ?
               <Link href={`/profile/${x?.id}/edit`}>
                 <button className="btn btn-primary">Manage User</button>
               </Link> : ''

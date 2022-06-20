@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { ToastContainer } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faPen, faRightFromBracket, faUsers } from '@fortawesome/free-solid-svg-icons';
-import { UserContext } from '../../contexts/UserContext';
+import { useSelector } from 'react-redux';
 
 export default function Admin() {
   const router = useRouter();
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if(!router.isReady) return;
-    if(user?.role == 0) router.push("/");
+    if(auth?.role == 0) router.push("/");
   }, [router.isReady])
 
   return (

@@ -6,7 +6,6 @@ import Head from 'next/head'
 import QuestionsList from '../../../components/Survey/QuestionsList'
 import Pagination from '../../../components/Other/Pagination'
 import { warningBar, getSurvey, submitSurvey, errorBar, getProfile } from '../../../utils/utils'
-import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
 import ProfileWidget from '../../../components/Profile/ProfileWidget'
@@ -16,7 +15,6 @@ export default function SurveyDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  // const auth = useContext(UserContext)?.user;
   const auth = useSelector((state) => state.auth);
   const answerRef = useRef([]);
   

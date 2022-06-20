@@ -37,7 +37,6 @@ const authReducer = (state = initialState, action) => {
         role: action.payload.user.role || 0
       }
     case "LOAD_SUCCESS":
-      console.log(action.payload)
       return {
         id: action.payload.id,
         username: action.payload.username,
@@ -48,6 +47,10 @@ const authReducer = (state = initialState, action) => {
       }
     case "LOAD_ERROR":
       return state
+    case "LOGOUT":
+      cookie.remove("token");
+      successBar("Logged out successfully")
+      return state;
     default:
       return state;
   }

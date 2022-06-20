@@ -89,3 +89,12 @@ export const signUp = (details) => {
     })
   }
 }
+
+export const signOut = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "LOGOUT",
+      paylaod: {}
+    })
+  }
+}

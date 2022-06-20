@@ -5,22 +5,11 @@ import { dom } from "@fortawesome/fontawesome-svg-core";
 import '../scss/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
-import { decodeToken, getProfile } from '../utils/utils';
-import { UserContext } from '../contexts/UserContext'
 import store from '../store/store';
 import { Provider } from 'react-redux';
 import { loadUser } from '../store/actions/authActions';
 
 function MyApp({ Component, pageProps }) {
-  const [user, setUser] = useState({
-    id: null,
-    username: null,
-    profileName: null,
-    mail: null,
-    picture: null,
-    role: 0,  
-  });
-
   useEffect(() => {
     async function loadBootstrap() {
       const { Tooltip } = await import("../node_modules/bootstrap/dist/js/bootstrap");
@@ -30,34 +19,10 @@ function MyApp({ Component, pageProps }) {
         return new Tooltip(tooltipTriggerEl)
       });
     }
-/*     async function getUser() {
-      await decodeToken().then(async(res) => {
-        await getProfile(res?.id).then(async(usr) => {
-          if(!usr) return setUser({
-            id: null,
-            username: null,
-            profileName: null,
-            mail: null,
-            picture: null,
-            role: 0,         
-          })
-          
-          setUser({
-            id: usr?.id,
-            username: usr?.username,
-            profileName: usr?.profileName,
-            mail: usr?.mail,
-            picture: usr?.profilePicture,
-            role: usr?.role
-          });
-        })
-      })
-    } */
 
     loadBootstrap();
   }, []);
 
-  const ctxValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return (
     <>
@@ -67,11 +32,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{dom.css()}</style>
       </Head>
-      <UserContext.Provider value={ctxValue}>
-        <Provider store={store}>
-          <Component {...pageProps} />
-        </Provider>
-      </UserContext.Provider>
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </>
   )
 }

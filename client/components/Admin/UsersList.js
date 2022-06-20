@@ -5,12 +5,13 @@ import { faTrash, faPenToSquare, faEye } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteUser } from '../../utils/utils'
 import { useRouter } from 'next/router'
-import { UserContext } from '../../contexts/UserContext';
 import Badge from './Badge'
+import { useSelector } from 'react-redux';
 
 export default function UsersList({ users, firstUser, lastUser, currPage, loading }) {
   const router = useRouter();
-  const { user } = useContext(UserContext)
+  const auth = useSelector((state) => state.auth);
+
   const [pageUsers, setPageUsers] = useState(users.slice(firstUser, lastUser));
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function UsersList({ users, firstUser, lastUser, currPage, loadin
                   <FontAwesomeIcon icon={faEye} className="cursor text-white me-2" onClick={(() => router.push("/profile/" + x.id))} />
                 </span>
                 {
-                  user?.role > 0 ?
+                  auth?.role > 0 ?
                   <div>
                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="Edit User">
                       <FontAwesomeIcon icon={faPenToSquare} className="cursor text-white me-2" onClick={(() => router.push("/profile/" + x.id + "/edit"))} />
@@ -55,7 +56,7 @@ export default function UsersList({ users, firstUser, lastUser, currPage, loadin
                   </div> : ''
                 }
                 {
-                  user?.role == 2 ?
+                  auth?.role == 2 ?
                   <div>
                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete User">
                       <FontAwesomeIcon icon={faTrash} className="cursor text-white" onClick={(async() => await handleDelete(x.id))} />

@@ -5,11 +5,11 @@ import Navigation from '../../components/Navigation/Navigation'
 import Footer from '../../components/Other/Footer'
 import ChoicesCreate from '../../components/Poll/ChoicesCreate'
 import { createPoll, successBar, errorBar, getProfile } from '../../utils/utils'
-import { UserContext } from '../../contexts/UserContext'
 import '../../styles/Polls.module.css'
+import { useSelector } from 'react-redux'
 
 export default function NewPoll() {
-  const currUser = useContext(UserContext)?.user;
+  const auth = useSelector((state) => state.auth);
   const router = useRouter();
   const [limitNum, setLimitNum] = useState(-1);
   const [answers, setAnswers] = useState([{
@@ -36,10 +36,9 @@ export default function NewPoll() {
   }
 
   async function getUserProfile() {
-    if(currUser.id) {
-      await getProfile(currUser.id).then((res) => {
-        console.log(currUser.id)
-        if(res?.id) setAuthor(currUser.id);
+    if(auth.id) {
+      await getProfile(auth.id).then((res) => {
+        if(res?.id) setAuthor(auth.id);
       });
     } else {
       setAuthor("-1");

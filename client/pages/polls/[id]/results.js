@@ -4,14 +4,14 @@ import { useRouter } from 'next/router'
 import Navigation from '../../../components/Navigation/Navigation'
 import Footer from '../../../components/Other/Footer'
 import Loading from '../../../components/Other/Loading'
-import { UserContext } from '../../../contexts/UserContext'
 import { getPoll } from '../../../utils/utils'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
 import { Pie } from 'react-chartjs-2'
 import 'chart.js/auto';
+import { useSelector } from 'react-redux'
 
 export default function NewPoll() {
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
   const router = useRouter();
   const { id } = router.query;
 
@@ -77,7 +77,7 @@ export default function NewPoll() {
   }, [router.isReady]);
 
   useMemo(() => {
-    if(poll?.publicResults == false && poll?.user !== user.id) {
+    if(poll?.publicResults == false && poll?.user !== auth.id) {
       return router.push("/polls");
     }
   }, [user, router.isReady, poll]);
@@ -92,7 +92,7 @@ export default function NewPoll() {
         <div className="bg-maindark">
           <div className="container py-6">
             {
-              publicResults == false && (!user?.id || !user?.mail || !user?.id) ? <Loading w={"128px"} h={"128px"} /> :
+              publicResults == false && (!auth?.id || !auth?.mail || !auth?.id) ? <Loading w={"128px"} h={"128px"} /> :
               <div className="row d-flex justify-content-center">
                 <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                   <div className='px-md-5 mb-3 pt-4'>

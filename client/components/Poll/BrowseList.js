@@ -1,10 +1,9 @@
 import Link from 'next/link'
-import { useContext } from 'react'
-import { UserContext } from '../../contexts/UserContext'
+import { useSelector } from 'react-redux';
 import { deletePoll, successBar } from '../../utils/utils';
 
 export default function BrowseList({ polls }) {
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
 
   const handleDelete = async(id) => {
     await deletePoll(id).then(async() => {
@@ -26,13 +25,13 @@ export default function BrowseList({ polls }) {
               <button className='btn btn-primary me-3'>View Poll</button>
             </Link>
             {
-              x?.publicResults == true || user?.role > 0 ?
+              x?.publicResults == true || auth?.role > 0 ?
               <Link href={`/polls/${x?.id}/results`}>
                 <button className='btn btn-success me-3'>Results</button>
               </Link> : ''
             }
             {
-              user?.role > 0 ?
+              auth?.role > 0 ?
               <button className="btn btn-danger" onClick={(async() => await handleDelete(x?.id))}>Delete</button> : ''
             }
           </div>

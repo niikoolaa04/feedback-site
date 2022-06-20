@@ -6,14 +6,13 @@ import Head from 'next/head'
 import { useRouter }from 'next/router'
 import { ToastContainer } from 'react-toastify';
 import { errorBar, successBar, getProfile, createSurvey } from '../../utils/utils'
-import { UserContext } from '../../contexts/UserContext'
 import { useSelector } from 'react-redux'
 
 export default function NewSurvey() {
   const router = useRouter();
 
-  // const { user } = useContext(UserContext);
   const auth = useSelector((state) => state.auth);
+  
   const [questionsList, setQuestionsList] = useState([{
     id: 1,
     text: ''
