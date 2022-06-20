@@ -54,7 +54,7 @@ export default function SurveyDetails() {
     })
 
     if(!auth?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
-    if(survey?.limit > 0 && survey?.submitters?.length == survey?.limit && user?.id) setIsLimit(true);
+    if(survey?.limit > 0 && survey?.submitters?.length == survey?.limit && auth?.id) setIsLimit(true);
     if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
     await submitSurvey(id, auth, surveyDetails);
   }
@@ -82,7 +82,7 @@ export default function SurveyDetails() {
         }
 
         setLoading(false);
-        if(result?.limit > 0 && result?.submitters.length == result?.limit && user?.id) setIsLimit(true);
+        if(result?.limit > 0 && result?.submitters.length == result?.limit && auth?.id) setIsLimit(true);
         if(result?.user == "-1" || !result?.user) {
           setUserProfile({
             id: -1,
