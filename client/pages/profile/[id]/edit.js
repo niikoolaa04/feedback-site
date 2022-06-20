@@ -43,7 +43,7 @@ export default function Edit() {
 
   useEffect(() => {
     if(!router.isReady) return;
-    if(!user?.id || user?.role != 2) router.push("/");
+    if(!user?.id || (user?.id != id && user?.role != 2)) router.push("/");
   }, [userProfile]);
 
   const editRole = async(role) => {

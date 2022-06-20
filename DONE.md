@@ -1,0 +1,1 @@
+Edit Profile by Admin & User is now handled with same route

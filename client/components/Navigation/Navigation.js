@@ -100,7 +100,7 @@ export default function Navigation({ active = "home" }) {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/profile/edit">
+                      <Link href={`/profile/${user?.id}/edit`}>
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faSliders} size="1x" className='pe-3 align-base' />Edit Profile
                         </a>

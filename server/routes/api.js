@@ -20,6 +20,16 @@ router.get("/users", async(req, res) => {
   });
 });
 
+router.get("/users/list", async(req, res) => {
+  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  let profile = req.params.id;
+  User.find({ }, { id: true, about: true, profileName: true, polls: true,
+     surveys: true, username: true, mail: true, profilePicture: true,
+      likes: true, dislikes: true, role: true }, (err, post) => {
+    res.status(200).json(post);
+  })
+});
+
 router.get("/users/:id", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let profile = req.params.id;

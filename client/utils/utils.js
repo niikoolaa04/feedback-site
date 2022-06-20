@@ -218,6 +218,18 @@ export const getAllSurveys = async() => {
   });
 }
 
+export const getAllProfiles = async() => {
+  return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/list`, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }).then(async(res) => {
+    const result = await res.json();
+    return result;
+  });
+}
+
 export const getAllComments = async(id) => {
   return await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${id}/comments`, {
     method: "GET",
