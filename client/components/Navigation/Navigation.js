@@ -8,14 +8,22 @@ import { UserContext } from '../../contexts/UserContext';
 import cookie from 'js-cookie'
 import { ToastContainer } from 'react-toastify'
 import { successBar } from '../../utils/utils'
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUser } from '../../store/actions/authActions';
 
 export default function Navigation({ active = "home" }) {
   const { user, setUser } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
 
   const isActive = (page) => {
     if(active == page) return " active";
     else return "";
   }
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [])
 
   return (
     <div>
@@ -87,34 +95,34 @@ export default function Navigation({ active = "home" }) {
               </div>
             </ul>
             {
-              user.mail != null ?
+              auth.mail != null ?
               <div>
                 <li className="nav-item dropHoverEffect dropdown list-unstyled w-25 w-lg-100 cursor">
                   <div className='d-flex align-items-center mt-3 mt-md-0' data-bs-toggle="dropdown">
-                    <img className='rounded-circle' style={{ width: "42px", height: "42px" }} src={ user?.picture } alt="" />
+                    <img className='rounded-circle' style={{ width: "42px", height: "42px" }} src={ auth?.picture } alt="" />
                     <div className='flex-col ms-3 lh-sm'>
-                      <p className='text-light mb-0 mt-0'>{ user.profileName }</p>
-                      <p className='text-gray500 mb-0 mt-0 fs-7'>@{ user.username }</p>
+                      <p className='text-light mb-0 mt-0'>{ auth.profileName }</p>
+                      <p className='text-gray500 mb-0 mt-0 fs-7'>@{ auth.username }</p>
                     </div>
                     <FontAwesomeIcon icon={faAngleDown} size="1x" className='align-base ps-3 text-gray500' />
                   </div>
                   <ul className="dropdown-menu dropdown-menu-dark dropdown-menu-end bg-maindark">
                     <li>
-                      <Link href={`/profile/${user.id}`}>
+                      <Link href={`/profile/${auth.id}`}>
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faAddressCard} size="1x" className='pe-3 align-base' />Profile
                         </a>
                       </Link>
                     </li>
                     <li>
-                      <Link href={`/profile/${user?.id}/edit`}>
+                      <Link href={`/profile/${auth?.id}/edit`}>
                         <a className="dropdown-item text-light">
                           <FontAwesomeIcon icon={faSliders} size="1x" className='pe-3 align-base' />Edit Profile
                         </a>
                       </Link>
                     </li>
                     {
-                      user?.role > 0 ?
+                      auth?.role > 0 ?
                       <li>
                         <Link href="/admin">
                           <a className="dropdown-item text-light">
@@ -127,6 +135,7 @@ export default function Navigation({ active = "home" }) {
                     <li><hr className="dropdown-divider" /></li>
                     <li>
                       <a className="dropdown-item text-light" onClick={(() => {
+                        // here dispatch
                         cookie.remove("token");
                         setUser({
                           id: null,

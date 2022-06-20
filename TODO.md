@@ -22,3 +22,4 @@
 - **ADD FILTERS DROPDOWN, FEATURE ALREADY EXIST**
 - sort profile by reputation
 - dropdown sort polls & surveys by most replies etc.
+- logout navbar

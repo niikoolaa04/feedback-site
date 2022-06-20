@@ -9,12 +9,13 @@ import { getSurvey, getProfile } from '../../../../utils/utils'
 import { UserContext } from '../../../../contexts/UserContext'
 import DescriptionBox from '../../../../components/Other/DescriptionBox'
 import Loading from '../../../../components/Other/Loading'
+import { useSelector } from 'react-redux'
 
 export default function SurveyDetails() {
   const router = useRouter()
   const { id, resultId } = router.query;
 
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
 
   const [currPage, setCurrPage] = useState(1);
   const [questionsPerPage] = useState(5)
@@ -63,7 +64,7 @@ export default function SurveyDetails() {
   }, [resultId, currPage]);
 
   useMemo(() => {
-    if(survey?.publicResults == false && survey?.user !== user.id) {
+    if(survey?.publicResults == false && survey?.user !== auth.id) {
       return router.push("/surveys");
     }
   }, [user, router.isReady, survey]);
@@ -78,7 +79,7 @@ export default function SurveyDetails() {
         <div className='bg-maindark'>
           <div className="container py-6">
             {
-              publicResults == false && survey?.user != user?.id ? <Loading w={"128px"} h={"128px"} /> : 
+              publicResults == false && survey?.user != auth?.id ? <Loading w={"128px"} h={"128px"} /> : 
               <div className="row d-flex justify-content-center">
                 <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                   <div className='px-md-5 mb-3 pt-4'>

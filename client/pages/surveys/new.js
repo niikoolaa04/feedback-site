@@ -7,16 +7,17 @@ import { useRouter }from 'next/router'
 import { ToastContainer } from 'react-toastify';
 import { errorBar, successBar, getProfile, createSurvey } from '../../utils/utils'
 import { UserContext } from '../../contexts/UserContext'
+import { useSelector } from 'react-redux'
 
 export default function NewSurvey() {
   const router = useRouter();
 
-  const { user } = useContext(UserContext);
+  // const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
   const [questionsList, setQuestionsList] = useState([{
     id: 1,
     text: ''
   }]);
-  const [author, setAuthor] = useState("");
   const [limitNum, setLimitNum] = useState(-1);
   const questionRef = useRef([]);
   const titleRef = useRef("");
@@ -37,7 +38,7 @@ export default function NewSurvey() {
   }
 
   async function getUserProfile() {
-    await getProfile(user.id).then((res) => setAuthor(res?._id));
+    await getProfile(auth.id);
   }
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export default function NewSurvey() {
     if(limitNum < 1 || limitNum == "") setLimitNum(-1);
 
     let details = {
-      user: user?.id || "-1",
+      user: auth?.id || "-1",
       title: titleRef.current.value,
       shortDescription: shortDescRef.current.value,
       description: descriptionRef.current.value,

@@ -13,14 +13,14 @@ import SurveyList from '../../../components/Profile/SurveyList'
 import { getProfile, myLoader, createComment,
    errorBar, getAllComments, successBar, getUserPolls, getUserSurveys, postReputation } from '../../../utils/utils'
 import PollList from '../../../components/Profile/PollList'
-import { UserContext } from '../../../contexts/UserContext'
 import Badge from '../../../components/Admin/Badge'
+import { useSelector } from 'react-redux'
 
 export default function Profile() {
   const router = useRouter();
   const { id } = router.query;
   const commentRef = useRef("");
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth)
   const [userProfile, setUserProfile] = useState({});
   const [comments, setComments] = useState([]);
   const [surveys, setSurveys] = useState([]);
@@ -37,9 +37,9 @@ export default function Profile() {
   const nextPage = () => currPage == 100 ? setCurrPage(currPage) : setCurrPage(currPage + 1);
 
   const submitReputation = async(type) => {
-    if(!user || !user?.id) return errorBar("You must be authorized to be able to leave reputation.");
-    if(user?.id == id) return errorBar("You can't leave reputation on yourself.");
-    await postReputation(type, id, user?.id).then(async(res) => {
+    if(!auth || !auth?.id) return errorBar("You must be authorized to be able to leave reputation.");
+    if(auth?.id == id) return errorBar("You can't leave reputation on yourself.");
+    await postReputation(type, id, auth?.id).then(async(res) => {
       if(typeof(res.response) == "string") successBar("You've removed Reputation from this User");
       else successBar("You've left Reputation for this User", 3000);
       await getUserProfile()
@@ -83,9 +83,9 @@ export default function Profile() {
         pos: res?.likes?.length || 0,
         neg: res?.dislikes?.length || 0
       });
-      if(user && user?.id) {
-        if(res?.likes?.find((like) => like.user == user?.id)) setRepStatus('positive');
-        else if(res?.dislikes?.find((dislike) => dislike.user == user?.id)) setRepStatus('negative');
+      if(auth && auth?.id) {
+        if(res?.likes?.find((like) => like.auth == auth?.id)) setRepStatus('positive');
+        else if(res?.dislikes?.find((dislike) => dislike.auth == auth?.id)) setRepStatus('negative');
         else setRepStatus('neutral')
       }
     });
@@ -136,7 +136,7 @@ export default function Profile() {
                     <p className='text-light fw-bold ps-3 mb-0 lh-sm'>{ userProfile?.profileName }</p>
                     <Badge type={userProfile?.role == 0 ? "member" : userProfile?.role == 1 ? "staff" : "admin"} />
                     {
-                      user?.id && user?.id == id ?
+                      auth?.id && auth?.id == id ?
                       <Badge type={"profile"} /> : ''
                     }
                   </div>
@@ -166,7 +166,7 @@ export default function Profile() {
             <div className='mt-4'>
               <div>
                 <p className='text-light fs-3 fw-bold mb-0'>Latest Polls</p>
-                <p className='text-gray600'>Three latest polls that this User Created.</p>
+                <p className='text-gray600'>Three latest polls that this auth Created.</p>
               </div>
               {
                 polls?.length > 0 ? <div>
@@ -176,7 +176,7 @@ export default function Profile() {
                   </Link>
                 </div> : 
                 <div className='bg-secdark text-light pb-0 rounded-1 w-50'>
-                  <p className='m-0 p-2'>This User didn't create any Poll, yet.</p>
+                  <p className='m-0 p-2'>This auth didn't create any Poll, yet.</p>
                 </div>
               }
             </div>
@@ -184,7 +184,7 @@ export default function Profile() {
             <div className='mt-4'>
               <div>
                 <p className='text-light fs-3 fw-bold mb-0'>Latest Surveys</p>
-                <p className='text-gray600'>Three latest surveys that this User Created.</p>
+                <p className='text-gray600'>Three latest surveys that this auth Created.</p>
               </div>
               {
                 surveys?.length > 0 ? <div>
@@ -194,7 +194,7 @@ export default function Profile() {
                   </Link>
                 </div> : 
                 <div className='bg-secdark text-light pb-0 rounded-1 w-50'>
-                  <p className='m-0 p-2'>This User didn't create any Survey, yet.</p>
+                  <p className='m-0 p-2'>This auth didn't create any Survey, yet.</p>
                 </div>
               }
             </div>
@@ -220,7 +220,7 @@ export default function Profile() {
               }
             </div>
             {
-              (user?.id != null || user?.id > 0) && userProfile?.id != user?.id ?
+              (auth?.id != null || auth?.id > 0) && userProfile?.id != auth?.id ?
               <div>
                 <div className="mb-2 mt-4">
                   <label htmlFor="profileComm" className="form-label text-light">Leave comment</label>
@@ -232,7 +232,7 @@ export default function Profile() {
               </div> :
               <div>
                 <div className="mb-2 mt-4">
-                  <label htmlFor="profileComm" className="form-label text-light">Leave comment ({ user?.id == null ? 'You must be logged in' : 'You cannot leave comment to yourself' })</label>
+                  <label htmlFor="profileComm" className="form-label text-light">Leave comment ({ auth?.id == null ? 'You must be logged in' : 'You cannot leave comment to yourself' })</label>
                   <textarea disabled className="form-control border-secdark bg-secdark text-light" ref={commentRef} placeholder="Leave your comment here." id="profileComm" style={{ height: "5rem", resize: "none" }} />
                 </div>
                 <button disabled className='btn btn-success'>Comment</button>

@@ -1,14 +1,16 @@
 import { useEffect, useRef, useContext } from 'react'
 import Head from 'next/head'
-import cookie from 'js-cookie'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { UserContext } from '../../contexts/UserContext';
 import { getProfile, decodeToken, successBar, errorBar } from '../../utils/utils';
+import { signIn } from '../../store/actions/authActions';
 
 export default function Login() {
   const userData = useRef([]);
   const router = useRouter();
+  const dispatch = useDispatch();
   const { setUser } = useContext(UserContext);
 
   async function getUser() {
@@ -34,38 +36,7 @@ export default function Login() {
       password: userData.current.pw.value,
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/login`, {
-      method: "POST",
-      body: JSON.stringify(details),
-      headers: {
-        'credentials': 'include',
-        'Content-Type': 'application/json'
-      }
-    }).then(async(res) => {
-      const result = await res.json();
-      if(process.browser) {
-        if(result.code == 401) {
-          errorBar("You have provided invalid password, please recheck it.");
-          return;
-        } else if(result.code == 200) {
-          cookie.set("token", result.token, {
-            expires: 1,
-          });
-          setUser({
-            id: result.user.id,
-            username: result.user.username,
-            profileName: result.user.profileName,
-            mail: result.user.mail,
-            picture: result.user.picture,
-            role: result.user.role || 0
-          });
-          successBar("Login successful, redirecting in 3 seconds.", 3000);
-          setTimeout(() => router.push("/"), 3000); 
-        } else if(result.code == 404 && result.type == "user") {
-          errorBar("User with provided credentials couldn't be found.");
-        }
-      }
-    })
+    dispatch(signIn(details));
   }
 
   return (

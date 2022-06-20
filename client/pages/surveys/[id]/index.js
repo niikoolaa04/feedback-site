@@ -10,12 +10,14 @@ import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
 import ProfileWidget from '../../../components/Profile/ProfileWidget'
+import { useSelector } from 'react-redux'
 
 export default function SurveyDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const currUser = useContext(UserContext)?.user;
+  // const auth = useContext(UserContext)?.user;
+  const auth = useSelector((state) => state.auth);
   const answerRef = useRef([]);
   
   const [questions, setQuestions] = useState([]);
@@ -53,10 +55,10 @@ export default function SurveyDetails() {
       }
     })
 
-    if(!currUser?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
+    if(!auth?.id && survey?.needAuth == true) return errorBar("If you want to answer this Survey you need to be Logged in.");
     if(survey?.limit > 0 && survey?.submitters?.length == survey?.limit && user?.id) setIsLimit(true);
     if(isLimit == true) return errorBar(`This Survey has limit of ${result?.limit} users that can answer.`);
-    await submitSurvey(id, currUser, surveyDetails);
+    await submitSurvey(id, auth, surveyDetails);
   }
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function SurveyDetails() {
         }));
         await setSurvey(result);
 
-        if(result?.publicResults == false && result?.user == currUser?.id) {
+        if(result?.publicResults == false && result?.user == auth?.id) {
           setViewResults(true)
         } else if(result?.publicResults == true) {
           setViewResults(true);
@@ -93,7 +95,7 @@ export default function SurveyDetails() {
             if(res) setUserProfile(res);
           });
         }
-        if(!currUser?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
+        if(!auth?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
       })
     }
     fetchSurvey();

@@ -6,9 +6,11 @@ import Footer from '../../components/Other/Footer'
 import { getAllPolls, warningBar, errorBar } from '../../utils/utils'
 import BrowseList from '../../components/Poll/BrowseList'
 import { ToastContainer } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 export default function Polls() {
   const router = useRouter();
+  const auth = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({
     user: router.query.author || null
   });
@@ -24,6 +26,10 @@ export default function Polls() {
     setItems(items.concat(slicedPolls));
     setNext(next + perPage);
   };
+
+  useEffect(() => {
+    console.log(auth)
+  }, [])
 
   useEffect(() => {
     if(!router.isReady) return;

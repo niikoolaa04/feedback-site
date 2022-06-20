@@ -10,12 +10,14 @@ import { UserContext } from '../../../contexts/UserContext'
 import { ToastContainer } from 'react-toastify'
 import DescriptionBox from '../../../components/Other/DescriptionBox'
 import ProfileWidget from '../../../components/Profile/ProfileWidget'
+import { useSelector } from 'react-redux'
 
 export default function PollDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { user } = useContext(UserContext);
+  const auth = useSelector((state) => state.auth);
+
   const [choices, setChoices] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [selected, setSelected] = useState(-1);
@@ -30,8 +32,8 @@ export default function PollDetails() {
 
   const handleSubmit = async() => {
     if(selected == -1) return errorBar("You didn't choose option for which to vote.");
-    if(!user?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
-    if(poll?.limit > 0 && poll?.submitters?.length == poll?.limit && user?.id) setIsLimit(true);
+    if(!auth?.id && poll?.needAuth == true) return errorBar("If you want to vote for this Poll you need to be Logged in.");
+    if(poll?.limit > 0 && poll?.submitters?.length == poll?.limit && auth?.id) setIsLimit(true);
     if(isLimit == true) return errorBar(`This Poll has limit of ${poll?.limit} users that can vote`);
     await submitPoll(id, user, selected).then((res) => {
       successBar("You have voted for this poll successfully.");
@@ -53,7 +55,7 @@ export default function PollDetails() {
           }
         }));
         
-        if(result?.publicResults == false && result?.user == user?.id) {
+        if(result?.publicResults == false && result?.user == auth?.id) {
           setViewResults(true)
         } else if(result?.publicResults == true) {
           setViewResults(true);
@@ -61,7 +63,7 @@ export default function PollDetails() {
 
         setPoll(result);
         setLoading(false);
-        if(result?.limit > 0 && result?.submitters?.length == result?.limit && user?.id) setIsLimit(true);
+        if(result?.limit > 0 && result?.submitters?.length == result?.limit && auth?.id) setIsLimit(true);
         if(result?.user == "-1" || !result?.user) {
           setUserProfile({
             id: -1,
@@ -72,7 +74,7 @@ export default function PollDetails() {
             if(res) setUserProfile(res);
           });
         }
-        if(!user?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
+        if(!auth?.id && result?.needAuth == true) warningBar("If you want to vote for this Poll you need to be Logged in.");
       })
     }
     fetchPoll();

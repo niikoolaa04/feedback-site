@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
 import { decodeToken, getProfile } from '../utils/utils';
 import { UserContext } from '../contexts/UserContext'
+import store from '../store/store';
+import { Provider } from 'react-redux';
+import { loadUser } from '../store/actions/authActions';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState({
@@ -27,7 +30,7 @@ function MyApp({ Component, pageProps }) {
         return new Tooltip(tooltipTriggerEl)
       });
     }
-    async function getUser() {
+/*     async function getUser() {
       await decodeToken().then(async(res) => {
         await getProfile(res?.id).then(async(usr) => {
           if(!usr) return setUser({
@@ -49,10 +52,9 @@ function MyApp({ Component, pageProps }) {
           });
         })
       })
-    }
+    } */
 
     loadBootstrap();
-    getUser();
   }, []);
 
   const ctxValue = useMemo(() => ({ user, setUser }), [user, setUser]);
@@ -66,7 +68,9 @@ function MyApp({ Component, pageProps }) {
         <style>{dom.css()}</style>
       </Head>
       <UserContext.Provider value={ctxValue}>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </UserContext.Provider>
     </>
   )

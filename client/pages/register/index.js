@@ -4,9 +4,13 @@ import { ToastContainer } from 'react-toastify';
 import { errorBar, successBar, getProfile, decodeToken } from '../../utils/utils'
 import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux'
+import { signUp } from '../../store/actions/authActions';
 
 export default function Register() {
   const registerData = useRef([]);
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const router = useRouter();
   const termsRef = useRef(null);
 
@@ -38,27 +42,7 @@ export default function Register() {
       return;
     }
 
-    await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/register`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(details)
-    }).then(async(res) => {
-      let result = await res.json();
-      if(result.code == 409 && result.type == "username") {
-        errorBar("Username already exist, try the new one.");
-        return;
-      }
-      if(result.code == 409 && result.type == "mail") {
-        errorBar("Email already exist, try the new one.");
-        return;
-      }
-      if(result.code == 201) {
-        successBar("Registration successful, redirecting in 3 seconds.");
-        setTimeout(() => router.push("/"), 3000); 
-      }
-    })
+    dispatch(signUp(details))
   }
 
   useEffect(() => {
