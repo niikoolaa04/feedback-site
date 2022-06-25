@@ -2,7 +2,7 @@
 
 Website used for getting feedback from your fans, clients or anyone else. Make Survey, Poll or leave comment on someone's profile.
 Want to see if someone is trusted and not scammer? See reputation on his profile!
-Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mongoose).
+Website is built with NextJS, Express, React Redux, Bootstrap & data is saved in MongoDB (Mongoose).
 
 ✨ **Live Demo:** https://feedback-site-niikoolaa04.vercel.app/
 
@@ -25,6 +25,7 @@ Website is built with NextJS, Express, Bootstrap & data is saved in MongoDB (Mon
 
 ## Useful Links
 - React: https://reactjs.org/
+- React Redux: https://react-redux.js.org/
 - NextJS: https://nextjs.org/
 - Bootstrap: https://getbootstrap.com/
 - JWT: https://jwt.io/
