@@ -7,7 +7,7 @@ export default function SurveyList({ surveys }) {
         <div className='bg-secdark p-2 pb-0 rounded-1 w-100 cursor zoomIn'>
           <div className="row">
             <div className="col-md-8">
-            <p className='text-light fw-bold mb-1 mt-0 fs-5'>{s?.title} (#{s.id}) - <span className='text-gray500 fw-normal'>{ s?.date ? `created on ${s?.date.split("T")[0]}` : 'No Creation Date'}</span></p>
+            <p className='text-light fw-bold mb-1 mt-0 fs-5'>{s?.title} - <span className='text-gray500 fw-normal'>{ s?.date ? `created on ${s?.date.split("T")[0]}` : 'No Creation Date'}</span></p>
               <div className='d-flex pt-0'>
                 <p className='text-light'>{s?.shortDescription}</p>
               </div>

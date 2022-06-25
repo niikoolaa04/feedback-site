@@ -9,6 +9,7 @@
 
 **OTHER**
 
+- **EVERYWHERE WHERE THERE'S A REDIRECT DISPATCH LOADUSER**
 - **ENABLE PUBLICLIST IN EXPLORE/BROWSE**
 - **panel for managing**
   - 0: member, 1: staff, 2: administrator

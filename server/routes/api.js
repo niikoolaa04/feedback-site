@@ -133,7 +133,7 @@ router.post("/polls/new", async(req, res) => {
   let newPoll = new Poll(req.body);
 
   const savePoll = async() => {
-    let randomId = generateRandomID(9);
+    let randomId = generateRandomID(7);
     let pollExist = await Poll.exists({ id: randomId });
     
     if(pollExist) return await savePoll();
@@ -201,7 +201,7 @@ router.post("/surveys/new", async(req, res) => {
   let newSurvey = new Survey(req.body);
 
   const saveSurvey = async() => {
-    let randomId = generateRandomID(9);
+    let randomId = generateRandomID(7);
     let surveyExist = await Survey.exists({ id: randomId });
     
     if(surveyExist) return await saveSurvey();

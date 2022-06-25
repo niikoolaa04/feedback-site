@@ -18,7 +18,7 @@ export default function BrowseList({ surveys }) {
       <div className='bg-secdark py-3 px-3 rounded-2' key={x.id}>
         <div className="row">
           <div className="col-md-6">
-            <p className='text-light fw-bold mt-0 mb-1'>{ x.title } (#{ x?.id }) - <span className='text-gray500 fw-normal'>{ x?.submitters?.length } replies</span>
+            <p className='text-light fw-bold mt-0 mb-1'>{ x.title } - <span className='text-gray500 fw-normal'>{ x?.submitters?.length } replies</span>
             </p>
             <p className='text-light mt-0 mb-0'>{ x.shortDescription }</p>
           </div>

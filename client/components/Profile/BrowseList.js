@@ -17,7 +17,7 @@ export default function BrowseList({ profiles }) {
               <Image className='rounded-1' src={x?.profilePicture} loader={myLoader} width="64px" height="64px" />
               <div>
               <div className='d-flex'>
-              <p className='text-light fw-bold mt-0 mb-0 ms-3'>{ x?.profileName } (#{ x?.id }) - <span className='text-gray500 fw-normal'>👍 {x?.likes?.length} - 👎 {x?.dislikes?.length}</span></p>
+              <p className='text-light fw-bold mt-0 mb-0 ms-3'>{ x?.profileName } - <span className='text-gray500 fw-normal'>👍 {x?.likes?.length} - 👎 {x?.dislikes?.length}</span></p>
                 <Badge type={x?.role == 0 ? "member" : x?.role == 1 ? "staff" : "admin"} />
               </div>
               <p className='text-gray700 mt-0 mb-0 ms-3 fs-7'>{x?.polls?.length} Polls | {x?.surveys?.length} Surveys</p>
