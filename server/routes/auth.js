@@ -4,6 +4,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { mailExistance, loginValidation, tokenCheck, usernameExistance } = require("../middlewares/authMiddleware");
+const { generateRandomID } = require("../utils/utils");
 
 router.use(cors({
   credentials: true,
@@ -13,7 +14,7 @@ router.use(cors({
 router.use(cookieParser());
 
 router.post("/register", [mailExistance, usernameExistance], async(req, res) => {
-  if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
+  // if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   if(req.emailExist) {
     return res.status(409).json({
       code: 409,
@@ -29,16 +30,23 @@ router.post("/register", [mailExistance, usernameExistance], async(req, res) => 
     });
   }
   try {
-    let userId = await User.estimatedDocumentCount();
     let user = new User(req.body);
-    user.id = `${parseInt(userId) + 1}`;
+    const saveUser = async() => {
+      let randomId = generateRandomID(9);
+      let userExist = await User.exists({ id: randomId });
+      
+      if(userExist) return await saveUser();
+      
+      user.id = randomId;
+      await user.save();
 
-    await user.save();
-
-    res.status(201).json({
-      code: 201,
-      message: "New User have been created"
-    });
+      res.status(201).json({
+        code: 201,
+        message: "New User have been created"
+      });
+    }
+    
+    await saveUser();
   } catch(err) {
     console.log(err)
     return res.status(500).json({

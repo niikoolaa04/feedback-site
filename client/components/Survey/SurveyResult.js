@@ -51,7 +51,7 @@ export default function SurveyResult() {
   return (
     <div>
       <div className='px-md-5 mb-3 pt-4'>
-        <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
+        <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title }</p>
         <p className='text-gray600'>This is what survey is about & some other details.</p>
         <DescriptionBox text={survey?.description} />
       </div>

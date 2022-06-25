@@ -5,6 +5,7 @@ const Survey = require("../models/Survey");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const Comment = require("../models/Comment");
+const { generateRandomID } = require("../utils/utils");
 
 router.use(cors({
   credentials: true,
@@ -130,26 +131,34 @@ router.put("/users/:id", async(req, res) => {
 router.post("/polls/new", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let newPoll = new Poll(req.body);
-  let pollId = await Poll.estimatedDocumentCount();
 
-  newPoll.id = parseInt(pollId) + 1;
-  await newPoll.save();
+  const savePoll = async() => {
+    let randomId = generateRandomID(9);
+    let pollExist = await Poll.exists({ id: randomId });
+    
+    if(pollExist) return await savePoll();
+    
+    newPoll.id = randomId;
+    await newPoll.save();
 
-  if(newPoll.user > 0) {
-    User.findOneAndUpdate({ id: newPoll.user }, { $push: {
-      surveys: newPoll._id
-    } }, (err, post) => {
+    if(newPoll.user > 0) {
+      User.findOneAndUpdate({ id: newPoll.user }, { $push: {
+        surveys: newPoll._id
+      } }, (err, post) => {
+        res.status(201).json({
+          code: 201,
+          response: newPoll
+        });
+      });
+    } else {
       res.status(201).json({
         code: 201,
         response: newPoll
       });
-    });
-  } else {
-    res.status(201).json({
-      code: 201,
-      response: newPoll
-    });
+    }
   }
+  
+  await savePoll();
 });
 
 router.get("/polls/list", async(req, res) => {
@@ -190,26 +199,34 @@ router.post("/polls/:id/vote", async(req, res) => {
 router.post("/surveys/new", async(req, res) => {
   if(req.headers.origin != process.env.SERVER_CLIENT_URL) return res.sendStatus(401);
   let newSurvey = new Survey(req.body);
-  let surveyId = await Survey.estimatedDocumentCount();
 
-  newSurvey.id = parseInt(surveyId) + 1;
-  await newSurvey.save();
+  const saveSurvey = async() => {
+    let randomId = generateRandomID(9);
+    let surveyExist = await Survey.exists({ id: randomId });
+    
+    if(surveyExist) return await saveSurvey();
+    
+    newSurvey.id = randomId;
+    await newSurvey.save();
 
-  if(newSurvey.user > 0) {
-    User.findOneAndUpdate({ id: newSurvey.user }, { $push: {
-      surveys: newSurvey._id
-    } }, (err, post) => {
+    if(newSurvey.user > 0) {
+      User.findOneAndUpdate({ id: newSurvey.user }, { $push: {
+        surveys: newSurvey._id
+      } }, (err, post) => {
+        res.status(201).json({
+          code: 201,
+          response: newSurvey
+        });
+      });
+    } else {
       res.status(201).json({
         code: 201,
         response: newSurvey
       });
-    });
-  } else {
-    res.status(201).json({
-      code: 201,
-      response: newSurvey
-    });
+    }
   }
+  
+  await saveSurvey();
 });
 
 router.get("/surveys/list", async(req, res) => {

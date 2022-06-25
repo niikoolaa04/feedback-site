@@ -5,13 +5,15 @@ import Footer from '../../../components/Other/Footer';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
 import { errorBar, getProfile, successBar, editProfile } from '../../../utils/utils';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUser } from '../../../store/actions/authActions';
 
 export default function Edit() {
   const router = useRouter();
   const { id } = router.query;
   const auth = useSelector((state) => state.auth);
-  let [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState({});
+  const dispatch = useDispatch();
   const editData = useRef([]);
   const checksRef = useRef([]);
 
@@ -37,14 +39,18 @@ export default function Edit() {
 
     await editProfile(editDetails, id).then(() => {
       successBar("Profile have been edited successfully, redirecting..");
-      // setTimeout(() => router.push("/profile"), 3000);
+      setTimeout(() => router.push(`/profile/${id}`), 3000);
     });
   }
+
+  useMemo(() => {
+    dispatch(loadUser());
+  }, [])
 
   useEffect(() => {
     if(!router.isReady) return;
     if(!auth?.id || (auth?.id != id && auth?.role != 2)) router.push("/");
-  }, [userProfile]);
+  }, [auth, userProfile]);
 
   const editRole = async(role) => {
     await editProfile({ role }, id).then(async(res) => {

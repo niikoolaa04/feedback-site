@@ -96,7 +96,7 @@ export default function NewPoll() {
               <div className="row d-flex justify-content-center">
                 <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                   <div className='px-md-5 mb-3 pt-4'>
-                    <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title } (#{id})</p>
+                    <p className='text-light fs-3 fw-bold mb-0'>{ poll?.title }</p>
                     <p className='text-gray600'>{ poll?.shortDescription }</p>
                     <DescriptionBox text={poll?.question} />
                   </div>

@@ -103,7 +103,7 @@ export default function SurveyDetails() {
     <div className='hideOverflow'>
       <Navigation active='surveys' />
       <Head>
-        <title>Feedback - Poll #{id}</title>
+        <title>Feedback - Poll</title>
       </Head>
       <div className="">
         <div className='bg-maindark'>
@@ -112,7 +112,7 @@ export default function SurveyDetails() {
               <div className="bg-bluedark shadow w-100 w-md-75 rounded-1">
                 {/* TITLE & DESCRIPTION */}
                 <div className='px-md-5 mb-3 pt-4'>
-                  <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title } (#{ survey?.id })</p>
+                  <p className='text-light fs-3 fw-bold mb-0'>{ survey?.title }</p>
                   <p className='text-gray600'>{ survey?.shortDescription }</p>
                   <DescriptionBox text={survey?.description} />
                 </div>
