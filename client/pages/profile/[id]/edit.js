@@ -43,7 +43,7 @@ export default function Edit() {
     });
   }
 
-  useMemo(() => {
+  useEffect(() => {
     dispatch(loadUser());
   }, [])
 
