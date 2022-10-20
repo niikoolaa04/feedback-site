@@ -43,9 +43,7 @@ export default function SurveyResult() {
       return surveyData;
     }
 
-    fetchSurvey().then(async(res) => {
-      console.log(survey);
-    })
+    fetchSurvey();
   }, [resultId, router.isReady])
 
   return (

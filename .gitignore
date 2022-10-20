@@ -35,3 +35,5 @@ yarn-error.log*
 
 # vercel
 .vercel
+server/.deta/prog_info
+server/.deta/state

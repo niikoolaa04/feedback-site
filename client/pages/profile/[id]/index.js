@@ -95,19 +95,19 @@ export default function Profile() {
     if(!router.isReady) return;
     async function fetchComments() {
       await getAllComments(id).then((res) => {
-        if(!res) return console.log(res); 
+        if(!res) return;
         setComments(res);
       });
     }
     async function fetchPolls() {
       await getUserPolls(id).then((res) => {
-        if(!res) return console.log(res); 
+        if(!res) return;
         setPolls(res?.slice(0, 3));
       });
     }
     async function fetchSurveys() {
       await getUserSurveys(id).then((res) => {
-        if(!res) return console.log(res); 
+        if(!res) return;
         setSurveys(res?.slice(0, 3));
       });
     }

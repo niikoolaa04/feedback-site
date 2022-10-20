@@ -26,4 +26,6 @@ app.use("/api", api);
 app.listen(port, (err) => {
   if (err) throw err
   console.log(`[SERVER] Server has started on port ${process.env.PORT || 3001}.`)
-})
+});
+
+module.exports = app;

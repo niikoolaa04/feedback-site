@@ -28,10 +28,6 @@ export default function Polls() {
   };
 
   useEffect(() => {
-    console.log(auth)
-  }, [])
-
-  useEffect(() => {
     if(!router.isReady) return;
     setFilters({
       user: router.query.author || null

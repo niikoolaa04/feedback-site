@@ -8,10 +8,6 @@ export default function ResultsList({ results, loading, currPage, setLoading, pa
   const router = useRouter();
   const { id, resultId } = router.query;
 
-  useEffect(() => {
-    console.log(pageResults)
-  }, [pageResults])
-
   return pageResults?.map((q, i) => (
     <div className='' key={q.id + "" + Math.random() * 718959163190}>
       <div className='text-light py-2 w-100'>
